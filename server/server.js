@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const chalk = require('chalk')
 const cors = require('cors')
+const db = require('./models')
 
 const app = express()
 require('dotenv').config()
@@ -30,10 +31,14 @@ app.use((err, req, res) =>
 // Defining PORT
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () =>
-    console.log(
-        `${chalk.green('✓')} ${chalk.blue(
-            `Listening on http://localhost:${PORT}/.`
-        )}`
+db.sequelize
+    .sync()
+    .then(() =>
+        app.listen(PORT, () =>
+            console.log(
+                `${chalk.green('✓')} ${chalk.blue(
+                    `Listening on http://localhost:${PORT}.`
+                )}`
+            )
+        )
     )
-)
