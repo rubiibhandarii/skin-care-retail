@@ -42,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = (models) => {
 
-        // User.hasMany(models.Appointment, {
-        //     onDelete: 'cascade',
-        //     foreignKey: 'userId',
-        //     as: 'user',
-        // })
+        User.hasMany(models.Order, {
+            onDelete: 'cascade',
+            foreignKey: 'userId',
+            as: 'user',
+        })
     }
 
     return User

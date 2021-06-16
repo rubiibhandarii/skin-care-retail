@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
             as: 'category',
         })
 
-        // Product.hasMany(models.Appointment, {
-        //     onDelete: 'cascade',
-        //     foreignKey: 'productId',
-        //     as: 'productId',
-        // })
+        Product.hasMany(models.Order, {
+            onDelete: 'cascade',
+            foreignKey: 'productId',
+            as: 'productId',
+        })
     }
 
     return Product
