@@ -12,6 +12,9 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
 
+// Routes
+app.use('/api/users', require('./routes/users'))
+
 // 404 not found
 app.use((req, res) =>
     res.status(404).json({
