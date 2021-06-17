@@ -11,12 +11,12 @@ const {
 
 router.get('/', verifyToken, all)
 
-router.get('/:retailerId', verifyToken, single)
+router.get('/:productId', verifyToken, single)
 
 router.post('/new', verifyToken, isRetailer, create)
 
-router.put('/update/:retailerId', verifyToken, isRetailer, update)
+router.put('/update/:productId', verifyToken, isRetailer, update)
 
-router.delete('/delete/:retailerId', verifyToken, isRetailer, remove)
+router.delete('/delete/:productId', verifyToken, isRetailer, remove)
 
 module.exports = router
