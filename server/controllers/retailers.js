@@ -2,36 +2,35 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { User } = require('../models')
+const { Retailer, Product } = require('../models')
 const mg = require('../config/mailgun')
 const {
     registerValidation,
     activateAccountValidation,
     resetPasswordValidation,
     loginValidation,
-    updatePasswordByTokenValidation,
-} = require('../validation/users')
+    updatePasswordByTokenValidation,,
+} = require('../validation/providers')
 
 exports.register = async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body
+    const { companyName, email, password, location } = req.body
 
     // Validation
     const { error } = registerValidation(req.body)
-    if (error) {
+    if (error)
         return res.status(400).json({
             success: false,
             message: error.details[0].message,
         })
-    }
 
     try {
         // Checking if email exists
-        const emailExists = await User.findOne({ where: { email } })
+        const emailExists = await Provider.findOne({ where: { email } })
 
         if (emailExists)
             return res.status(400).json({
                 success: false,
-                message: 'Email was already taken.',
+                message: 'Email already exists',
             })
 
         // Generating hashed password
@@ -39,22 +38,23 @@ exports.register = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // Creating a new user
-        const registeredUser = await User.create({
-            firstName,
-            lastName,
+        const registeredRetailer = await Provider.create({
+            companyName,
+            username,
             email,
             password: hashedPassword,
+            location,
             emailToken: crypto.randomBytes(64).toString('hex'),
             isVerified: false,
         })
 
         const verificationData = {
             from: 'noreply@hello.com',
-            to: registeredUser.email,
+            to: registeredRetailer.email,
             subject: 'Account Activation Link',
             html: `
             <h2>Please click on given link to activate your account</h2>
-            <p>${process.env.CLIENT_URL}/verify-email/${registeredUser.emailToken}</p>
+            <p>${process.env.CLIENT_URL}/verify-email/${registeredRetailer.emailToken}</p>
         `,
         }
 
@@ -64,7 +64,7 @@ exports.register = async (req, res, next) => {
             success: true,
             message:
                 'Account was created successfully. Email has been sent, please activate your account.',
-            data: registeredUser,
+            data: registeredRetailer,
         })
     } catch (err) {
         return next(err)
@@ -83,23 +83,25 @@ exports.activateAccount = async (req, res, next) => {
         })
 
     try {
-        const user = await User.findOne({ where: { emailToken: token } })
+        const retailer = await Retailer.findOne({
+            where: { emailToken: token },
+        })
 
-        if (!user)
+        if (!retailer)
             return res.status(400).json({
                 success: false,
                 message: 'Token is invalid.',
             })
 
-        await User.update(
+        await Retailer.update(
             { emailToken: null, isVerified: true },
-            { where: { id: user.id } }
+            { where: { id: retailer.id } }
         )
 
         return res.status(200).json({
             success: true,
             message: 'Account is verified.',
-            data: user,
+            data: retailer,
         })
     } catch (err) {
         return next(err)
@@ -118,16 +120,16 @@ exports.login = async (req, res, next) => {
         })
 
     try {
-        // Checking if user with that email exists
-        const user = await User.findOne({ where: { email } })
-        if (!user)
+        // Checking if provider with that email exists
+        const retailer = await Retailer.findOne({ where: { email } })
+        if (!retailer)
             return res.status(400).json({
                 success: false,
                 message: 'Invalid credentials.',
             })
 
         // Checking if password matches
-        const isPassword = await bcrypt.compare(password, user.password)
+        const isPassword = await bcrypt.compare(password, retailer.password)
         if (!isPassword)
             return res.status(400).json({
                 success: false,
@@ -135,17 +137,17 @@ exports.login = async (req, res, next) => {
             })
 
         // Removing password and emailToken from object
-        user.password = undefined
-        user.emailToken = undefined
+        retailer.password = undefined
+        retailer.emailToken = undefined
 
         // Assigning a token
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET)
+        const token = jwt.sign({ id: provider.id }, process.env.TOKEN_SECRET)
 
         return res.status(200).json({
             success: true,
             message: 'You are now logged in.',
             token,
-            data: user,
+            data: retailer,
         })
     } catch (err) {
         return next(err)
@@ -165,24 +167,24 @@ exports.resetPassword = async (req, res, next) => {
         })
 
     try {
-        const user = await User.findOne({ where: { email } })
-        if (!user)
-            return res.status(400).json({
-                success: false,
-                message: 'User with that email does not exist.',
+        const retailer = await Retailer.findOne({ where: { email } })
+        if (!retailer)
+            return res.status(200).json({
+                success: true,
+                message: 'Email has been sent, please reset your password.',
             })
 
-        await User.update(
+        await Retailer.update(
             {
                 resetToken: token,
                 expireToken: Date.now() + 3600000,
             },
-            { where: { id: user.id } }
+            { where: { id: retailer.id } }
         )
 
         const data = {
             from: 'noreply@hello.com',
-            to: user.email,
+            to: retailer.email,
             subject: 'Password Reset',
             html: `
                 <h2>Please click on given link to reset your password</h2>
@@ -213,11 +215,11 @@ exports.updatePasswordByToken = async (req, res, next) => {
         })
 
     try {
-        const user = await User.findOne({
+        const retailer = await Retailer.findOne({
             where: { resetToken: token, expireToken: { [Op.gt]: Date.now() } },
         })
 
-        if (!user)
+        if (!retailer)
             return res.status(400).json({
                 success: false,
                 message: 'Session expired',
@@ -227,9 +229,9 @@ exports.updatePasswordByToken = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(newPassword, salt)
 
-        await User.update(
+        await Retailer.update(
             { password: hashedPassword, resetToken: null, expireToken: null },
-            { where: { id: user.id } }
+            { where: { id: retailer.id } }
         )
 
         return res.status(200).json({

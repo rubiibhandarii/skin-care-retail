@@ -2,8 +2,7 @@ const Joi = require('@hapi/joi')
 
 exports.registerValidation = (data) => {
     const schema = Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
+        companyName: Joi.string().required(),
         email: Joi.string()
             .min(6)
             .required()
@@ -12,6 +11,7 @@ exports.registerValidation = (data) => {
                 tlds: { allow: ['com', 'net'] },
             }),
         password: Joi.string().min(6).required(),
+        location: Joi.string().required(),
     })
     return schema.validate(data)
 }
