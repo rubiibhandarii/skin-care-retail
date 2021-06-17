@@ -2,7 +2,8 @@ const Joi = require('@hapi/joi')
 
 exports.registerValidation = (data) => {
     const schema = Joi.object({
-        username: Joi.string().alphanum().min(3).max(30).required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
         email: Joi.string()
             .min(6)
             .required()

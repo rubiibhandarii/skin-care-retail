@@ -6,10 +6,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true,
         },
-        username: {
+        firstName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         email: {
             type: DataTypes.STRING,
@@ -41,7 +44,6 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     User.associate = (models) => {
-
         User.hasMany(models.Order, {
             onDelete: 'cascade',
             foreignKey: 'userId',

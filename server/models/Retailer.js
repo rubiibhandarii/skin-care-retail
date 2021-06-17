@@ -6,10 +6,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true,
         },
-        username: {
+        companyName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -17,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
         },
         password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        location: {
             type: DataTypes.STRING,
             allowNull: false,
         },
