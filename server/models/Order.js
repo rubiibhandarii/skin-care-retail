@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true,
         },
-        quantity:{
+        quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        totalPrice:{
+        totalPrice: {
             type: DataTypes.DOUBLE(10, 2),
             defaultValue: 0.0,
             allowNull: false,
