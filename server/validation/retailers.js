@@ -57,3 +57,12 @@ exports.updatePasswordByTokenValidation = (data) => {
     })
     return schema.validate(data)
 }
+
+exports.orderStatusValidation = (data) => {
+    const schema = Joi.object({
+        status: Joi.string()
+            .valid('approved', 'refused', 'delivered')
+            .required(),
+    })
+    return schema.validate(data)
+}

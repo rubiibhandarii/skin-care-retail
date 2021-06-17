@@ -2,15 +2,16 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { Retailer, Product } = require('../models')
+const { Retailer, Product, Order } = require('../models')
 const mg = require('../config/mailgun')
 const {
     registerValidation,
     activateAccountValidation,
     resetPasswordValidation,
     loginValidation,
-    updatePasswordByTokenValidation,,
-} = require('../validation/providers')
+    updatePasswordByTokenValidation,
+    orderStatusValidation,
+} = require('../validation/retailers')
 
 exports.register = async (req, res, next) => {
     const { companyName, email, password, location } = req.body
@@ -25,7 +26,7 @@ exports.register = async (req, res, next) => {
 
     try {
         // Checking if email exists
-        const emailExists = await Provider.findOne({ where: { email } })
+        const emailExists = await Retailer.findOne({ where: { email } })
 
         if (emailExists)
             return res.status(400).json({
@@ -38,9 +39,8 @@ exports.register = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // Creating a new user
-        const registeredRetailer = await Provider.create({
+        const registeredRetailer = await Retailer.create({
             companyName,
-            username,
             email,
             password: hashedPassword,
             location,
@@ -141,7 +141,7 @@ exports.login = async (req, res, next) => {
         retailer.emailToken = undefined
 
         // Assigning a token
-        const token = jwt.sign({ id: provider.id }, process.env.TOKEN_SECRET)
+        const token = jwt.sign({ id: retailer.id }, process.env.TOKEN_SECRET)
 
         return res.status(200).json({
             success: true,
@@ -237,6 +237,76 @@ exports.updatePasswordByToken = async (req, res, next) => {
         return res.status(200).json({
             success: true,
             message: 'New password was updated.',
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.getOrders = async (req, res, next) => {
+    const { retailerId } = req.user.id
+    try {
+        const orders = await Order.findAll({
+            where: { retailerId },
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'All the orders are fetched.',
+            count: orders.length,
+            data: orders,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.orderStatus = async (req, res, next) => {
+    const { orderId } = req.params
+    const { status } = req.body
+    const retailerId = req.user.id
+
+    // Validation
+    const { error } = orderStatusValidation(req.body)
+    if (error)
+        return res.status(400).json({
+            success: false,
+            message: error.details[0].message,
+        })
+
+    try {
+        const order = await Order.findByPk(orderId, {
+            include: [
+                {
+                    model: Product,
+                    as: 'product',
+                },
+            ],
+        })
+
+        if (!order)
+            return res
+                .status(404)
+                .json({ success: false, message: 'Order not found' })
+
+        if (order.product.retailerId !== retailerId)
+            return res.status(401).json({
+                success: false,
+                message: 'Access denied !',
+            })
+
+        if (status === 'approved')
+            await Order.update({ status }, { where: { id: orderId } })
+        else if (status === 'refused')
+            await Order.update({ status }, { where: { id: orderId } })
+        else if (status === 'delivered')
+            await Order.update({ status }, { where: { id: orderId } })
+
+        const orderAfterUpdate = await Order.findByPk(orderId)
+
+        return res.status(200).json({
+            success: true,
+            message: `Order ${status}.`,
+            data: orderAfterUpdate,
         })
     } catch (err) {
         return next(err)

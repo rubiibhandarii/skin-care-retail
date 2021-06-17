@@ -29,6 +29,6 @@ router.post('/reset-password', isUserVerified, resetPassword)
 router.post('/new-password', updatePasswordByToken)
 
 // get all orders of loggedIn user
-router.post('/orders', verifyToken, isUser, getOrders)
+router.get('/orders', verifyToken, isUser, getOrders)
 
 module.exports = router
