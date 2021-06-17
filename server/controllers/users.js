@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { User } = require('../models')
+const { User, Order } = require('../models')
 const mg = require('../config/mailgun')
 const {
     registerValidation,
@@ -235,6 +235,21 @@ exports.updatePasswordByToken = async (req, res, next) => {
         return res.status(200).json({
             success: true,
             message: 'New password was updated.',
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.getOrders = async (req, res, next) => {
+    const { userId } = req.user.id
+    try {
+        const orders = await Order.findAll({ where: { userId } })
+        return res.status(200).json({
+            success: true,
+            message: 'All the orders are fetched.',
+            count: orders.length,
+            data: orders,
         })
     } catch (err) {
         return next(err)

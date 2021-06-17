@@ -1,11 +1,16 @@
 const router = require('express').Router()
-const { isUserVerified } = require('../middleware/authentication')
+const {
+    verifyToken,
+    isUser,
+    isUserVerified,
+} = require('../middleware/authentication')
 const {
     register,
     activateAccount,
     login,
     resetPassword,
     updatePasswordByToken,
+    getOrders,
 } = require('../controllers/users')
 
 // User registration
@@ -22,5 +27,8 @@ router.post('/reset-password', isUserVerified, resetPassword)
 
 // Change password from forgot password
 router.post('/new-password', updatePasswordByToken)
+
+// get all orders of loggedIn user
+router.post('/orders', verifyToken, isUser, getOrders)
 
 module.exports = router
