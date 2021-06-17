@@ -28,6 +28,7 @@ exports.create = async (req, res, next) => {
             totalPrice,
             productId,
             userId,
+            status: 'pending',
         })
 
         return res.status(200).json({
