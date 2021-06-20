@@ -1,21 +1,21 @@
-const { Service, Provider } = require('../../models')
-const { createValidation } = require('../../validation/admin/services')
+const { Product, Retailer } = require('../../models')
+const { createValidation } = require('../../validation/admin/products')
 
 exports.all = async (req, res, next) => {
     try {
-        const services = await Service.findAll({
+        const products = await Product.findAll({
             include: [
                 {
-                    model: Provider,
-                    as: 'provider',
+                    model: Retailer,
+                    as: 'retailer',
                 },
             ],
         })
         return res.status(200).json({
             success: true,
-            message: 'All the available services are fetched.',
-            count: services.length,
-            data: services,
+            message: 'All the available products are fetched.',
+            count: products.length,
+            data: products,
         })
     } catch (err) {
         return next(err)
@@ -23,28 +23,28 @@ exports.all = async (req, res, next) => {
 }
 
 exports.single = async (req, res, next) => {
-    const { serviceId } = req.params
+    const { productId } = req.params
 
     try {
-        const singleService = await Service.findByPk(serviceId, {
+        const singleProduct = await Product.findByPk(productId, {
             include: [
                 {
-                    model: Provider,
-                    as: 'provider',
+                    model: Retailer,
+                    as: 'retailer',
                 },
             ],
         })
 
-        if (!singleService)
+        if (!singleProduct)
             return res.status(404).json({
                 success: false,
-                message: 'Service not found!',
+                message: 'Product not found!',
             })
 
         return res.status(200).json({
             success: true,
-            message: 'Single service is fetched.',
-            data: singleService,
+            message: 'Single product is fetched.',
+            data: singleProduct,
         })
     } catch (err) {
         return next(err)
@@ -52,7 +52,7 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { name, description, price, serviceTypeId, providerId } = req.body
+    const { name, description, price, categoryId, retailerId } = req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -63,13 +63,13 @@ exports.create = async (req, res, next) => {
         })
 
     try {
-        const createdService = await Service.create(
+        const createdProduct = await Product.create(
             {
                 name,
                 description,
                 price,
-                serviceTypeId,
-                providerId,
+                categoryId,
+                retailerId,
             }
             // {
             //     include: [
@@ -82,8 +82,8 @@ exports.create = async (req, res, next) => {
         )
         return res.status(200).json({
             success: true,
-            message: 'New service was added.',
-            data: createdService,
+            message: 'New product was added.',
+            data: createdProduct,
         })
     } catch (err) {
         return next(err)
@@ -91,26 +91,26 @@ exports.create = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    const { serviceId } = req.params
-    const { name, description, price, serviceTypeId, providerId } = req.body
+    const { productId } = req.params
+    const { name, description, price, categoryId, retailerId } = req.body
 
     try {
-        const singleService = await Service.findByPk(serviceId)
+        const singleProduct = await Product.findByPk(productId)
 
-        if (!singleService)
+        if (!singleProduct)
             return res.status(404).json({
                 success: false,
-                message: 'Service not found!',
+                message: 'Product not found!',
             })
 
-        const updatedService = await Service.update(
-            { name, description, price, serviceTypeId, providerId },
-            { where: { id: serviceId } }
+        const updatedProduct = await Product.update(
+            { name, description, price, categoryId, retailerId },
+            { where: { id: productId } }
         )
         return res.status(200).json({
             success: true,
-            message: 'Service was updated.',
-            data: updatedService,
+            message: 'Product was updated.',
+            data: updatedProduct,
         })
     } catch (err) {
         return next(err)
@@ -118,24 +118,24 @@ exports.update = async (req, res, next) => {
 }
 
 exports.remove = async (req, res, next) => {
-    const { serviceId } = req.params
+    const { productId } = req.params
 
     try {
-        const singleService = await Service.findByPk(serviceId)
+        const singleProduct = await Product.findByPk(productId)
 
-        if (!singleService)
+        if (!singleProduct)
             return res.status(404).json({
                 success: false,
-                message: 'Service not found!',
+                message: 'Product not found!',
             })
 
-        const deletedService = await Service.destroy({
-            where: { id: serviceId },
+        const deletedProduct = await Product.destroy({
+            where: { id: productId },
         })
         return res.status(200).json({
             success: true,
-            message: 'Service was deleted.',
-            data: deletedService,
+            message: 'Product was deleted.',
+            data: deletedProduct,
         })
     } catch (err) {
         return next(err)
