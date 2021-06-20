@@ -1,14 +1,14 @@
-const { Appointment, Service } = require('../../models')
-const { createValidation } = require('../../validation/admin/appointments')
+const { Order, Product } = require('../../models')
+const { createValidation } = require('../../validation/admin/orders')
 
 exports.all = async (req, res, next) => {
     try {
-        const appointments = await Appointment.findAll()
+        const orders = await Order.findAll()
         return res.status(200).json({
             success: true,
-            message: 'All the available appointments are fetched.',
-            count: appointments.length,
-            data: appointments,
+            message: 'All the available orders are fetched.',
+            count: orders.length,
+            data: orders,
         })
     } catch (err) {
         return next(err)
@@ -16,21 +16,21 @@ exports.all = async (req, res, next) => {
 }
 
 exports.single = async (req, res, next) => {
-    const { appointmentId } = req.params
+    const { orderId } = req.params
 
     try {
-        const singleAppointment = await Appointment.findByPk(appointmentId)
+        const singleOrder = await Order.findByPk(orderId)
 
-        if (!singleAppointment)
+        if (!singleOrder)
             return res.status(404).json({
                 success: false,
-                message: 'Appointment not found!',
+                message: 'Order not found!',
             })
 
         return res.status(200).json({
             success: true,
-            message: 'Single appointment is fetched.',
-            data: singleAppointment,
+            message: 'Single order is fetched.',
+            data: singleOrder,
         })
     } catch (err) {
         return next(err)
@@ -38,7 +38,7 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { date, time, serviceId, userId } = req.body
+    const { orderedDate, quantity, totalPrice, productId, userId } = req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -49,25 +49,26 @@ exports.create = async (req, res, next) => {
         })
 
     try {
-        const service = await Service.findByPk(serviceId)
+        const product = await Product.findByPk(productId)
 
-        if (!service)
+        if (!product)
             return res.status(400).json({
                 success: false,
-                message: 'Service not found.',
+                message: 'Product not found.',
             })
 
-        const appointment = await Appointment.create({
-            date,
-            time,
+        const order = await Order.create({
+            orderedDate,
+            quantity,
+            totalPrice,
+            productId,
             userId,
-            serviceId,
         })
 
         return res.status(200).json({
             success: true,
-            message: 'Appointment booked',
-            data: appointment,
+            message: 'Product ordered',
+            data: order,
         })
     } catch (err) {
         return next(err)
@@ -75,26 +76,26 @@ exports.create = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    const { appointmentId } = req.params
-    const { date, time, serviceId, userId } = req.body
+    const { orderId } = req.params
+    const { orderedDate, quantity, totalPrice, productId, userId } = req.body
 
     try {
-        const singleAppointment = await Appointment.findByPk(appointmentId)
+        const singleOrder = await Order.findByPk(orderId)
 
-        if (!singleAppointment)
+        if (!singleOrder)
             return res.status(404).json({
                 success: false,
-                message: 'Appointment not found!',
+                message: 'Order not found!',
             })
 
-        const updatedAppointment = await Appointment.update(
-            { date, time, userId, serviceId },
-            { where: { id: appointmentId } }
+        const updatedOrder = await Order.update(
+            { orderedDate, quantity, totalPrice, productId, userId },
+            { where: { id: orderId } }
         )
         return res.status(200).json({
             success: true,
-            message: 'Appointment was updated.',
-            data: updatedAppointment,
+            message: 'Order was updated.',
+            data: updatedOrder,
         })
     } catch (err) {
         return next(err)
@@ -102,24 +103,24 @@ exports.update = async (req, res, next) => {
 }
 
 exports.remove = async (req, res, next) => {
-    const { appointmentId } = req.params
+    const { orderId } = req.params
 
     try {
-        const singleAppointment = await Appointment.findByPk(appointmentId)
+        const singleOrder = await Order.findByPk(orderId)
 
-        if (!singleAppointment)
+        if (!singleOrder)
             return res.status(404).json({
                 success: false,
-                message: 'Appointment not found!',
+                message: 'Order not found!',
             })
 
-        const deletedAppointment = await Appointment.destroy({
-            where: { id: appointmentId },
+        const deletedOrder = await Order.destroy({
+            where: { id: orderId },
         })
         return res.status(200).json({
             success: true,
-            message: 'Appointment was deleted.',
-            data: deletedAppointment,
+            message: 'Order was deleted.',
+            data: deletedOrder,
         })
     } catch (err) {
         return next(err)
