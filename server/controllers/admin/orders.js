@@ -38,7 +38,8 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { orderedDate, quantity, totalPrice, productId, userId } = req.body
+    const { orderedDate, quantity, totalPrice, status, productId, userId } =
+        req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -63,6 +64,7 @@ exports.create = async (req, res, next) => {
             totalPrice,
             productId,
             userId,
+            status,
         })
 
         return res.status(200).json({
@@ -77,7 +79,8 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { orderId } = req.params
-    const { orderedDate, quantity, totalPrice, productId, userId } = req.body
+    const { orderedDate, quantity, totalPrice, status, productId, userId } =
+        req.body
 
     try {
         const singleOrder = await Order.findByPk(orderId)
@@ -89,7 +92,7 @@ exports.update = async (req, res, next) => {
             })
 
         const updatedOrder = await Order.update(
-            { orderedDate, quantity, totalPrice, productId, userId },
+            { orderedDate, quantity, totalPrice, status, productId, userId },
             { where: { id: orderId } }
         )
         return res.status(200).json({

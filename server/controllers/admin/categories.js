@@ -16,10 +16,10 @@ exports.all = async (req, res, next) => {
 }
 
 exports.single = async (req, res, next) => {
-    const { serviceId } = req.params
+    const { categoryId } = req.params
 
     try {
-        const singleCategory = await Category.findByPk(serviceId)
+        const singleCategory = await Category.findByPk(categoryId)
 
         if (!singleCategory)
             return res.status(404).json({
