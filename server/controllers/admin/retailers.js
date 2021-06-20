@@ -93,8 +93,12 @@ exports.update = async (req, res, next) => {
                 message: 'Retailer not found!',
             })
 
+        // Generating hashed password
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
         const updatedRetailer = await Retailer.update(
-            { companyName, location, email, password },
+            { companyName, location, email, password: hashedPassword },
             { where: { id: retailerId } }
         )
         return res.status(200).json({

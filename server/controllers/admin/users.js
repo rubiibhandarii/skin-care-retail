@@ -39,7 +39,7 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { username, email, password, role } = req.body
+    const { firstName, lastName, email, password, role } = req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -50,15 +50,6 @@ exports.create = async (req, res, next) => {
         })
 
     try {
-        // Checking if username exists
-        const usernameExists = await User.findOne({ where: { username } })
-
-        if (usernameExists)
-            return res.status(400).json({
-                success: false,
-                message: 'Username was already taken.',
-            })
-
         // Checking if email exists
         const emailExists = await User.findOne({ where: { email } })
 
@@ -73,7 +64,8 @@ exports.create = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         const createdUser = await User.create({
-            username,
+            firstName,
+            lastName,
             email,
             password: hashedPassword,
             role,
@@ -91,7 +83,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { userId } = req.params
-    const { username, email, password, role } = req.body
+    const { firstName, lastName, email, password, role } = req.body
 
     try {
         const singleUser = await User.findByPk(userId)
@@ -102,8 +94,12 @@ exports.update = async (req, res, next) => {
                 message: 'User not found!',
             })
 
+        // Generating hashed password
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
+
         const updatedUser = await User.update(
-            { username, email, password, role },
+            { firstName, lastName, email, password: hashedPassword, role },
             { where: { id: userId } }
         )
         return res.status(200).json({
