@@ -260,7 +260,7 @@ exports.getOrders = async (req, res, next) => {
     }
 }
 
-exports.orderStatus = async (req, res, next) => {
+exports.changeOrderStatus = async (req, res, next) => {
     const { orderId } = req.params
     const { status } = req.body
     const retailerId = req.user.id

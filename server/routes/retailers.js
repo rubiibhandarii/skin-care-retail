@@ -11,7 +11,7 @@ const {
     resetPassword,
     updatePasswordByToken,
     getOrders,
-    orderStatus,
+    changeOrderStatus,
 } = require('../controllers/retailers')
 
 // Retailer registration
@@ -33,6 +33,11 @@ router.post('/new-password', updatePasswordByToken)
 router.get('/orders', verifyToken, isRetailer, getOrders)
 
 // approve/refuse orders
-router.post('/orders/:orderId/status', verifyToken, isRetailer, orderStatus)
+router.post(
+    '/orders/:orderId/status',
+    verifyToken,
+    isRetailer,
+    changeOrderStatus
+)
 
 module.exports = router
