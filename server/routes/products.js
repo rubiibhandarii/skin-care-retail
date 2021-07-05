@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { verifyToken, isRetailer } = require('../middleware/authentication')
-
+const multer = require('../middleware/multer')
 const {
     all,
     single,
@@ -9,11 +9,11 @@ const {
     remove,
 } = require('../controllers/products')
 
-router.get('/', verifyToken, all)
+router.get('/', all)
 
-router.get('/:productId', verifyToken, single)
+router.get('/:productId', single)
 
-router.post('/new', verifyToken, isRetailer, create)
+router.post('/new', verifyToken, isRetailer, multer.array('image'), create)
 
 router.put('/update/:productId', verifyToken, isRetailer, update)
 

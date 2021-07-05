@@ -1,4 +1,4 @@
-const { Product, Retailer } = require('../models')
+const { Product, Retailer, ProductImage } = require('../models')
 const { createValidation } = require('../validation/products')
 
 exports.all = async (req, res, next) => {
@@ -8,6 +8,10 @@ exports.all = async (req, res, next) => {
                 {
                     model: Retailer,
                     as: 'retailer',
+                },
+                {
+                    model: ProductImage,
+                    as: 'productImage',
                 },
             ],
         })
@@ -31,6 +35,10 @@ exports.single = async (req, res, next) => {
                 {
                     model: Retailer,
                     as: 'retailer',
+                },
+                {
+                    model: ProductImage,
+                    as: 'productImage',
                 },
             ],
         })
@@ -64,27 +72,41 @@ exports.create = async (req, res, next) => {
         })
 
     try {
-        const createdProduct = await Product.create(
-            {
-                name,
-                description,
-                price,
-                categoryId,
-                retailerId,
-            }
-            // {
-            //     include: [
-            //         {
-            //             model: Provider,
-            //             as: 'provider',
-            //         },
-            //     ],
-            // }
-        )
+        const createdProduct = await Product.create({
+            name,
+            description,
+            price,
+            categoryId,
+            retailerId,
+        })
+
+        if (req.files) {
+            req.files.map(async (file) => {
+                await ProductImage.create({
+                    image: file.path,
+                    productId: createdProduct.id,
+                })
+            })
+        }
+
+        const product = await Product.findOne({
+            where: { id: createdProduct.id },
+            include: [
+                {
+                    model: Retailer,
+                    as: 'retailer',
+                },
+                {
+                    model: ProductImage,
+                    as: 'productImage',
+                },
+            ],
+        })
+
         return res.status(200).json({
             success: true,
             message: 'New product was added.',
-            data: createdProduct,
+            data: product,
         })
     } catch (err) {
         return next(err)
@@ -116,6 +138,19 @@ exports.update = async (req, res, next) => {
             { name, description, price, categoryId },
             { where: { id: productId } }
         )
+
+        // if (req.files) {
+        //     req.files.map(async (file) => {
+        //         await ProductImage.update(
+        //             {
+        //                 image: file.path,
+        //                 productId: singleProduct.id,
+        //             },
+        //             { where: { id: productId } }
+        //         )
+        //     })
+        // }
+
         return res.status(200).json({
             success: true,
             message: 'Product was updated.',

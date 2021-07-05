@@ -12,12 +12,21 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
 
+app.use('/uploads', express.static('uploads'))
+
 // Routes
 app.use('/api/users', require('./routes/users'))
 app.use('/api/retailers', require('./routes/retailers'))
 app.use('/api/products', require('./routes/products'))
 app.use('/api/categories', require('./routes/categories'))
 app.use('/api/orders', require('./routes/orders'))
+
+// Admin Routes
+app.use('/api/admin/users', require('./routes/admin/users'))
+app.use('/api/admin/retailers', require('./routes/admin/retailers'))
+app.use('/api/admin/products', require('./routes/admin/products'))
+app.use('/api/admin/categories', require('./routes/admin/categories'))
+app.use('/api/admin/orders', require('./routes/admin/orders'))
 
 // 404 not found
 app.use((req, res) =>
