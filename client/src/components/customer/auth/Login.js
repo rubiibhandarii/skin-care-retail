@@ -23,6 +23,7 @@ const Login = () => {
             setUserData({
                 token: loginResponse.data.token,
                 user: loginResponse.data.data,
+                user_type: 'user',
             });
             localStorage.setItem('auth-token', loginResponse.data.token);
             toast.success('You are logged in successfully.', {
