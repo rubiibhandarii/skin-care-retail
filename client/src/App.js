@@ -1,5 +1,10 @@
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery/dist/jquery.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
@@ -17,6 +22,7 @@ import ProductDetail from './components/customer/pages/ProductDetail/ProductDeta
 import Cart from './components/customer/pages/Cart/Cart';
 import Checkout from './components/customer/pages/Checkout/Checkout';
 import CheckoutComplete from './components/customer/pages/Checkout/CheckoutComplete';
+import MyOrders from './components/customer/pages/Orders/Orders';
 
 // Retailers
 import RetailerSignup from './components/retailer/auth/Signup';
@@ -107,7 +113,30 @@ function App() {
             <BrowserRouter>
                 <UserContext.Provider value={{ userData, setUserData }}>
                     {/* {userData.user_type === 'retailer' ? null : <Header />} */}
-                    <Header />
+
+                    <Route
+                        exact
+                        path={[
+                            '/',
+                            '/customer/login',
+                            '/customer/signup',
+                            '/customer/verify-email/:token',
+                            '/customer/forgot-password',
+                            '/customer/reset-password/:token',
+                            '/retailer/login',
+                            '/retailer/signup',
+                            '/retailer/verify-email/:token',
+                            '/retailer/forgot-password',
+                            '/retailer/reset-password/:token',
+                            '/products/:productId',
+                            '/cart',
+                            '/checkout',
+                            '/checkout/complete',
+                            '/orders',
+                        ]}
+                        component={Header}
+                    />
+
                     <main>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/customer/login" component={Login} />
@@ -143,15 +172,9 @@ function App() {
                             path="/checkout/complete"
                             component={CheckoutComplete}
                         />
+                        <Route exact path="/orders" component={MyOrders} />
 
                         {/* Retailers */}
-
-                        <Route
-                            exact
-                            path="/retailer/dashboard"
-                            component={Dashboard}
-                            // isAuth={userData.isLoggedIn}
-                        />
 
                         <Route
                             exact
@@ -179,6 +202,14 @@ function App() {
                             component={RetailerResetPassword}
                         />
                     </main>
+
+                    {/* Retailers */}
+
+                    <Route
+                        exact
+                        path="/retailer/dashboard"
+                        component={Dashboard}
+                    />
 
                     {/* <Footer /> */}
                 </UserContext.Provider>

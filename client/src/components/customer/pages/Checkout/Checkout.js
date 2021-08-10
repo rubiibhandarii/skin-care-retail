@@ -110,9 +110,9 @@ const Checkout = () => {
                         {cartItems.map((item) => (
                             <tr>
                                 <td>{item.name}</td>
-                                <td>{item.price}</td>
-                                <td>Rs.{item.quantity}</td>
-                                <td>Rs.{item.totalPrice}</td>
+                                <td>Rs. {item.price}</td>
+                                <td>{item.quantity}</td>
+                                <td>Rs. {item.totalPrice}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -122,7 +122,7 @@ const Checkout = () => {
                             <th></th>
                             <th></th>
                             <th>
-                                <strong>Total:</strong> Rs.{totalPrice}
+                                <strong>Total:</strong> Rs. {totalPrice}
                             </th>
                         </tr>
                     </tfoot>
