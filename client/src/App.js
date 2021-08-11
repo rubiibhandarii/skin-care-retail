@@ -31,6 +31,9 @@ import RetailerVerifyEmail from './components/retailer/auth/VerifyEmail';
 import RetailerForgotPassword from './components/retailer/auth/ForgotPassword';
 import RetailerResetPassword from './components/retailer/auth/ResetPassword';
 import Dashboard from './components/retailer/pages/Dashboard/Dashboard';
+import AddProduct from './components/retailer/pages/AddProduct/AddProduct';
+import EditProduct from './components/retailer/pages/EditProduct/EditProduct';
+import RetailerOrders from './components/retailer/pages/Orders/Orders';
 
 // Middleware
 import RetailerProtectedRoute from './middlewares/retailerProtectedRoutes';
@@ -209,6 +212,24 @@ function App() {
                         exact
                         path="/retailer/dashboard"
                         component={Dashboard}
+                    />
+
+                    <Route
+                        exact
+                        path="/retailer/add-product"
+                        component={AddProduct}
+                    />
+
+                    <Route
+                        exact
+                        path="/retailer/edit-product"
+                        component={EditProduct}
+                    />
+                    
+                    <Route
+                        exact
+                        path="/retailer/orders"
+                        component={RetailerOrders}
                     />
 
                     {/* <Footer /> */}

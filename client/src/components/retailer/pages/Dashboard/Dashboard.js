@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './dashboard2.css';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     useEffect(() => {
         let sidebar = document.querySelector('.sidebar');
         let closeBtn = document.querySelector('#btn');
@@ -112,7 +112,7 @@ const Dashboard = () => {
                 </ul>
             </div>
             <section className="home-section">
-                <div className="text">Dashboard</div>
+                {props.children}
             </section>
         </>
     );
