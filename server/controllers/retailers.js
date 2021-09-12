@@ -11,6 +11,7 @@ const {
     loginValidation,
     updatePasswordByTokenValidation,
     orderStatusValidation,
+    createValidation,
 } = require('../validation/retailers')
 
 exports.register = async (req, res, next) => {
@@ -54,7 +55,7 @@ exports.register = async (req, res, next) => {
             subject: 'Account Activation Link',
             html: `
             <h2>Please click on given link to activate your account</h2>
-            <p>${process.env.CLIENT_URL}/verify-email/${registeredRetailer.emailToken}</p>
+            <p>${process.env.CLIENT_URL}/retailer/verify-email/${registeredRetailer.emailToken}</p>
         `,
         }
 
@@ -188,7 +189,7 @@ exports.resetPassword = async (req, res, next) => {
             subject: 'Password Reset',
             html: `
                 <h2>Please click on given link to reset your password</h2>
-                <p>${process.env.CLIENT_URL}/reset-password/${token}</p>
+                <p>${process.env.CLIENT_URL}/retailer/reset-password/${token}</p>
                 `,
         }
 
@@ -238,6 +239,39 @@ exports.updatePasswordByToken = async (req, res, next) => {
             success: true,
             message: 'New password was updated.',
         })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.validToken = async (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(401).json(false)
+    }
+
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        if (!token) return res.json(false)
+
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET)
+        if (!verified) return res.json(false)
+
+        const retailer = await Retailer.findByPk(verified.id)
+        if (!retailer) return res.json(false)
+
+        return res.json(true)
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.loggedInRetailer = async (req, res, next) => {
+    try {
+        const retailer = await Retailer.findByPk(req.user.id)
+        retailer.password = undefined
+        retailer.resetToken = undefined
+        retailer.emailToken = undefined
+        return res.json(retailer)
     } catch (err) {
         return next(err)
     }
@@ -307,6 +341,115 @@ exports.changeOrderStatus = async (req, res, next) => {
             success: true,
             message: `Order ${status}.`,
             data: orderAfterUpdate,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.create = async (req, res, next) => {
+    const { name, description, price, subCategoryId } = req.body
+    const retailerId = req.user.id
+
+    // Validation
+    const { error } = createValidation(req.body)
+    if (error)
+        return res.status(400).json({
+            success: false,
+            message: error.details[0].message,
+        })
+
+    try {
+        const createdProduct = await Product.create({
+            name,
+            description,
+            price,
+            subCategoryId,
+            retailerId,
+        })
+
+        const product = await Product.findOne({
+            where: { id: createdProduct.id },
+            include: [
+                {
+                    model: Retailer,
+                    as: 'retailer',
+                },
+            ],
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: 'New product was added.',
+            data: product,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.update = async (req, res, next) => {
+    const { productId } = req.params
+    const retailerId = req.user.id
+    const { name, description, price, categoryId } = req.body
+
+    try {
+        const singleProduct = await Product.findByPk(productId)
+
+        if (!singleProduct)
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!',
+            })
+
+        if (singleProduct.retailerId !== retailerId)
+            return res.status(401).json({
+                success: false,
+                message:
+                    'Access denied ! Only creator of this product can update.',
+            })
+
+        const updatedProduct = await Product.update(
+            { name, description, price, categoryId },
+            { where: { id: productId } }
+        )
+        return res.status(200).json({
+            success: true,
+            message: 'Product was updated.',
+            data: updatedProduct,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.remove = async (req, res, next) => {
+    const { productId } = req.params
+    const retailerId = req.user.id
+
+    try {
+        const singleProduct = await Product.findByPk(productId)
+
+        if (!singleProduct)
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!',
+            })
+
+        if (singleProduct.retailerId !== retailerId)
+            return res.status(401).json({
+                success: false,
+                message:
+                    'Access denied ! Only creator of this product can delete.',
+            })
+
+        const deletedProduct = await Product.destroy({
+            where: { id: productId },
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'Product was deleted.',
+            data: deletedProduct,
         })
     } catch (err) {
         return next(err)

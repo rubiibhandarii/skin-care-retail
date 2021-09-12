@@ -23,6 +23,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        address: {
+            type: DataTypes.STRING,
+        },
+        gender: {
+            type: DataTypes.STRING,
+        },
+        profilePicURL: {
+            type: DataTypes.STRING,
+        },
         role: {
             type: DataTypes.ENUM('user', 'admin'),
             defaultValue: 'user',
@@ -48,6 +57,12 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'cascade',
             foreignKey: 'userId',
             as: 'user',
+        })
+
+        User.hasMany(models.Wishlist, {
+            onDelete: 'cascade',
+            foreignKey: 'userId',
+            as: 'wishlist',
         })
     }
 

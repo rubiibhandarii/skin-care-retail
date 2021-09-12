@@ -1,4 +1,4 @@
-const { Order } = require('../models')
+const { Order, Product } = require('../models')
 const { createValidation } = require('../validation/orders')
 
 exports.create = async (req, res, next) => {
@@ -16,11 +16,19 @@ exports.create = async (req, res, next) => {
     try {
         const newProducts = products.map((v) => ({ ...v, userId }))
 
+        // set isAvailable to false after ordering that product
+        newProducts.map(async (product) => {
+            await Product.update(
+                { isAvailable: false },
+                { where: { id: product.productId } }
+            )
+        })
+
         const createdOrder = await Order.bulkCreate(newProducts)
 
         return res.status(200).json({
             success: true,
-            message: 'Item(s) ordered',
+            message: 'Product(s) ordered',
             data: createdOrder,
         })
     } catch (err) {

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Category = sequelize.define('Category', {
+    const SubCategory = sequelize.define('SubCategory', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -12,13 +12,19 @@ module.exports = (sequelize, DataTypes) => {
         },
     })
 
-    Category.associate = (models) => {
-        Category.hasMany(models.SubCategory, {
+    SubCategory.associate = (models) => {
+        SubCategory.hasMany(models.Product, {
+            onDelete: 'cascade',
+            foreignKey: 'subCategoryId',
+            as: 'subCategory',
+        })
+
+        SubCategory.belongsTo(models.Category, {
             onDelete: 'cascade',
             foreignKey: 'categoryId',
             as: 'category',
         })
     }
 
-    return Category
+    return SubCategory
 }

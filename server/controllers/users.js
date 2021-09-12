@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { User, Order } = require('../models')
+const { User, Order, Product } = require('../models')
 const mg = require('../config/mailgun')
 const {
     registerValidation,
@@ -54,7 +54,7 @@ exports.register = async (req, res, next) => {
             subject: 'Account Activation Link',
             html: `
             <h2>Please click on given link to activate your account</h2>
-            <p>${process.env.CLIENT_URL}/verify-email/${registeredUser.emailToken}</p>
+            <p>${process.env.CLIENT_URL}/customer/verify-email/${registeredUser.emailToken}</p>
         `,
         }
 
@@ -186,7 +186,7 @@ exports.resetPassword = async (req, res, next) => {
             subject: 'Password Reset',
             html: `
                 <h2>Please click on given link to reset your password</h2>
-                <p>${process.env.CLIENT_URL}/reset-password/${token}</p>
+                <p>${process.env.CLIENT_URL}/customer/reset-password/${token}</p>
                 `,
         }
 
@@ -241,15 +241,112 @@ exports.updatePasswordByToken = async (req, res, next) => {
     }
 }
 
-exports.getOrders = async (req, res, next) => {
-    const { userId } = req.user.id
+exports.validToken = async (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(401).json(false)
+    }
+
     try {
-        const orders = await Order.findAll({ where: { userId } })
+        const token = req.headers.authorization.split(' ')[1]
+        if (!token) return res.json(false)
+
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET)
+        if (!verified) return res.json(false)
+
+        const user = await User.findByPk(verified.id)
+        if (!user) return res.json(false)
+
+        return res.json(true)
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.loggedInUser = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.user.id)
+        user.password = undefined
+        user.resetToken = undefined
+        user.emailToken = undefined
+        return res.json(user)
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.getOrders = async (req, res, next) => {
+    const userId = req.user.id
+    try {
+        const orders = await Order.findAll(
+            {
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                    },
+                    {
+                        model: User,
+                        as: 'user',
+                    },
+                ],
+            },
+            { where: { userId } }
+        )
         return res.status(200).json({
             success: true,
             message: 'All the orders are fetched.',
             count: orders.length,
             data: orders,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.cancelOrder = async (req, res, next) => {
+    const userId = req.user.id
+    const { orderId } = req.params
+    try {
+        const productItem = await Order.findOne(
+            {
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                    },
+                ],
+            },
+            {
+                where: { id: orderId, userId },
+            }
+        )
+        if (!productItem) {
+            return res.status(400).json({
+                success: false,
+                message: 'Order not found',
+            })
+        }
+
+        if (productItem.status !== 'pending') {
+            return res.status(400).json({
+                success: false,
+                message: 'Only pending orders can be canceled',
+            })
+        }
+
+        const cancelOrder = await Order.destroy({
+            where: { id: productItem.id },
+        })
+
+        await Product.update(
+            { isAvailable: true },
+            { where: { id: productItem.product.id } }
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: 'Order canceled.',
+            data: cancelOrder,
         })
     } catch (err) {
         return next(err)

@@ -1,24 +1,29 @@
 module.exports = (sequelize, DataTypes) => {
-    const ProductImage = sequelize.define('ProductImage', {
+    const Comment = sequelize.define('Comment', {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             allowNull: false,
             primaryKey: true,
         },
-        image: {
+        text: {
             type: DataTypes.STRING,
             allowNull: false,
         },
     })
 
-    ProductImage.associate = (models) => {
-        ProductImage.belongsTo(models.Product, {
+    Comment.associate = (models) => {
+        Comment.belongsTo(models.User, {
+            onDelete: 'cascade',
+            foreignKey: 'userId',
+            as: 'user',
+        })
+        Comment.belongsTo(models.Product, {
             onDelete: 'cascade',
             foreignKey: 'productId',
-            as: 'productImage',
+            as: 'product',
         })
     }
 
-    return ProductImage
+    return Comment
 }

@@ -5,7 +5,11 @@ exports.createValidation = (data) => {
         products: Joi.array()
             .items(
                 Joi.object({
-                    orderDate: Joi.date().required(),
+                    phoneNumber: Joi.string().required(),
+                    address: Joi.string().required(),
+                    city: Joi.string().required(),
+                    country: Joi.string().required(),
+                    orderedDate: Joi.date().required(),
                     quantity: Joi.number().required(),
                     totalPrice: Joi.number().required(),
                     productId: Joi.string().required(),

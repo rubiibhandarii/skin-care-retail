@@ -1,5 +1,4 @@
-const { Product, Retailer, ProductImage } = require('../models')
-const { createValidation } = require('../validation/products')
+const { Product, Retailer } = require('../models')
 
 exports.all = async (req, res, next) => {
     try {
@@ -8,10 +7,6 @@ exports.all = async (req, res, next) => {
                 {
                     model: Retailer,
                     as: 'retailer',
-                },
-                {
-                    model: ProductImage,
-                    as: 'productImage',
                 },
             ],
         })
@@ -36,10 +31,6 @@ exports.single = async (req, res, next) => {
                     model: Retailer,
                     as: 'retailer',
                 },
-                {
-                    model: ProductImage,
-                    as: 'productImage',
-                },
             ],
         })
 
@@ -53,141 +44,6 @@ exports.single = async (req, res, next) => {
             success: true,
             message: 'Single product is fetched.',
             data: singleProduct,
-        })
-    } catch (err) {
-        return next(err)
-    }
-}
-
-exports.create = async (req, res, next) => {
-    const { name, description, price, categoryId } = req.body
-    const retailerId = req.user.id
-
-    // Validation
-    const { error } = createValidation(req.body)
-    if (error)
-        return res.status(400).json({
-            success: false,
-            message: error.details[0].message,
-        })
-
-    try {
-        const createdProduct = await Product.create({
-            name,
-            description,
-            price,
-            categoryId,
-            retailerId,
-        })
-
-        if (req.files) {
-            req.files.map(async (file) => {
-                await ProductImage.create({
-                    image: file.path,
-                    productId: createdProduct.id,
-                })
-            })
-        }
-
-        const product = await Product.findOne({
-            where: { id: createdProduct.id },
-            include: [
-                {
-                    model: Retailer,
-                    as: 'retailer',
-                },
-                {
-                    model: ProductImage,
-                    as: 'productImage',
-                },
-            ],
-        })
-
-        return res.status(200).json({
-            success: true,
-            message: 'New product was added.',
-            data: product,
-        })
-    } catch (err) {
-        return next(err)
-    }
-}
-
-exports.update = async (req, res, next) => {
-    const { productId } = req.params
-    const retailerId = req.user.id
-    const { name, description, price, categoryId } = req.body
-
-    try {
-        const singleProduct = await Product.findByPk(productId)
-
-        if (!singleProduct)
-            return res.status(404).json({
-                success: false,
-                message: 'Product not found!',
-            })
-
-        if (singleProduct.retailerId !== retailerId)
-            return res.status(401).json({
-                success: false,
-                message:
-                    'Access denied ! Only creator of this product can update.',
-            })
-
-        const updatedProduct = await Product.update(
-            { name, description, price, categoryId },
-            { where: { id: productId } }
-        )
-
-        // if (req.files) {
-        //     req.files.map(async (file) => {
-        //         await ProductImage.update(
-        //             {
-        //                 image: file.path,
-        //                 productId: singleProduct.id,
-        //             },
-        //             { where: { id: productId } }
-        //         )
-        //     })
-        // }
-
-        return res.status(200).json({
-            success: true,
-            message: 'Product was updated.',
-            data: updatedProduct,
-        })
-    } catch (err) {
-        return next(err)
-    }
-}
-
-exports.remove = async (req, res, next) => {
-    const { productId } = req.params
-    const retailerId = req.user.id
-
-    try {
-        const singleProduct = await Product.findByPk(productId)
-
-        if (!singleProduct)
-            return res.status(404).json({
-                success: false,
-                message: 'Product not found!',
-            })
-
-        if (singleProduct.retailerId !== retailerId)
-            return res.status(401).json({
-                success: false,
-                message:
-                    'Access denied ! Only creator of this product can delete.',
-            })
-
-        const deletedProduct = await Product.destroy({
-            where: { id: productId },
-        })
-        return res.status(200).json({
-            success: true,
-            message: 'Product was deleted.',
-            data: deletedProduct,
         })
     } catch (err) {
         return next(err)

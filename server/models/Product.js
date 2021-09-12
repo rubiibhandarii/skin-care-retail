@@ -19,6 +19,17 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0.0,
             allowNull: false,
         },
+        imageURL: {
+            type: DataTypes.STRING,
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+        },
+        isAvailable: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+        },
     })
 
     Product.associate = (models) => {
@@ -28,10 +39,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'retailer',
         })
 
-        Product.belongsTo(models.Category, {
+        Product.belongsTo(models.SubCategory, {
             onDelete: 'cascade',
-            foreignKey: 'categoryId',
-            as: 'category',
+            foreignKey: 'subCategoryId',
+            as: 'subCategory',
         })
 
         Product.hasMany(models.Order, {
@@ -40,10 +51,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'product',
         })
 
-        Product.hasMany(models.ProductImage, {
+        Product.hasMany(models.Wishlist, {
             onDelete: 'cascade',
             foreignKey: 'productId',
-            as: 'productImage',
+            as: 'wishlist',
         })
     }
 

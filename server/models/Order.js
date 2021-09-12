@@ -6,6 +6,22 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true,
         },
+        phoneNumber: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        address: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        city: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        country: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         quantity: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -20,7 +36,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         status: {
-            type: DataTypes.ENUM('pending', 'approved', 'refused', 'delivered'),
+            type: DataTypes.ENUM(
+                'pending',
+                'approved',
+                'refused',
+                'delivered',
+                'received'
+            ),
             defaultValue: 'pending',
             allowNull: false,
         },
