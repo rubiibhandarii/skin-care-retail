@@ -101,6 +101,8 @@ const ProductDetail = (props) => {
                         onChange={(e) => setQuantity(e.target.value)}
                     />
 
+                    <br />
+
                     {isAdded ? (
                         <button onClick={removeFromCart}>
                             Remove from cart

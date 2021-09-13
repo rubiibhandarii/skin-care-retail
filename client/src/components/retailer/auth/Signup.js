@@ -7,6 +7,7 @@ const Signup = () => {
     const history = useHistory();
 
     const [companyName, setCompanyName] = useState();
+    const [location, setLocation] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -19,7 +20,7 @@ const Signup = () => {
         }
 
         try {
-            const newRetailer = { companyName, email, password };
+            const newRetailer = { companyName, location, email, password };
             await Axios.post(
                 `${process.env.REACT_APP_API_URL}/api/retailers/register`,
                 newRetailer
@@ -47,6 +48,15 @@ const Signup = () => {
                         class="form-control"
                         value={companyName}
                         onChange={(e) => setCompanyName(e.target.value)}
+                    />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
                     />
                 </div>
                 <div class="mb-3">

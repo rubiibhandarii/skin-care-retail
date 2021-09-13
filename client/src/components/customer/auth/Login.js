@@ -65,6 +65,11 @@ const Login = () => {
                 <div class="mb-3">
                     <Link to="/customer/forgot-password">Forgot password</Link>
                 </div>
+                <div class="mb-3">
+                    <Link to="/customer/signup">Customer Sign Up</Link> /{' '}
+                    <Link to="/retailer/login">Retailer Log In</Link> /{' '}
+                    <Link to="/retailer/signup">Retailer Sign Up</Link>
+                </div>
             </form>
         </div>
     );

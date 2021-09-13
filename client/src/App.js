@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 import UserContext from './context/UserContext';
-import Header from './components/customer/layout/Header/Header';
+import Header from './components/customer/layout/Header/Header2';
 
 // User
 import Home from './components/customer/pages/Home/Home';
@@ -23,6 +22,11 @@ import Cart from './components/customer/pages/Cart/Cart';
 import Checkout from './components/customer/pages/Checkout/Checkout';
 import CheckoutComplete from './components/customer/pages/Checkout/CheckoutComplete';
 import MyOrders from './components/customer/pages/Orders/Orders';
+import Profile from './components/customer/pages/Profile/Profile';
+import EditProfile from './components/customer/pages/EditProfile/EditProfile';
+import ChangePassword from './components/customer/pages/ChangePassword/ChangePassword';
+import Wishlist from './components/customer/pages/Wishlist/Wishlist';
+import Search from './components/customer/pages/Search/Search';
 
 // Retailers
 import RetailerSignup from './components/retailer/auth/Signup';
@@ -136,6 +140,11 @@ function App() {
                             '/checkout',
                             '/checkout/complete',
                             '/orders',
+                            '/profile',
+                            '/profile/edit',
+                            '/profile/change-password',
+                            '/wishlist',
+                            '/search',
                         ]}
                         component={Header}
                     />
@@ -176,6 +185,11 @@ function App() {
                             component={CheckoutComplete}
                         />
                         <Route exact path="/orders" component={MyOrders} />
+                        <Route exact path="/profile" component={Profile} />
+                        <Route exact path="/profile/edit" component={EditProfile} />
+                        <Route exact path="/profile/change-password" component={ChangePassword} />
+                        <Route exact path="/wishlist" component={Wishlist} />
+                        <Route exact path="/search" component={Search} />
 
                         {/* Retailers */}
 

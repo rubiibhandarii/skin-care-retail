@@ -24,7 +24,7 @@ const VerifyEmail = (props) => {
     return (
         <div>
             <h4>Your account has been verified</h4>
-           <Link to='/retailers/login'><button class='btn btn-primary'>Go to login</button></Link> 
+           <Link to='/retailer/login'><button class='btn btn-primary'>Go to login</button></Link> 
         </div>
     );
 };

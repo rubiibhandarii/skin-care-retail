@@ -41,15 +41,11 @@ const Checkout = () => {
                 { products },
                 { headers: { Authorization: 'Bearer ' + token } }
             );
-            toast.success('Order successfully placed', {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.success('Order successfully placed');
             localStorage.setItem('cart', JSON.stringify([]));
             history.push('/checkout/complete');
         } catch (err) {
-            toast.error(err.response.data.message, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.error(err.response.data.message);
         }
     };
 
