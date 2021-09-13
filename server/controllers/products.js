@@ -1,4 +1,39 @@
-const { Product, Retailer } = require('../models')
+const { Op } = require('sequelize')
+const { Product, Retailer, SubCategory } = require('../models')
+
+exports.search = async (req, res) => {
+    const { q } = req.query
+    try {
+        const searchedProducts = await Product.findAll({
+            include: [
+                {
+                    model: Retailer,
+                    as: 'retailer',
+                },
+                {
+                    model: SubCategory,
+                    as: 'subCategory',
+                },
+            ],
+            where: {
+                name: {
+                    [Op.like]: `%${q}%`,
+                },
+            },
+        })
+
+        res.status(200).json({
+            success: true,
+            message: 'Products searched successfully',
+            data: searchedProducts,
+        })
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: err.message,
+        })
+    }
+}
 
 exports.all = async (req, res, next) => {
     try {
@@ -7,6 +42,10 @@ exports.all = async (req, res, next) => {
                 {
                     model: Retailer,
                     as: 'retailer',
+                },
+                {
+                    model: SubCategory,
+                    as: 'subCategory',
                 },
             ],
         })
@@ -30,6 +69,10 @@ exports.single = async (req, res, next) => {
                 {
                     model: Retailer,
                     as: 'retailer',
+                },
+                {
+                    model: SubCategory,
+                    as: 'subCategory',
                 },
             ],
         })

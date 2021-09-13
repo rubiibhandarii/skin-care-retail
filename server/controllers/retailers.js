@@ -3,7 +3,7 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { Retailer, Product, Order } = require('../models')
-const mg = require('../config/mailgun')
+const { sendEmail } = require('../utils/mail')
 const {
     registerValidation,
     activateAccountValidation,
@@ -49,18 +49,18 @@ exports.register = async (req, res, next) => {
             isVerified: false,
         })
 
-        const verificationData = {
-            from: 'noreply@hello.com',
-            to: registeredRetailer.email,
-            subject: 'Account Activation Link',
-            html: `
-            <h2>Please click on given link to activate your account</h2>
-            <p>${process.env.CLIENT_URL}/retailer/verify-email/${registeredRetailer.emailToken}</p>
-        `,
-        }
+        const subject = 'Account Activation Link'
+        const html = `
+            <h2>Confirm your Email Address</h2>
+            <p>Hi, Thank you for signing up. Please click below to confirm your email address.</p>
+            <a href="${process.env.CLIENT_URL}/retailer/verify-email/${registeredRetailer.emailToken}">
+                <button>I Confirm</button>
+            </a>
+            `
 
         // Sending verification email
-        await mg.messages().send(verificationData)
+        sendEmail(registeredRetailer.email, subject, html)
+
         return res.status(200).json({
             success: true,
             message:
@@ -183,18 +183,17 @@ exports.resetPassword = async (req, res, next) => {
             { where: { id: retailer.id } }
         )
 
-        const data = {
-            from: 'noreply@hello.com',
-            to: retailer.email,
-            subject: 'Password Reset',
-            html: `
-                <h2>Please click on given link to reset your password</h2>
-                <p>${process.env.CLIENT_URL}/retailer/reset-password/${token}</p>
-                `,
-        }
+        const subject = 'Password Reset'
+        const html = `
+            <h2>Reset your password</h2>
+            <p>Please click on given link to reset your password.</p>
+            <a href="${process.env.CLIENT_URL}/retailer/reset-password/${token}">
+                <button>Reset</button>
+            </a>
+            `
 
-        // Sending verification email
-        await mg.messages().send(data)
+        // Sending forgot password email
+        sendEmail(retailer.email, subject, html)
         return res.status(200).json({
             success: true,
             message: 'Email has been sent, please reset your password.',

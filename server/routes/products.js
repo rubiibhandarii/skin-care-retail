@@ -1,5 +1,7 @@
 const router = require('express').Router()
-const { all, single } = require('../controllers/products')
+const { search, all, single } = require('../controllers/products')
+
+router.get('/s', search)
 
 router.get('/', all)
 

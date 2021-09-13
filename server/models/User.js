@@ -23,13 +23,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        address: {
-            type: DataTypes.STRING,
-        },
         gender: {
             type: DataTypes.STRING,
         },
+        address: {
+            type: DataTypes.STRING,
+        },
+        city: {
+            type: DataTypes.STRING,
+        },
+        country: {
+            type: DataTypes.STRING,
+        },
         profilePicURL: {
+            type: DataTypes.STRING,
+        },
+        cloudinaryId: {
             type: DataTypes.STRING,
         },
         role: {

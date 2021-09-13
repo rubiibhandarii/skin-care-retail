@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         imageURL: {
             type: DataTypes.STRING,
         },
+        cloudinaryId: {
+            type: DataTypes.STRING,
+        },
         isActive: {
             type: DataTypes.BOOLEAN,
             defaultValue: true,
