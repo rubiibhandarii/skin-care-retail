@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './product-detail.css';
 import UserContext from '../../../../context/UserContext';
 import { toast } from 'react-toastify';
 import ceta from '../../../../images/ceta.jpg';
 
 const ProductDetail = (props) => {
+    const history = useHistory();
     const [singleProduct, setSingleProduct] = useState({});
 
     const productId = props.match.params.productId;
@@ -15,6 +16,7 @@ const ProductDetail = (props) => {
 
     const [quantity, setQuantity] = useState(1);
     const [isAdded, setIsAdded] = useState();
+    const [isWishlist, setIsWishlist] = useState();
 
     let products = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -34,6 +36,21 @@ const ProductDetail = (props) => {
                 setIsAdded(true);
             } else {
                 setIsAdded(false);
+            }
+
+            const token = localStorage.getItem('auth-token');
+            const wishlist = await axios.get(
+                `${process.env.REACT_APP_API_URL}/api/users/wishlist`,
+                { headers: { Authorization: 'Bearer ' + token } }
+            );
+            if (
+                wishlist.data.data.some(
+                    (product) => product.productId === singleProductResponse.data.data.id
+                )
+            ) {
+                setIsWishlist(true);
+            } else {
+                setIsWishlist(false);
             }
         };
         loadSingleProduct();
@@ -62,6 +79,42 @@ const ProductDetail = (props) => {
         toast.success('Product removed from cart.');
     };
 
+    const addToWishlist = async () => {
+        if (userData.user === undefined) {
+            return history.push('/customer/login');
+        }
+
+        try {
+            const data = {
+                productId,
+            };
+            const token = localStorage.getItem('auth-token');
+            await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/users/wishlist/add`,
+                data,
+                { headers: { Authorization: 'Bearer ' + token } }
+            );
+            setIsWishlist(true);
+            toast.success('Added to wishlist.');
+        } catch (err) {
+            toast.error(err.response.data.message);
+        }
+    };
+
+    const removeFromWishlist = async () => {
+        try {
+            const token = localStorage.getItem('auth-token');
+            await axios.delete(
+                `${process.env.REACT_APP_API_URL}/api/users/wishlist/remove/${productId}`,
+                { headers: { Authorization: 'Bearer ' + token } }
+            );
+            setIsWishlist(false);
+            toast.success('Removed from wishlist.');
+        } catch (err) {
+            toast.error(err.response.data.message);
+        }
+    };
+
     return (
         <div className="movie-detail">
             <div className="outer-movie-detail">
@@ -84,6 +137,18 @@ const ProductDetail = (props) => {
                         </span>
                         <i className="fas fa-clock"></i>
                         <span>{singleProduct.release_date}</span>
+                        {isWishlist ? (
+                                        <i
+                                            onClick={removeFromWishlist}
+                                            className="fas fa-heart"
+                                            id="filled-heart-icon"
+                                        ></i>
+                                    ) : (
+                                        <i
+                                            onClick={addToWishlist}
+                                            className="far fa-heart"
+                                        ></i>
+                                    )}
                     </div>
                     <p>{singleProduct.description}</p>
                     <p>

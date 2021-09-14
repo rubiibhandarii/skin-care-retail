@@ -152,18 +152,19 @@ const Cart = () => {
                 </div>
             )}
 
-{cartProducts.length > 0 ? (
-                        <div className="proceed-checkout-div">
-                            <Link to={userData.user === undefined ? '/login' : '/checkout'}>
-                                <button
-                                    type="button"
-                                    className="btn btn-Checkout"
-                                >
-                                    Proceed to Checkout
-                                </button>
-                            </Link>
-                        </div>
-                    ) : null}
+            {cartProducts.length > 0 ? (
+                <div className="proceed-checkout-div">
+                    <Link
+                        to={
+                            userData.user === undefined ? '/retailer/login' : '/checkout'
+                        }
+                    >
+                        <button type="button" className="btn btn-Checkout">
+                            Proceed to Checkout
+                        </button>
+                    </Link>
+                </div>
+            ) : null}
             {/* <Link to="/checkout">
                 <button className="btn btn-primary">Proceed To Checkout</button>
             </Link> */}

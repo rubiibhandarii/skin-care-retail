@@ -55,7 +55,7 @@ const Dashboard = (props) => {
     }, []);
 
     return (
-        <>
+        <div className="retailer-dashboard">
             <div className="sidebar">
                 <div className="logo-details">
                     <i className="bx bxl-c-plus-plus icon"></i>
@@ -69,7 +69,7 @@ const Dashboard = (props) => {
                         <span className="tooltip">Search</span>
                     </li>
                     <li>
-                        <Link to="#">
+                        <Link to="/retailer/dashboard">
                             <i className="bx bx-grid-alt"></i>
                             <span className="links_name">Dashboard</span>
                         </Link>
@@ -84,15 +84,15 @@ const Dashboard = (props) => {
                     </li> */}
 
                     <li>
-                        <Link to="#">
+                        <Link to="/retailer/add-product">
                             <i className="bx bx-carousel"></i>
-                            <span className="links_name">Product</span>
+                            <span className="links_name">Add Product</span>
                         </Link>
-                        <span className="tooltip">Order</span>
+                        <span className="tooltip">Add Product</span>
                     </li>
 
                     <li>
-                        <Link to="#">
+                        <Link to="/retailer/orders">
                             <i className="bx bx-cart-alt"></i>
                             <span className="links_name">Order</span>
                         </Link>
@@ -119,7 +119,7 @@ const Dashboard = (props) => {
                 </ul>
             </div>
             <section className="home-section">{props.children}</section>
-        </>
+        </div>
     );
 };
 

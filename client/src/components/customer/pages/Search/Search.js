@@ -12,12 +12,12 @@ const SearchPage = () => {
 
         if (e.target.value !== '') {
             const searchedItemsResponse = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/items/s?q=${search}`
+                `${process.env.REACT_APP_API_URL}/api/products/s?q=${search}`
             );
             setSearchedItems(searchedItemsResponse.data.data);
         } else {
             const itemsResponse = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/items`
+                `${process.env.REACT_APP_API_URL}/api/products`
             );
             setSearchedItems(itemsResponse.data.data);
         }

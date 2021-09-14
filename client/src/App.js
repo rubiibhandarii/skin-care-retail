@@ -27,6 +27,7 @@ import EditProfile from './components/customer/pages/EditProfile/EditProfile';
 import ChangePassword from './components/customer/pages/ChangePassword/ChangePassword';
 import Wishlist from './components/customer/pages/Wishlist/Wishlist';
 import Search from './components/customer/pages/Search/Search';
+import Category from './components/customer/pages/Category/Category';
 
 // Retailers
 import RetailerSignup from './components/retailer/auth/Signup';
@@ -34,13 +35,31 @@ import RetailerLogin from './components/retailer/auth/Login';
 import RetailerVerifyEmail from './components/retailer/auth/VerifyEmail';
 import RetailerForgotPassword from './components/retailer/auth/ForgotPassword';
 import RetailerResetPassword from './components/retailer/auth/ResetPassword';
-import Dashboard from './components/retailer/pages/Dashboard/Dashboard';
+// import Dashboard from './components/retailer/pages/Dashboard/Dashboard';
+import Product from './components/retailer/pages/Product/Product';
 import AddProduct from './components/retailer/pages/AddProduct/AddProduct';
 import EditProduct from './components/retailer/pages/EditProduct/EditProduct';
 import RetailerOrders from './components/retailer/pages/Orders/Orders';
 
 // Middleware
 import RetailerProtectedRoute from './middlewares/retailerProtectedRoutes';
+
+import Admin from './components/admin/Admin';
+
+import ProtectedAdminRoute from './middlewares/protectedAdminRoute';
+import UserAdmin from './components/admin/User/User';
+import AddUser from './components/admin/User/AddUser';
+import EditUser from './components/admin/User/EditUser';
+import ProductAdmin from './components/admin/Product/ProductAdmin';
+import AddProductAdmin from './components/admin/Product/AddProductAdmin';
+import EditProductAdmin from './components/admin/Product/EditProductAdmin';
+import AdminCategory from './components/admin/Category/AdminCategory';
+import AddCategoryAdmin from './components/admin/Category/AddCategoryAdmin';
+import EditCategoryAdmin from './components/admin/Category/EditCategoryAdmin';
+import SubCategory from './components/admin/SubCategory/SubCategory';
+import AddSubCategory from './components/admin/SubCategory/AddSubCategory';
+import EditSubCategory from './components/admin/SubCategory/EditSubCategory';
+import ScrollToTop from './ScrollToTop';
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -115,139 +134,253 @@ function App() {
         checkLoggedIn();
     }, []);
 
+    const isAdmin = () => {
+        return true;
+    };
+
     return (
         <div className="App">
             <BrowserRouter>
-                <UserContext.Provider value={{ userData, setUserData }}>
-                    {/* {userData.user_type === 'retailer' ? null : <Header />} */}
+                <ScrollToTop>
+                    <UserContext.Provider value={{ userData, setUserData }}>
+                        {/* {userData.user_type === 'retailer' ? null : <Header />} */}
 
-                    <Route
-                        exact
-                        path={[
-                            '/',
-                            '/customer/login',
-                            '/customer/signup',
-                            '/customer/verify-email/:token',
-                            '/customer/forgot-password',
-                            '/customer/reset-password/:token',
-                            '/retailer/login',
-                            '/retailer/signup',
-                            '/retailer/verify-email/:token',
-                            '/retailer/forgot-password',
-                            '/retailer/reset-password/:token',
-                            '/products/:productId',
-                            '/cart',
-                            '/checkout',
-                            '/checkout/complete',
-                            '/orders',
-                            '/profile',
-                            '/profile/edit',
-                            '/profile/change-password',
-                            '/wishlist',
-                            '/search',
-                        ]}
-                        component={Header}
-                    />
+                        <Route
+                            exact
+                            path={[
+                                '/',
+                                '/customer/login',
+                                '/customer/signup',
+                                '/customer/verify-email/:token',
+                                '/customer/forgot-password',
+                                '/customer/reset-password/:token',
+                                '/retailer/login',
+                                '/retailer/signup',
+                                '/retailer/verify-email/:token',
+                                '/retailer/forgot-password',
+                                '/retailer/reset-password/:token',
+                                '/products/:productId',
+                                '/cart',
+                                '/checkout',
+                                '/checkout/complete',
+                                '/orders',
+                                '/profile',
+                                '/profile/edit',
+                                '/profile/change-password',
+                                '/wishlist',
+                                '/search',
+                                '/category/:categoryName',
+                            ]}
+                            component={Header}
+                        />
 
-                    <main>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/customer/login" component={Login} />
-                        <Route
-                            exact
-                            path="/customer/signup"
-                            component={Signup}
-                        />
-                        <Route
-                            exact
-                            path="/customer/verify-email/:token"
-                            component={CustomerVerifyEmail}
-                        />
-                        <Route
-                            exact
-                            path="/customer/forgot-password"
-                            component={CustomerForgotPassword}
-                        />
-                        <Route
-                            exact
-                            path="/customer/reset-password/:token"
-                            component={CustomerResetPassword}
-                        />
-                        <Route
-                            exact
-                            path="/products/:productId"
-                            component={ProductDetail}
-                        />
-                        <Route exact path="/cart" component={Cart} />
-                        <Route exact path="/checkout" component={Checkout} />
-                        <Route
-                            exact
-                            path="/checkout/complete"
-                            component={CheckoutComplete}
-                        />
-                        <Route exact path="/orders" component={MyOrders} />
-                        <Route exact path="/profile" component={Profile} />
-                        <Route exact path="/profile/edit" component={EditProfile} />
-                        <Route exact path="/profile/change-password" component={ChangePassword} />
-                        <Route exact path="/wishlist" component={Wishlist} />
-                        <Route exact path="/search" component={Search} />
+                        <main>
+                            <Route exact path="/" component={Home} />
+                            <Route
+                                exact
+                                path="/customer/login"
+                                component={Login}
+                            />
+                            <Route
+                                exact
+                                path="/customer/signup"
+                                component={Signup}
+                            />
+                            <Route
+                                exact
+                                path="/customer/verify-email/:token"
+                                component={CustomerVerifyEmail}
+                            />
+                            <Route
+                                exact
+                                path="/customer/forgot-password"
+                                component={CustomerForgotPassword}
+                            />
+                            <Route
+                                exact
+                                path="/customer/reset-password/:token"
+                                component={CustomerResetPassword}
+                            />
+                            <Route
+                                exact
+                                path="/products/:productId"
+                                component={ProductDetail}
+                            />
+                            <Route exact path="/cart" component={Cart} />
+                            <Route
+                                exact
+                                path="/checkout"
+                                component={Checkout}
+                            />
+                            <Route
+                                exact
+                                path="/checkout/complete"
+                                component={CheckoutComplete}
+                            />
+                            <Route exact path="/orders" component={MyOrders} />
+                            <Route exact path="/profile" component={Profile} />
+                            <Route
+                                exact
+                                path="/profile/edit"
+                                component={EditProfile}
+                            />
+                            <Route
+                                exact
+                                path="/profile/change-password"
+                                component={ChangePassword}
+                            />
+                            <Route
+                                exact
+                                path="/wishlist"
+                                component={Wishlist}
+                            />
+                            <Route exact path="/search" component={Search} />
+                            <Route
+                                exact
+                                path="/category/:categoryName"
+                                component={Category}
+                            />
+
+                            {/* Retailers */}
+
+                            <Route
+                                exact
+                                path="/retailer/login"
+                                component={RetailerLogin}
+                            />
+                            <Route
+                                exact
+                                path="/retailer/signup"
+                                component={RetailerSignup}
+                            />
+                            <Route
+                                exact
+                                path="/retailer/verify-email/:token"
+                                component={RetailerVerifyEmail}
+                            />
+                            <Route
+                                exact
+                                path="/retailer/forgot-password"
+                                component={RetailerForgotPassword}
+                            />
+                            <Route
+                                exact
+                                path="/retailer/reset-password/:token"
+                                component={RetailerResetPassword}
+                            />
+                        </main>
 
                         {/* Retailers */}
 
                         <Route
                             exact
-                            path="/retailer/login"
-                            component={RetailerLogin}
+                            path="/retailer/dashboard"
+                            component={Product}
                         />
+
                         <Route
                             exact
-                            path="/retailer/signup"
-                            component={RetailerSignup}
+                            path="/retailer/add-product"
+                            component={AddProduct}
                         />
+
                         <Route
                             exact
-                            path="/retailer/verify-email/:token"
-                            component={RetailerVerifyEmail}
+                            path="/retailer/products/edit/:productId"
+                            component={EditProduct}
                         />
+
                         <Route
                             exact
-                            path="/retailer/forgot-password"
-                            component={RetailerForgotPassword}
+                            path="/retailer/orders"
+                            component={RetailerOrders}
                         />
-                        <Route
+
+                        {/* Admin */}
+                        <ProtectedAdminRoute
                             exact
-                            path="/retailer/reset-password/:token"
-                            component={RetailerResetPassword}
+                            path="/admin"
+                            component={Admin}
+                            isAdmin={isAdmin()}
                         />
-                    </main>
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/users"
+                            component={UserAdmin}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/users/add"
+                            component={AddUser}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/users/edit/:userId"
+                            component={EditUser}
+                            isAdmin={isAdmin()}
+                        />
 
-                    {/* Retailers */}
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/products"
+                            component={ProductAdmin}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/products/add"
+                            component={AddProductAdmin}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/products/edit/:productId"
+                            component={EditProductAdmin}
+                            isAdmin={isAdmin()}
+                        />
 
-                    <Route
-                        exact
-                        path="/retailer/dashboard"
-                        component={Dashboard}
-                    />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/categories"
+                            component={AdminCategory}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/categories/add"
+                            component={AddCategoryAdmin}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/categories/edit/:categoryId"
+                            component={EditCategoryAdmin}
+                            isAdmin={isAdmin()}
+                        />
 
-                    <Route
-                        exact
-                        path="/retailer/add-product"
-                        component={AddProduct}
-                    />
-
-                    <Route
-                        exact
-                        path="/retailer/edit-product"
-                        component={EditProduct}
-                    />
-                    
-                    <Route
-                        exact
-                        path="/retailer/orders"
-                        component={RetailerOrders}
-                    />
-
-                    {/* <Footer /> */}
-                </UserContext.Provider>
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/sub-categories"
+                            component={SubCategory}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/sub-categories/add"
+                            component={AddSubCategory}
+                            isAdmin={isAdmin()}
+                        />
+                        <ProtectedAdminRoute
+                            exact
+                            path="/admin/sub-categories/edit/:subCategoryId"
+                            component={EditSubCategory}
+                            isAdmin={isAdmin()}
+                        />
+                        {/* <Footer /> */}
+                    </UserContext.Provider>
+                </ScrollToTop>
             </BrowserRouter>
         </div>
     );

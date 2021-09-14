@@ -12,12 +12,12 @@ const Product = ({ products }) => {
                     </Link>
                     <div className="movie-info">
                         <h4>
-                            <Link to={`/items/${product.id}`}>
+                            <Link to={`/products/${product.id}`}>
                                 {product.name}
                             </Link>
                         </h4>
                         <i className="fas fa-tag"></i>
-                        {/* <span><Link to={`genres/${item.genre}`}>{item.subCategory.name}</Link></span> */}
+                        <span>{product.subCategory.name}</span>
                         <h6>Rs.{product.price}</h6>
                     </div>
                 </div>

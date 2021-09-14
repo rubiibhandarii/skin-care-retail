@@ -21,7 +21,7 @@ const Wishlist = () => {
         getMyWishlist();
     }, []);
 
-    const removeFromWishlist = async (itemId) => {
+    const removeFromWishlist = async (productId) => {
         swal({
             title: 'Are you sure want to remove this item from wishlist?',
             icon: 'warning',
@@ -32,7 +32,7 @@ const Wishlist = () => {
                 try {
                     const token = localStorage.getItem('auth-token');
                     await axios.delete(
-                        `${process.env.REACT_APP_API_URL}/api/users/wishlist/remove/${itemId}`,
+                        `${process.env.REACT_APP_API_URL}/api/users/wishlist/remove/${productId}`,
                         { headers: { Authorization: 'Bearer ' + token } }
                     );
                     const wishlistResponse = await axios.get(
@@ -88,28 +88,28 @@ const Wishlist = () => {
                                 {wishlist.map((wish) => (
                                     <tr>
                                         <td>
-                                            <Link to={`/items/${wish.item.id}`}>
+                                            <Link to={`/products/${wish.product.id}`}>
                                     
-                                                <img
+                                                {/* <img
                                                 class="img-fluid img-thumbnail"
                                                 src={
-                                                    wish.item.images.length < 1
+                                                    wish.product.images.length < 1
                                                         ? NoImage
                                                         : wish.item.images[0]
                                                               .imageURL
                                                 }
                                                 alt=""
-                                            />
+                                            /> */}
                                             </Link>
                                         </td>
                                         <td>
-                                            <Link to={`/items/${wish.item.id}`}>
+                                            <Link to={`/products/${wish.product.id}`}>
                                                 <p class="text-uppercase">
-                                                    {wish.item.name}
+                                                    {wish.product.name}
                                                 </p>
                                             </Link>
-                                            <p>{wish.item.subCategory.name}</p>
-                                            <p>Rs. {wish.item.price}</p>
+                                            <p>{wish.product.subCategory.name}</p>
+                                            <p>Rs. {wish.product.price}</p>
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -130,7 +130,7 @@ const Wishlist = () => {
                                             <i
                                                 onClick={() =>
                                                     removeFromWishlist(
-                                                        wish.item.id
+                                                        wish.product.id
                                                     )
                                                 }
                                                 class="fas fa-times"

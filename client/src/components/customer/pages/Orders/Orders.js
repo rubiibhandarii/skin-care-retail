@@ -70,7 +70,7 @@ const Orders = () => {
                             <tr>
                                 <td>{order.product.name}</td>
                                 <td>
-                                    {order.user.firstName} {order.user.lastName}
+                                    {order.product.retailer.companyName}
                                 </td>
                                 <td>{order.orderedDate}</td>
                                 <td>Rs. {order.product.price}</td>
