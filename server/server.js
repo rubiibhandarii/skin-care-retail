@@ -26,7 +26,7 @@ app.use('/api/orders', require('./routes/orders'))
 app.use('/api/admin/users', require('./routes/admin/users'))
 app.use('/api/admin/retailers', require('./routes/admin/retailers'))
 app.use('/api/admin/products', require('./routes/admin/products'))
-// app.use('/api/admin/sub-categories', require('./routes/admin/subCategories'))
+app.use('/api/admin/sub-categories', require('./routes/admin/subCategories'))
 app.use('/api/admin/categories', require('./routes/admin/categories'))
 app.use('/api/admin/orders', require('./routes/admin/orders'))
 

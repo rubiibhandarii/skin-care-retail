@@ -15,6 +15,7 @@ const {
     loggedInRetailer,
     getOrders,
     changeOrderStatus,
+    getUploadedProducts,
     create,
     update,
     remove,
@@ -51,6 +52,9 @@ router.post(
     isRetailer,
     changeOrderStatus
 )
+
+// get all uploaded products
+router.get('/products', verifyToken, getUploadedProducts)
 
 router.post(
     '/products/new',

@@ -60,7 +60,7 @@ exports.updatePasswordByTokenValidation = (data) => {
 
 exports.addWishlistValidation = (data) => {
     const schema = Joi.object({
-        itemId: Joi.string().required().messages({
+        productId: Joi.string().required().messages({
             'string.base': `"itemId" should be a type of 'text'`,
             'string.empty': `"itemId" cannot be an empty field`,
             'any.required': `"itemId" is a required field`,

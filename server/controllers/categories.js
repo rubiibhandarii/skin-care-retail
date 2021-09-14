@@ -20,11 +20,12 @@ exports.single = async (req, res, next) => {
     const { categoryId } = req.params
 
     try {
-        const singleCategory = await Category.findByPk(categoryId, {
+        const singleCategory = await Category.findOne({
+            where: { id: categoryId },
             include: [
                 {
                     model: SubCategory,
-                    as: 'category',
+                    as: 'subCategory',
                 },
             ],
         })
@@ -54,7 +55,7 @@ exports.singleByName = async (req, res, next) => {
             include: [
                 {
                     model: SubCategory,
-                    as: 'category',
+                    as: 'subCategory',
                 },
             ],
         })
@@ -108,7 +109,7 @@ exports.itemsByCategory = async (req, res, next) => {
         })
         return res.status(200).json({
             success: true,
-            message: `items of ${category} category is fetched.`,
+            message: `Products of ${category} category is fetched.`,
             data: products,
         })
     } catch (err) {

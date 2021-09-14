@@ -13,6 +13,10 @@ exports.createValidation = (data) => {
             }),
         password: Joi.string().min(6).required(),
         role: Joi.string().valid('admin', 'user').required(),
+        gender: Joi.string().valid('ma', 'fe'),
+        address: Joi.string().allow('', null),
+        city: Joi.string().allow('', null),
+        country: Joi.string().allow('', null),
     })
     return schema.validate(data)
 }

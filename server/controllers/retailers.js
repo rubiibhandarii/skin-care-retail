@@ -2,7 +2,7 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { Retailer, Product, Order } = require('../models')
+const { Retailer, Product, Order, SubCategory, User } = require('../models')
 const { sendEmail } = require('../utils/mail')
 const {
     registerValidation,
@@ -277,10 +277,20 @@ exports.loggedInRetailer = async (req, res, next) => {
 }
 
 exports.getOrders = async (req, res, next) => {
-    const { retailerId } = req.user.id
+    const retailerId = req.user.id
     try {
         const orders = await Order.findAll({
-            where: { retailerId },
+            include: [
+                {
+                    model: Product,
+                    as: 'product',
+                    where: { retailerId },
+                },
+                {
+                    model: User,
+                    as: 'user',
+                },
+            ],
         })
         return res.status(200).json({
             success: true,
@@ -340,6 +350,36 @@ exports.changeOrderStatus = async (req, res, next) => {
             success: true,
             message: `Order ${status}.`,
             data: orderAfterUpdate,
+        })
+    } catch (err) {
+        return next(err)
+    }
+}
+
+exports.getUploadedProducts = async (req, res, next) => {
+    const retailerId = req.user.id
+    console.log(retailerId)
+
+    try {
+        const products = await Product.findAll({
+            where: { retailerId },
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    model: Retailer,
+                    as: 'retailer',
+                },
+                {
+                    model: SubCategory,
+                    as: 'subCategory',
+                },
+            ],
+        })
+        return res.status(200).json({
+            success: true,
+            message: 'All the uploaded products are fetched.',
+            count: products.length,
+            data: products,
         })
     } catch (err) {
         return next(err)

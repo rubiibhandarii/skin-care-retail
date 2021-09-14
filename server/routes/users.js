@@ -56,7 +56,12 @@ router.get('/wishlist', verifyToken, isUser, getWishlist)
 router.post('/wishlist/add', verifyToken, isUser, addWishlist)
 
 // remove from wishlist
-router.delete('/wishlist/remove/:itemId', verifyToken, isUser, removeWishlist)
+router.delete(
+    '/wishlist/remove/:productId',
+    verifyToken,
+    isUser,
+    removeWishlist
+)
 
 // get logged in user
 router.get('/profile', verifyToken, isUser, getProfile)

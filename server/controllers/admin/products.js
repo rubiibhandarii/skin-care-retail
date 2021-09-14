@@ -52,7 +52,8 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { name, description, price, categoryId, retailerId } = req.body
+    console.log(req.body)
+    const { name, description, price, subCategoryId, retailerId } = req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -68,7 +69,7 @@ exports.create = async (req, res, next) => {
                 name,
                 description,
                 price,
-                categoryId,
+                subCategoryId,
                 retailerId,
             }
             // {
@@ -92,7 +93,7 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { productId } = req.params
-    const { name, description, price, categoryId, retailerId } = req.body
+    const { name, description, price, retailerId } = req.body
 
     try {
         const singleProduct = await Product.findByPk(productId)
@@ -104,7 +105,7 @@ exports.update = async (req, res, next) => {
             })
 
         const updatedProduct = await Product.update(
-            { name, description, price, categoryId, retailerId },
+            { name, description, price, retailerId },
             { where: { id: productId } }
         )
         return res.status(200).json({

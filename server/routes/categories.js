@@ -12,6 +12,6 @@ router.get('/:categoryId', single)
 
 router.get('/name/:categoryName', singleByName)
 
-router.get('/items/:categoryName', itemsByCategory)
+router.get('/products/:categoryName', itemsByCategory)
 
 module.exports = router

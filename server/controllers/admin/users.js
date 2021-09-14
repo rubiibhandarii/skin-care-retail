@@ -39,7 +39,17 @@ exports.single = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-    const { firstName, lastName, email, password, role } = req.body
+    const {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        gender,
+        address,
+        city,
+        country,
+    } = req.body
 
     // Validation
     const { error } = createValidation(req.body)
@@ -70,6 +80,10 @@ exports.create = async (req, res, next) => {
             password: hashedPassword,
             role,
             isVerified: true,
+            gender,
+            address,
+            city,
+            country,
         })
         return res.status(200).json({
             success: true,
@@ -83,7 +97,8 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { userId } = req.params
-    const { firstName, lastName, email, password, role } = req.body
+    const { firstName, lastName, email, role, gender, address, city, country } =
+        req.body
 
     try {
         const singleUser = await User.findByPk(userId)
@@ -94,12 +109,17 @@ exports.update = async (req, res, next) => {
                 message: 'User not found!',
             })
 
-        // Generating hashed password
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
-
         const updatedUser = await User.update(
-            { firstName, lastName, email, password: hashedPassword, role },
+            {
+                firstName,
+                lastName,
+                email,
+                role,
+                gender,
+                address,
+                city,
+                country,
+            },
             { where: { id: userId } }
         )
         return res.status(200).json({

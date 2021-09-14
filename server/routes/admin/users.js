@@ -10,7 +10,7 @@ const {
 
 router.get('/', verifyToken, isAdmin, all)
 
-router.get('/:userId', isAdmin, single)
+router.get('/:userId', verifyToken, isAdmin, single)
 
 router.post('/new', verifyToken, isAdmin, create)
 

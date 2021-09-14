@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         Category.hasMany(models.SubCategory, {
             onDelete: 'cascade',
             foreignKey: 'categoryId',
-            as: 'category',
+            as: 'subCategory',
         })
     }
 
