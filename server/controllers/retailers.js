@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { Retailer, Product, Order, SubCategory, User } = require('../models')
 const { sendEmail } = require('../utils/mail')
+const cloudinary = require('../utils/cloudinary')
 const {
     registerValidation,
     activateAccountValidation,
@@ -388,6 +389,7 @@ exports.getUploadedProducts = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     const { name, description, price, subCategoryId } = req.body
+    let result = null
     const retailerId = req.user.id
 
     // Validation
@@ -399,12 +401,18 @@ exports.create = async (req, res, next) => {
         })
 
     try {
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
         const createdProduct = await Product.create({
             name,
             description,
             price,
             subCategoryId,
             retailerId,
+            imageURL: result === null ? null : result.secure_url,
+            cloudinaryId: result === null ? null : result.public_id,
         })
 
         const product = await Product.findOne({
@@ -431,6 +439,7 @@ exports.update = async (req, res, next) => {
     const { productId } = req.params
     const retailerId = req.user.id
     const { name, description, price, categoryId } = req.body
+    let result = null
 
     try {
         const singleProduct = await Product.findByPk(productId)
@@ -448,8 +457,34 @@ exports.update = async (req, res, next) => {
                     'Access denied ! Only creator of this product can update.',
             })
 
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
+        if (result !== null) {
+            try {
+                await cloudinary.uploader.destroy(singleProduct.cloudinaryId)
+            } catch (err) {
+                //
+            }
+        }
+
         const updatedProduct = await Product.update(
-            { name, description, price, categoryId },
+            {
+                name,
+                description,
+                price,
+                categoryId,
+                productId,
+                imageURL:
+                    result === null
+                        ? singleProduct.imageURL
+                        : result.secure_url,
+                cloudinaryId:
+                    result === null
+                        ? singleProduct.cloudinaryId
+                        : result.public_id,
+            },
             { where: { id: productId } }
         )
         return res.status(200).json({

@@ -60,11 +60,17 @@ router.post(
     '/products/new',
     verifyToken,
     isRetailer,
-    // multer.array('image'),
+    multer.single('image'),
     create
 )
 
-router.put('/products/update/:productId', verifyToken, isRetailer, update)
+router.put(
+    '/products/update/:productId',
+    verifyToken,
+    isRetailer,
+    multer.single('image'),
+    update
+)
 
 router.delete('/products/delete/:productId', verifyToken, isRetailer, remove)
 

@@ -4,6 +4,7 @@ const {
     isUser,
     isUserVerified,
 } = require('../middleware/authentication')
+const upload = require('../utils/multer')
 const {
     register,
     activateAccount,
@@ -66,7 +67,13 @@ router.delete(
 // get logged in user
 router.get('/profile', verifyToken, isUser, getProfile)
 
-router.put('/profile/edit', verifyToken, isUser, editProfile)
+router.put(
+    '/profile/edit',
+    verifyToken,
+    isUser,
+    upload.single('image'),
+    editProfile
+)
 
 router.put('/profile/change-password', verifyToken, isUser, changePassword)
 

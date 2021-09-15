@@ -452,7 +452,7 @@ exports.addWishlist = async (req, res, next) => {
 exports.removeWishlist = async (req, res, next) => {
     const { productId } = req.params
     const userId = req.user.id
-    console.log(productId)
+
     try {
         const product = await Product.findByPk(productId)
         if (!product)
