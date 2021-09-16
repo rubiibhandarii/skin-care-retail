@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import './product-detail.css';
 import UserContext from '../../../../context/UserContext';
 import { toast } from 'react-toastify';
-import ceta from '../../../../images/ceta.jpg';
+import NoImage from '../../../../images/noimage.jpg';
 
 const ProductDetail = (props) => {
     const history = useHistory();
@@ -45,7 +45,8 @@ const ProductDetail = (props) => {
             );
             if (
                 wishlist.data.data.some(
-                    (product) => product.productId === singleProductResponse.data.data.id
+                    (product) =>
+                        product.productId === singleProductResponse.data.data.id
                 )
             ) {
                 setIsWishlist(true);
@@ -119,7 +120,14 @@ const ProductDetail = (props) => {
         <div className="movie-detail">
             <div className="outer-movie-detail">
                 <div className="left-movie-detail">
-                    <img src={ceta} alt="" />
+                    <img
+                        src={
+                            singleProduct.imageURL === null
+                                ? NoImage
+                                : singleProduct.imageURL
+                        }
+                        alt=""
+                    />
                 </div>
                 <div className="right-movie-detail">
                     <h1>{singleProduct.name}</h1>
@@ -138,25 +146,19 @@ const ProductDetail = (props) => {
                         <i className="fas fa-clock"></i>
                         <span>{singleProduct.release_date}</span>
                         {isWishlist ? (
-                                        <i
-                                            onClick={removeFromWishlist}
-                                            className="fas fa-heart"
-                                            id="filled-heart-icon"
-                                        ></i>
-                                    ) : (
-                                        <i
-                                            onClick={addToWishlist}
-                                            className="far fa-heart"
-                                        ></i>
-                                    )}
+                            <i
+                                onClick={removeFromWishlist}
+                                className="fas fa-heart"
+                                id="filled-heart-icon"
+                            ></i>
+                        ) : (
+                            <i
+                                onClick={addToWishlist}
+                                className="far fa-heart"
+                            ></i>
+                        )}
                     </div>
                     <p>{singleProduct.description}</p>
-                    <p>
-                        Duration: <span>{singleProduct.length}</span>
-                    </p>
-                    <p>
-                        Director: <span>{singleProduct.director}</span>
-                    </p>
                     <input
                         type="number"
                         defaultValue="1"

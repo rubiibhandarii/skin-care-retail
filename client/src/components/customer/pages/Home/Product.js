@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ceta from '../../../../images/ceta.jpg';
+import NoImage from '../../../../images/noimage.jpg';
 
 const Product = ({ products }) => {
     return (
@@ -8,7 +8,14 @@ const Product = ({ products }) => {
             {products.map((product) => (
                 <div key={product.id} className="single-latest-released">
                     <Link to={`/products/${product.id}`}>
-                        <img src={ceta} alt="" />
+                        <img
+                            src={
+                                product.imageURL === null
+                                    ? NoImage
+                                    : product.imageURL
+                            }
+                            alt=""
+                        />
                     </Link>
                     <div className="movie-info">
                         <h4>

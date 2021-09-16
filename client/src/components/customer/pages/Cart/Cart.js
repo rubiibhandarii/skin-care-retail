@@ -1,10 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from '../../../../context/UserContext';
+import CartContext from '../../../../context/CartContext';
+import NoImage from '../../../../images/noimage.jpg';
+import './cart.css';
 
 const Cart = () => {
     const products = JSON.parse(localStorage.getItem('cart')) || [];
     const { userData } = useContext(UserContext);
+    const { cartData, setCartData } = useContext(CartContext);
 
     const [cartProducts, setCartProducts] = useState(products);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -21,6 +25,7 @@ const Cart = () => {
         );
         setCartProducts(filteredProducts);
         setTotalPrice((prevData) => prevData - totalPrice);
+        setCartData(filteredProducts.length);
         localStorage.setItem('cart', JSON.stringify(filteredProducts));
     };
 
@@ -60,115 +65,146 @@ const Cart = () => {
     };
 
     return (
-        <>
-            {cartProducts.length > 0 ? (
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {cartProducts.map((product) => (
-                                <tr>
-                                    <td>
-                                        <Link to={`products/${product.id}`}>
-                                            <img
-                                                className="img-thumbnail"
-                                                src=""
-                                                alt=""
-                                            />
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        <Link to={`products/${product.id}`}>
-                                            {product.name}
-                                        </Link>
-                                    </td>
-                                    <td>Rs.{product.price}</td>
-                                    <td>
-                                        <button
-                                            onClick={() =>
-                                                decreaseQuantity(product)
-                                            }
-                                        >
-                                            -
-                                        </button>
-                                        {product.quantity}
-                                        <button
-                                            onClick={() =>
-                                                increaseQuantity(product)
-                                            }
-                                        >
-                                            +
-                                        </button>
-                                    </td>
-                                    <td>Rs.{product.totalPrice}</td>
-                                    <td>
-                                        <button
-                                            style={{
-                                                border: 'none',
-                                                background: 'none',
-                                            }}
-                                            onClick={() =>
-                                                removeProducts(
-                                                    product.id,
-                                                    product.totalPrice
-                                                )
-                                            }
-                                        >
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>Rs.{totalPrice}</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            ) : (
-                <div className="empty-div">
-                    <p>Your cart is empty</p>
-                    <Link to="/">
-                        <button className="btn btn-Checkout">
-                            Back to home
-                        </button>
-                    </Link>
-                </div>
-            )}
+        <div className="cart-container">
+            <div class="container-fluid">
+                {/* <section>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 cart-heading">
+                            <div class="text-center">
+                                <h4 class="text-light text-center cart-title">
+                                    Add to Cart
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </section> */}
 
-            {cartProducts.length > 0 ? (
-                <div className="proceed-checkout-div">
-                    <Link
-                        to={
-                            userData.user === undefined ? '/retailer/login' : '/checkout'
-                        }
-                    >
-                        <button type="button" className="btn btn-Checkout">
-                            Proceed to Checkout
-                        </button>
-                    </Link>
+                <div className="table-button-cart">
+                    {cartProducts.length > 0 ? (
+                        <div className="table-responsive ">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {cartProducts.map((product) => (
+                                        <tr>
+                                            <td>
+                                                <Link
+                                                    to={`products/${product.id}`}
+                                                >
+                                                    <img
+                                                        className="img-thumbnail"
+                                                        src={
+                                                            product.imageURL ===
+                                                            null
+                                                                ? NoImage
+                                                                : product.imageURL
+                                                        }
+                                                        alt=""
+                                                        height="100"
+                                                    />
+                                                </Link>
+                                            </td>
+                                            <td>
+                                                <Link
+                                                    to={`products/${product.id}`}
+                                                >
+                                                    {product.name}
+                                                </Link>
+                                            </td>
+                                            <td>Rs.{product.price}</td>
+                                            <td>
+                                                <button
+                                                    onClick={() =>
+                                                        decreaseQuantity(
+                                                            product
+                                                        )
+                                                    }
+                                                >
+                                                    -
+                                                </button>
+                                                {product.quantity}
+                                                <button
+                                                    onClick={() =>
+                                                        increaseQuantity(
+                                                            product
+                                                        )
+                                                    }
+                                                >
+                                                    +
+                                                </button>
+                                            </td>
+                                            <td>Rs.{product.totalPrice}</td>
+                                            <td>
+                                                <button
+                                                    style={{
+                                                        border: 'none',
+                                                        background: 'none',
+                                                    }}
+                                                    onClick={() =>
+                                                        removeProducts(
+                                                            product.id,
+                                                            product.totalPrice
+                                                        )
+                                                    }
+                                                >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Rs. {totalPrice}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="empty-div">
+                            <p>Your cart is empty</p>
+                            <Link to="/">
+                                <button className="btn btn-Checkout">
+                                    Back to home
+                                </button>
+                            </Link>
+                        </div>
+                    )}
+
+                    {cartProducts.length > 0 ? (
+                        <div className="proceed-checkout-div">
+                            <Link
+                                to={
+                                    userData.user === undefined ||
+                                    userData.user_type === 'retailer'
+                                        ? '/customer/login'
+                                        : '/checkout'
+                                }
+                            >
+                                <button
+                                    type="button"
+                                    className="btn btn-Checkout"
+                                >
+                                    Proceed to Checkout
+                                </button>
+                            </Link>
+                        </div>
+                    ) : null}
                 </div>
-            ) : null}
-            {/* <Link to="/checkout">
-                <button className="btn btn-primary">Proceed To Checkout</button>
-            </Link> */}
-        </>
+            </div>
+        </div>
     );
 };
 

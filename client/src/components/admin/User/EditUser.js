@@ -44,27 +44,16 @@ const EditUser = (props) => {
     const onUserAdd = async (e) => {
         e.preventDefault();
         try {
-            // const updatedUser = new FormData();
-            // updatedUser.append('image', image);
-            // updatedUser.append('firstName', firstName);
-            // updatedUser.append('lastName', lastName);
-            // updatedUser.append('email', email);
-            // updatedUser.append('gender', gender);
-            // updatedUser.append('address', address);
-            // updatedUser.append('city', city);
-            // updatedUser.append('country', country);
-            // updatedUser.append('role', role);
-
-            const updatedUser = {
-                firstName,
-                lastName,
-                email,
-                gender,
-                address,
-                city,
-                country,
-                role,
-            };
+            const updatedUser = new FormData();
+            updatedUser.append('image', image);
+            updatedUser.append('firstName', firstName);
+            updatedUser.append('lastName', lastName);
+            updatedUser.append('email', email);
+            updatedUser.append('gender', gender);
+            updatedUser.append('address', address);
+            updatedUser.append('city', city);
+            updatedUser.append('country', country);
+            updatedUser.append('role', role);
 
             const token = localStorage.getItem('auth-token');
             await axios.put(

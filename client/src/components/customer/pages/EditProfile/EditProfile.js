@@ -42,24 +42,14 @@ const EditProfile = () => {
     const onEditProfile = async (e) => {
         e.preventDefault();
         try {
-            // const updateUser = new FormData();
-            // updateUser.append('firstName', firstName);
-            // updateUser.append('lastName', lastName);
-            // updateUser.append('gender', gender);
-            // updateUser.append('address', address);
-            // updateUser.append('city', city);
-            // updateUser.append('country', country);
-            // updateUser.append('image', image);
-
-
-            const updateUser = {
-                firstName,
-                lastName,
-                gender,
-                address,
-                city,
-                country
-            }
+            const updateUser = new FormData();
+            updateUser.append('image', image);
+            updateUser.append('firstName', firstName);
+            updateUser.append('lastName', lastName);
+            updateUser.append('gender', gender);
+            updateUser.append('address', address);
+            updateUser.append('city', city);
+            updateUser.append('country', country);
 
             const token = localStorage.getItem('auth-token');
             const userResponse = await axios.put(
@@ -197,15 +187,7 @@ const EditProfile = () => {
                                         }
                                     />
                                 </div>
-                                {/* <div class="form-group col-md-6">
-                                    <label for="Image">Image</label>
-                                    <input
-                                        type="file"
-                                        onChange={(e) =>
-                                            setImage(e.target.files[0])
-                                        }
-                                    />
-                                </div> */}
+                               
                             </div>
                             <button
                                 type="submit"

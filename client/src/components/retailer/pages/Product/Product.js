@@ -75,16 +75,17 @@ const Product = () => {
                                     <tr>
                                         <td>
                                             <Link to={`/products/${product.id}`}>
-                                                {/* <img
+                                                <img
                                                     class="img-fluid img-thumbnail"
                                                     src={
-                                                        item.images.length < 1
+                                                        product
+                                                            .imageURL === null
                                                             ? NoImage
-                                                            : item.images[0]
+                                                            : product
                                                                   .imageURL
                                                     }
                                                     alt=""
-                                                /> */}
+                                                />
                                             </Link>
                                         </td>
                                         <td>

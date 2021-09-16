@@ -12,13 +12,13 @@ const AddProductAdmin = () => {
     const [subCategories, setSubCategories] = useState([]);
     const [retailersArr, setRetailersArr] = useState([]);
 
-
     const [name, setName] = useState();
     const [description, setDescription] = useState();
     const [price, setPrice] = useState();
     const [categoryId, setCategoryId] = useState();
     const [subCategoryId, setSubCategoryId] = useState();
     const [retailerId, setRetailerId] = useState();
+    const [image, setImage] = useState();
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -34,8 +34,6 @@ const AddProductAdmin = () => {
                 { headers: { Authorization: 'Bearer ' + token } }
             );
             setRetailersArr(retailersRes.data.data);
-
-
         };
         loadCategories();
     }, []);
@@ -44,19 +42,13 @@ const AddProductAdmin = () => {
         e.preventDefault();
 
         try {
-            // const newItem = new FormData();
-            // newItem.append('name', name);
-            // newItem.append('description', description);
-            // newItem.append('price', parseInt(Math.abs(price)));
-            // newItem.append('subCategoryId', subCategoryId);
-
-            const newItem = {
-                name,
-                description,
-                price: parseInt(Math.abs(price)),
-                retailerId,
-                subCategoryId,
-            };
+            const newItem = new FormData();
+            newItem.append('name', name);
+            newItem.append('description', description);
+            newItem.append('price', parseInt(Math.abs(price)));
+            newItem.append('subCategoryId', subCategoryId);
+            newItem.append('retailerId', retailerId);
+            newItem.append('image', image);
 
             const token = localStorage.getItem('auth-token');
             await axios.post(
@@ -66,11 +58,6 @@ const AddProductAdmin = () => {
             );
 
             toast.success('New product has been added.');
-            setName('');
-            setDescription('');
-            setPrice('');
-    
-
             history.push('/admin/products');
         } catch (err) {
             toast.error(err.response.data.message);
@@ -215,6 +202,23 @@ const AddProductAdmin = () => {
                                 );
                             })}
                         </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label
+                            for="exampleFormControlFile1 "
+                            className="form-title"
+                        >
+                            Images
+                        </label>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => setImage(e.target.files[0])}
+                            className="form-control-file"
+                            accept="image/*"
+                            // id="itemImage"
+                        />
                     </div>
 
                     <button className="btn btn-lg btn-success btn-block text-uppercase mt-4">

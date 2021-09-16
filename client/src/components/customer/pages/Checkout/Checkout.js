@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import CartContext from '../../../../context/CartContext';
 
 const Checkout = () => {
     const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const { cartData, setCartData } = useContext(CartContext);
 
     const history = useHistory();
     const [phone, setPhone] = useState();
@@ -43,6 +45,7 @@ const Checkout = () => {
             );
             toast.success('Order successfully placed');
             localStorage.setItem('cart', JSON.stringify([]));
+            setCartData(0);
             history.push('/checkout/complete');
         } catch (err) {
             toast.error(err.response.data.message);

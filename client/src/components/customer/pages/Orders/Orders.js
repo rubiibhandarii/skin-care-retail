@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import swal from 'sweetalert';
+import NoImage from '../../../../images/noimage.jpg';
+import './orders.css';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -50,97 +52,137 @@ const Orders = () => {
     };
 
     return (
-        <div>
-            {orders.length > 0 ? (
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Retailer</th>
-                            <th>Ordered Date</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.map((order) => (
-                            <tr>
-                                <td>{order.product.name}</td>
-                                <td>
-                                    {order.product.retailer.companyName}
-                                </td>
-                                <td>{order.orderedDate}</td>
-                                <td>Rs. {order.product.price}</td>
-                                <td>{order.quantity}</td>
-                                <td>Rs. {order.totalPrice}</td>
-                                <td>
-                                    {(() => {
-                                        if (order.status === 'pending') {
-                                            return (
-                                                <p className="text-warning">
-                                                    Pending
-                                                </p>
-                                            );
-                                        }
-                                        if (order.status === 'approved') {
-                                            return (
-                                                <p className="text-success">
-                                                    Approved
-                                                </p>
-                                            );
-                                        }
-                                        if (order.status === 'refused') {
-                                            return (
-                                                <p className="text-danger">
-                                                    Refused
-                                                </p>
-                                            );
-                                        }
-                                        if (order.status === 'delivered') {
-                                            return (
-                                                <p className="text-success">
-                                                    Delivered
-                                                </p>
-                                            );
-                                        }
-                                        return null;
-                                    })()}
-                                </td>
-                                <td>
-                                    {order.status === 'pending' ? (
-                                        <button
-                                            onClick={() =>
-                                                cancelOrder(order.id)
-                                            }
-                                            class="btn btn-danger btn-sm"
-                                        >
-                                            Cancel
-                                        </button>
-                                    ) : (
-                                        <button
-                                            disabled
-                                            title="This product cannot be canceled"
-                                            class="btn btn-secondary btn-sm"
-                                        >
-                                            Cancel
-                                        </button>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            ) : (
-                <div className="empty-div">
-                    <p>You have not ordered any products yet.</p>
-                    <Link to="/">
-                        <button className="btn btn-primary">Back to home</button>
-                    </Link>
-                </div>
-            )}
+        <div className="order-container">
+            <div class="container-fluid">
+                {/* <section>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 cart-heading">
+                            <div class="text-center">
+                                <h4 class="text-light text-center cart-title">
+                                    My Orders
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </section> */}
+
+                {orders.length > 0 ? (
+                    <div className="table-responsive">
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th>Product</th>
+                                    <th>Retailer</th>
+                                    <th>Ordered Date</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map((order) => (
+                                    <tr>
+                                        <td>
+                                            <Link
+                                                to={`/products/${order.product.id}`}
+                                            >
+                                                <img
+                                                    class="img-fluid img-thumbnail"
+                                                    src={
+                                                        order.product.imageURL === null
+                                                            ? NoImage
+                                                            : order.product.imageURL
+                                                    }
+                                                    alt=""
+                                                />
+                                            </Link>
+                                        </td>
+                                        <td>{order.product.name}</td>
+                                        <td>
+                                            {order.product.retailer.companyName}
+                                        </td>
+                                        <td>{order.orderedDate}</td>
+                                        <td>Rs. {order.product.price}</td>
+                                        <td>{order.quantity}</td>
+                                        <td>Rs. {order.totalPrice}</td>
+                                        <td>
+                                            {(() => {
+                                                if (
+                                                    order.status === 'pending'
+                                                ) {
+                                                    return (
+                                                        <span className="text-warning">
+                                                            Pending
+                                                        </span>
+                                                    );
+                                                }
+                                                if (
+                                                    order.status === 'approved'
+                                                ) {
+                                                    return (
+                                                        <span className="text-success">
+                                                            Approved
+                                                        </span>
+                                                    );
+                                                }
+                                                if (
+                                                    order.status === 'refused'
+                                                ) {
+                                                    return (
+                                                        <span className="text-danger">
+                                                            Refused
+                                                        </span>
+                                                    );
+                                                }
+                                                if (
+                                                    order.status === 'delivered'
+                                                ) {
+                                                    return (
+                                                        <span className="text-success">
+                                                            Delivered
+                                                        </span>
+                                                    );
+                                                }
+                                                return null;
+                                            })()}
+                                        </td>
+                                        <td>
+                                            {order.status === 'pending' ? (
+                                                <button
+                                                    onClick={() =>
+                                                        cancelOrder(order.id)
+                                                    }
+                                                    class="btn btn-danger btn-sm"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    disabled
+                                                    title="This product cannot be canceled"
+                                                    class="btn btn-secondary btn-sm"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <div className="empty-div">
+                        <p>You have not ordered any products yet.</p>
+                        <Link to="/">
+                            <button className="btn">Back to home</button>
+                        </Link>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

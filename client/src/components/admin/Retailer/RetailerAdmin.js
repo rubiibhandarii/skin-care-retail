@@ -1,36 +1,37 @@
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Admin from '../Admin';
-import axios from 'axios';
-import NoImage from '../../../images/noimage.jpg';
+import { withRouter } from 'react-router-dom';
+import User from '../../../images/user.png';
 
-const ProductAdmin = () => {
-    const [products, setProducts] = useState([]);
+const RetailerAdmin = () => {
+    const [retailers, setRetailers] = useState([]);
     const [deleted, setDeleted] = useState([]);
 
     useEffect(() => {
-        const loadItems = async () => {
+        const loadRetailers = async () => {
             const token = localStorage.getItem('auth-token');
-            const itemRes = await axios.get(
-                `${process.env.REACT_APP_API_URL}/api/admin/products`,
+            const retailersRes = await axios.get(
+                `${process.env.REACT_APP_API_URL}/api/admin/retailers`,
                 { headers: { Authorization: 'Bearer ' + token } }
             );
-            setProducts(itemRes.data.data);
+            setRetailers(retailersRes.data.data);
+            
         };
 
-        loadItems();
+        loadRetailers();
     }, [deleted]);
 
-    const onItemDelete = async (id) => {
+    const onRetailerDelete = async (id) => {
         try {
             const token = localStorage.getItem('auth-token');
             await axios.delete(
-                `${process.env.REACT_APP_API_URL}/api/admin/products/delete/${id}`,
+                `${process.env.REACT_APP_API_URL}/api/admin/retailers/delete/${id}`,
                 { headers: { Authorization: 'Bearer ' + token } }
             );
-            toast.success('Product has been deleted.');
+            toast.success('Retailer is deleted.');
             setDeleted((prevValue) => !prevValue);
         } catch (err) {
             toast.error(err.response.data.msg);
@@ -41,12 +42,12 @@ const ProductAdmin = () => {
         <Admin>
             <div class="card mb-3">
                 <div class="card-header">
-                    <i class="fas fa-table"></i>Products Table
+                    <i class="fas fa-table"></i>Retailers Table
                 </div>
                 <div class="card-body">
-                    <Link to="/admin/products/add">
+                    <Link to="/admin/retailers/add">
                         <button className="btn btn-success mb-4">
-                            Add Item
+                            Add Retailer
                         </button>
                     </Link>
                     <div class="table-responsive">
@@ -59,40 +60,24 @@ const ProductAdmin = () => {
                             <thead>
                                 <tr>
                                     <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
-                                    <th>Retailer</th>
+                                    <th>Company Name</th>
+                                    <th>Email</th>
+                                    <th>Location</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {products.map((product) => {
+                                {retailers.map((retailer) => {
                                     return (
                                         <tr>
-                                            <td>
-                                                <img
-                                                    width="70"
-                                                    src={
-                                                        product
-                                                            .imageURL === null
-                                                            ? NoImage
-                                                            : product
-                                                                  .imageURL
-                                                    }
-                                                    alt=""
-                                                />
-                                            </td>
-                                            <td>{product.name} </td>
-                                            <td>{product.description}</td>
-                                            <td>Rs. {product.price}</td>
-                                            <td>
-                                                {product.retailer.companyName}
-                                            </td>
+                                            <td><img width="70" src={retailer.profilePicURL || User } alt="" /></td>
+                                            <td>{retailer.companyName}</td>
+                                            <td>{retailer.email}</td>
+                                            <td>{retailer.location}</td>
                                             <td>
                                                 <Link
-                                                    to={`/admin/products/edit/${product.id}`}
+                                                    to={`/admin/retailers/edit/${retailer.id}`}
                                                     className="text-primary"
                                                 >
                                                     Update{' '}
@@ -102,11 +87,11 @@ const ProductAdmin = () => {
                                                     onClick={() => {
                                                         if (
                                                             window.confirm(
-                                                                'Are you sure want to delete this product ?'
+                                                                'Are you sure want to delete this retailer ?'
                                                             )
                                                         ) {
-                                                            onItemDelete(
-                                                                product.id
+                                                            onRetailerDelete(
+                                                                retailer.id
                                                             );
                                                         }
                                                     }}
@@ -127,4 +112,4 @@ const ProductAdmin = () => {
     );
 };
 
-export default withRouter(ProductAdmin);
+export default withRouter(RetailerAdmin);

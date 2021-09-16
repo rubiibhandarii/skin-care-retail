@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import './header.css';
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../../../../context/UserContext';
+import CartContext from '../../../../context/CartContext';
 import Logo from '../../../../images/logo.png';
 import swal from 'sweetalert';
 import { toast } from 'react-toastify';
@@ -9,6 +10,7 @@ import axios from 'axios';
 
 const Header2 = () => {
     const { userData, setUserData } = useContext(UserContext);
+    const { cartData } = useContext(CartContext);
     const history = useHistory();
     const toggleMenu = () => {
         document.getElementById('navbar').classList.toggle('toggle');
@@ -128,6 +130,11 @@ const Header2 = () => {
                         <li>
                             <Link to="/cart" className="nav-item-link">
                                 <i className="fas fa-shopping-cart"></i>
+                                {cartData > 0 ? (
+                                    <span class="badge badge-danger">
+                                        {cartData}
+                                    </span>
+                                ) : null}
                             </Link>
                         </li>
 
@@ -137,7 +144,7 @@ const Header2 = () => {
                             </Link>
                         </li>
 
-                        {userData.user ? (
+                        {userData.user_type === 'user' ? (
                             <li className="nav-item dropdown">
                                 <Link
                                     className="nav-item-link dropdown-toggle"
@@ -187,7 +194,44 @@ const Header2 = () => {
                             </li>
                         ) : null}
 
-                        {userData.user ? null : (
+                        {userData.user_type === 'retailer' ? (
+                            <li className="nav-item dropdown">
+                                <Link
+                                    className="nav-item-link dropdown-toggle"
+                                    to="#"
+                                    id="navbarDropdown2"
+                                    role="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                >
+                                    Hi, {userData.user.companyName}
+                                </Link>
+                                <div
+                                    className="dropdown-menu"
+                                    aria-labelledby="navbarDropdown2"
+                                >
+                                    <Link
+                                        className="dropdown-item"
+                                        to="/retailer/dashboard"
+                                    >
+                                        Go to retailer dashboard
+                                    </Link>
+                                <div className="dropdown-divider"></div>
+                                    <Link
+                                        onClick={() => {
+                                            logout();
+                                        }}
+                                        className="dropdown-item "
+                                        style={{ color: 'red' }}
+                                    >
+                                        Logout
+                                    </Link>
+                                </div>
+                            </li>
+                        ) : null}
+
+                        {userData.user_type !== undefined ? null : (
                             <li>
                                 <Link to="/customer/login">
                                     <button>Login</button>

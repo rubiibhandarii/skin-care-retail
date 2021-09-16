@@ -93,6 +93,12 @@ const Admin = (props) => {
                             <span className="text-light ml-2">User</span>
                         </Link>
                     </li>
+                    <li class="nav-item active">
+                        <Link class="nav-link" to="/admin/retailers">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span className="text-light ml-2">Retailer</span>
+                        </Link>
+                    </li>
                     <li class="nav-item">
                         <Link class="nav-link" to="/admin/categories">
                             <i class="fas fa-fw fa-tachometer-alt"></i>

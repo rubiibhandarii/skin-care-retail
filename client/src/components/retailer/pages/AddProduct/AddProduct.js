@@ -16,8 +16,7 @@ const AddItem = () => {
     const [price, setPrice] = useState();
     const [categoryId, setCategoryId] = useState();
     const [subCategoryId, setSubCategoryId] = useState();
-    const [color, setColor] = useState();
-    const [size, setSize] = useState();
+    const [image, setImages] = useState();
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -39,20 +38,13 @@ const AddItem = () => {
         setDisable(true);
 
         try {
-            const newItem = {
-                name,
-                description,
-                price: parseInt(Math.abs(price)),
-                subCategoryId,
-            };
-            // const newItem = new FormData();
-            // newItem.append('name', name);
-            // newItem.append('description', description);
-            // newItem.append('price', parseInt(Math.abs(price)));
-            // newItem.append('size', size);
-            // newItem.append('color', color);
-            // newItem.append('subCategoryId', subCategoryId);
-            // newItem.append('images', images);
+            
+            const newItem = new FormData();
+            newItem.append('image', image);
+            newItem.append('name', name);
+            newItem.append('description', description);
+            newItem.append('price', parseInt(Math.abs(price)));
+            newItem.append('subCategoryId', subCategoryId);
 
             const token = localStorage.getItem('auth-token');
             await axios.post(
@@ -76,7 +68,7 @@ const AddItem = () => {
             const categoriesResponse = await axios.get(
                 `${process.env.REACT_APP_API_URL}/api/categories/${id}`
             );
-            console.log(categoriesResponse.data.data)
+            console.log(categoriesResponse.data.data);
             setSubCategories(categoriesResponse.data.data.subCategory);
         } catch (err) {
             toast.error(err.response.data.message);
@@ -206,6 +198,25 @@ const AddItem = () => {
                                             );
                                         })}
                                     </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label
+                                        for="exampleFormControlFile1 "
+                                        className="form-title"
+                                    >
+                                        Images
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        onChange={(e) =>
+                                            setImages(e.target.files[0])
+                                        }
+                                        className="form-control-file"
+                                        accept="image/*"
+                                        // id="itemImage"
+                                    />
                                 </div>
 
                                 <button

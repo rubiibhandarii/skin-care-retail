@@ -53,7 +53,7 @@ const Orders = () => {
     return (
         <Dashboard>
             <div className="rent-orders-container">
-            <h2 className='mb-4'>Orders</h2>
+                <h2 className="mb-4">Orders</h2>
                 <div className="table-responsive">
                     <table class="table">
                         <thead class="thead-light">
@@ -76,18 +76,16 @@ const Orders = () => {
                                         <Link
                                             to={`/products/${order.product.id}`}
                                         >
-                                            {/* <img
-                                                    class="img-fluid img-thumbnail"
-                                                    src={
-                                                        order.item.images
-                                                            .length < 1
-                                                            ? NoImage
-                                                            : order.item
-                                                                  .images[0]
-                                                                  .imageURL
-                                                    }
-                                                    alt=""
-                                                /> */}
+                                            <img
+                                                class="img-fluid img-thumbnail"
+                                                src={
+                                                    order.product.imageURL ===
+                                                    null
+                                                        ? NoImage
+                                                        : order.product.imageURL
+                                                }
+                                                alt=""
+                                            />
                                         </Link>
                                     </td>
                                     <td>
@@ -98,7 +96,6 @@ const Orders = () => {
                                                 {order.product.name}
                                             </p>
                                         </Link>
-                                       
                                     </td>
                                     <td>{order.orderedDate}</td>
                                     <td>{order.quantity}</td>

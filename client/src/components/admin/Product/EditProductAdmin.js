@@ -16,11 +16,7 @@ const EditProductAdmin = (props) => {
     const [name, setName] = useState();
     const [description, setDescription] = useState();
     const [price, setPrice] = useState();
-    const [color, setColor] = useState();
-    const [categoryId, setCategoryId] = useState();
-    const [subCategoryId, setSubCategoryId] = useState();
-    const [size, setSize] = useState();
-    const [images, setImages] = useState();
+    const [image, setImage] = useState();
 
     useEffect(() => {
         const loadSingleItem = async () => {
@@ -33,8 +29,7 @@ const EditProductAdmin = (props) => {
             setName(singleItemRes.data.data.name);
             setDescription(singleItemRes.data.data.description);
             setPrice(singleItemRes.data.data.price);
-            setColor(singleItemRes.data.data.color);
-            setSize(singleItemRes.data.data.size);
+            setImage(singleItemRes.data.data.imageURL);
         };
         loadSingleItem();
     }, []);
@@ -43,12 +38,11 @@ const EditProductAdmin = (props) => {
         e.preventDefault();
 
         try {
-
-            const updatedItem = {
-                name,
-                description,
-                price: parseInt(Math.abs(price)),
-            };
+            const updatedItem = new FormData();
+            updatedItem.append('name', name);
+            updatedItem.append('description', description);
+            updatedItem.append('price', parseInt(Math.abs(price)));
+            updatedItem.append('image', image);
 
             const token = localStorage.getItem('auth-token');
             await axios.put(
@@ -101,6 +95,24 @@ const EditProductAdmin = (props) => {
                             onChange={(e) => setPrice(e.target.value)}
                         />
                     </div>
+
+                    <div className="form-group">
+                        <label
+                            for="exampleFormControlFile1 "
+                            className="form-title"
+                        >
+                            Image
+                        </label>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => setImage(e.target.files[0])}
+                            className="form-control-file"
+                            accept="image/*"
+                            // id="itemImage"
+                        />
+                    </div>
+
                     <button className="btn btn-lg btn-success btn-block text-uppercase mt-4">
                         Update
                     </button>

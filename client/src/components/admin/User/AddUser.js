@@ -22,29 +22,17 @@ const AddUser = () => {
     const onUserAdd = async (e) => {
         e.preventDefault();
         try {
-            // const newUser = new FormData();
-            // newUser.append('image', image);
-            // newUser.append('firstName', firstName);
-            // newUser.append('lastName', lastName);
-            // newUser.append('email', email);
-            // newUser.append('password', password);
-            // newUser.append('gender', gender);
-            // newUser.append('address', address);
-            // newUser.append('city', city);
-            // newUser.append('country', country);
-            // newUser.append('role', role);
-
-            const newUser = {
-                firstName,
-                lastName,
-                email,
-                password,
-                gender,
-                address,
-                city,
-                country,
-                role,
-            };
+            const newUser = new FormData();
+            newUser.append('image', image);
+            newUser.append('firstName', firstName);
+            newUser.append('lastName', lastName);
+            newUser.append('email', email);
+            newUser.append('password', password);
+            newUser.append('gender', gender);
+            newUser.append('address', address);
+            newUser.append('city', city);
+            newUser.append('country', country);
+            newUser.append('role', role);
 
             const token = localStorage.getItem('auth-token');
             await axios.post(
@@ -54,10 +42,6 @@ const AddUser = () => {
             );
 
             toast.success('New user has been added.');
-            setFirstName('');
-            setLastName('');
-            setEmail('');
-            setPassword('');
 
             history.push('/admin/users');
         } catch (err) {
@@ -198,6 +182,9 @@ const AddUser = () => {
                             onClick={(e) => setRole(e.target.value)}
                         />
                     </div>
+
+
+                    
 
                     <button className="btn btn-lg btn-success btn-block text-uppercase mt-4">
                         Add

@@ -10,7 +10,6 @@ const Category = (props) => {
     const { categoryName } = props.match.params;
     const [categories, setCategories] = useState([]);
 
-
     const [items, setItems] = useState([]);
     let [filteredItems, setFilteredItems] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
@@ -32,18 +31,16 @@ const Category = (props) => {
             );
             setSubCategories(categoriesResponse.data.data.subCategory);
 
-
             const token = localStorage.getItem('auth-token');
             const categoryRes = await axios.get(
                 `${process.env.REACT_APP_API_URL}/api/categories`,
                 { headers: { Authorization: 'Bearer ' + token } }
             );
-            console.log(categoryRes)
+            console.log(categoryRes);
 
             setCategories(categoryRes.data.data);
         };
 
-        
         displayItems();
     }, [categoryName]);
 
@@ -112,13 +109,13 @@ const Category = (props) => {
                         <h4 className="mt-4 mb-2">Category</h4>
 
                         {categories.map((category) => (
-
-                        <p className="mt-3">
-                            <Link to={`/category/${category.name}`}>{category.name}</Link>
-                        </p>
-
+                            <p className="mt-3">
+                                <Link to={`/category/${category.name}`}>
+                                    {category.name}
+                                </Link>
+                            </p>
                         ))}
-                        
+
                         <h4 className="mt-4 mb-2">Filters</h4>
 
                         <Link
@@ -162,20 +159,24 @@ const Category = (props) => {
                                 <>
                                     {filteredItems.map((product) => (
                                         <div class="card">
-                                            <Link to={`/products/${product.id}`}>
-                                                {/* <img
+                                            <Link
+                                                to={`/products/${product.id}`}
+                                            >
+                                                <img
                                                     class="card-img-top"
                                                     src={
-                                                        item.images.length < 1
+                                                        product.imageURL ===
+                                                        null
                                                             ? NoImage
-                                                            : item.images[0]
-                                                                  .imageURL
+                                                            : product.imageURL
                                                     }
                                                     alt=""
-                                                /> */}
+                                                />
                                             </Link>
                                             <div class="card-body">
-                                                <Link to={`/products/${product.id}`}>
+                                                <Link
+                                                    to={`/products/${product.id}`}
+                                                >
                                                     <h5 class="card-title">
                                                         {product.name}
                                                     </h5>

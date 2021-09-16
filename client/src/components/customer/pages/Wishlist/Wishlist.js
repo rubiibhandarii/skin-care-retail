@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import swal from 'sweetalert';
-import NoImage from '../../../../images/noimage.jpg'
+import NoImage from '../../../../images/noimage.jpg';
 
 const Wishlist = () => {
     const [wishlist, setWishlist] = useState([]);
@@ -88,27 +88,33 @@ const Wishlist = () => {
                                 {wishlist.map((wish) => (
                                     <tr>
                                         <td>
-                                            <Link to={`/products/${wish.product.id}`}>
-                                    
-                                                {/* <img
-                                                class="img-fluid img-thumbnail"
-                                                src={
-                                                    wish.product.images.length < 1
-                                                        ? NoImage
-                                                        : wish.item.images[0]
-                                                              .imageURL
-                                                }
-                                                alt=""
-                                            /> */}
+                                            <Link
+                                                to={`/products/${wish.product.id}`}
+                                            >
+                                                <img
+                                                    class="img-fluid img-thumbnail"
+                                                    src={
+                                                        wish.product
+                                                            .imageURL === null
+                                                            ? NoImage
+                                                            : wish.product
+                                                                  .imageURL
+                                                    }
+                                                    alt=""
+                                                />
                                             </Link>
                                         </td>
                                         <td>
-                                            <Link to={`/products/${wish.product.id}`}>
+                                            <Link
+                                                to={`/products/${wish.product.id}`}
+                                            >
                                                 <p class="text-uppercase">
                                                     {wish.product.name}
                                                 </p>
                                             </Link>
-                                            <p>{wish.product.subCategory.name}</p>
+                                            <p>
+                                                {wish.product.subCategory.name}
+                                            </p>
                                             <p>Rs. {wish.product.price}</p>
                                         </td>
                                         <td></td>

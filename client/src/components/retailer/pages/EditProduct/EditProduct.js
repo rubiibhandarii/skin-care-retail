@@ -13,6 +13,7 @@ const EditItem = (props) => {
     const [name, setName] = useState();
     const [description, setDescription] = useState();
     const [price, setPrice] = useState();
+    const [image, setImage] = useState();
 
     useEffect(() => {
         const loadSingleItem = async () => {
@@ -22,6 +23,7 @@ const EditItem = (props) => {
             setName(singleItemResponse.data.data.name);
             setDescription(singleItemResponse.data.data.description);
             setPrice(singleItemResponse.data.data.price);
+            setImage(singleItemResponse.data.data.imageURL);
         };
 
         loadSingleItem();
@@ -32,11 +34,11 @@ const EditItem = (props) => {
         setDisable(true);
 
         try {
-            const updateItem = {
-                name,
-                description,
-                price: parseInt(Math.abs(price)),
-            };
+            const updateItem = new FormData();
+            updateItem.append('image', image);
+            updateItem.append('name', name);
+            updateItem.append('description', description);
+            updateItem.append('price', parseInt(Math.abs(price)));
 
             const token = localStorage.getItem('auth-token');
             await axios.put(
@@ -109,6 +111,26 @@ const EditItem = (props) => {
                                         }
                                     />
                                 </div>
+
+                                <div className="form-group">
+                                    <label
+                                        for="exampleFormControlFile1 "
+                                        className="form-title"
+                                    >
+                                        Images
+                                    </label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        onChange={(e) =>
+                                            setImage(e.target.files[0])
+                                        }
+                                        className="form-control-file"
+                                        accept="image/*"
+                                        // id="itemImage"
+                                    />
+                                </div>
+
                                 <button
                                     disabled={disable}
                                     onClick={onItemUpdate}
