@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const { Retailer } = require('../../models')
 const { createValidation } = require('../../validation/admin/retailers')
+const cloudinary = require('../../utils/cloudinary')
 
 exports.all = async (req, res, next) => {
     try {
@@ -40,6 +41,8 @@ exports.single = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
     const { companyName, location, email, password } = req.body
+    let result = null
+    console.log(req.body)
 
     // Validation
     const { error } = createValidation(req.body)
@@ -63,12 +66,18 @@ exports.create = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
         const createdRetailer = await Retailer.create({
             companyName,
             location,
             email,
             password: hashedPassword,
             isVerified: true,
+            profilePicURL: result === null ? null : result.secure_url,
+            cloudinaryId: result === null ? null : result.public_id,
         })
         return res.status(200).json({
             success: true,
@@ -82,7 +91,8 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const { retailerId } = req.params
-    const { companyName, location, email, password } = req.body
+    const { companyName, location, email } = req.body
+    let result = null
 
     try {
         const singleRetailer = await Retailer.findByPk(retailerId)
@@ -93,12 +103,32 @@ exports.update = async (req, res, next) => {
                 message: 'Retailer not found!',
             })
 
-        // Generating hashed password
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
+        if (result !== null) {
+            try {
+                await cloudinary.uploader.destroy(singleRetailer.cloudinaryId)
+            } catch (err) {
+                //
+            }
+        }
 
         const updatedRetailer = await Retailer.update(
-            { companyName, location, email, password: hashedPassword },
+            {
+                companyName,
+                location,
+                email,
+                profilePicURL:
+                    result === null
+                        ? singleRetailer.profilePicURL
+                        : result.secure_url,
+                cloudinaryId:
+                    result === null
+                        ? singleRetailer.cloudinaryId
+                        : result.public_id,
+            },
             { where: { id: retailerId } }
         )
         return res.status(200).json({

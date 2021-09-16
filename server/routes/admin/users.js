@@ -7,14 +7,21 @@ const {
     update,
     remove,
 } = require('../../controllers/admin/users')
+const multer = require('../../middleware/multer')
 
 router.get('/', verifyToken, isAdmin, all)
 
 router.get('/:userId', verifyToken, isAdmin, single)
 
-router.post('/new', verifyToken, isAdmin, create)
+router.post('/new', verifyToken, isAdmin, multer.single('image'), create)
 
-router.put('/update/:userId', verifyToken, isAdmin, update)
+router.put(
+    '/update/:userId',
+    verifyToken,
+    isAdmin,
+    multer.single('image'),
+    update
+)
 
 router.delete('/delete/:userId', verifyToken, isAdmin, remove)
 

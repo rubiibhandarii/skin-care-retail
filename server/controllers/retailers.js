@@ -338,12 +338,13 @@ exports.changeOrderStatus = async (req, res, next) => {
                 message: 'Access denied !',
             })
 
-        if (status === 'approved')
-            await Order.update({ status }, { where: { id: orderId } })
-        else if (status === 'refused')
-            await Order.update({ status }, { where: { id: orderId } })
-        else if (status === 'delivered')
-            await Order.update({ status }, { where: { id: orderId } })
+        if (status === 'approved') {
+            await order.update({ status })
+        } else if (status === 'refused') {
+            await order.update({ status })
+        } else if (status === 'delivered') {
+            await order.update({ status })
+        }
 
         const orderAfterUpdate = await Order.findByPk(orderId)
 
@@ -359,7 +360,6 @@ exports.changeOrderStatus = async (req, res, next) => {
 
 exports.getUploadedProducts = async (req, res, next) => {
     const retailerId = req.user.id
-    console.log(retailerId)
 
     try {
         const products = await Product.findAll({

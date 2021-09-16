@@ -7,6 +7,7 @@ exports.createValidation = (data) => {
         price: Joi.number().required(),
         subCategoryId: Joi.string().required(),
         retailerId: Joi.string().required(),
+        image: Joi.required(),
     })
     return schema.validate(data)
 }

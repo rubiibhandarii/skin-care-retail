@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const { User } = require('../../models')
 const { createValidation } = require('../../validation/admin/users')
+const cloudinary = require('../../utils/cloudinary')
 
 exports.all = async (req, res, next) => {
     try {
@@ -50,6 +51,7 @@ exports.create = async (req, res, next) => {
         city,
         country,
     } = req.body
+    let result = null
 
     // Validation
     const { error } = createValidation(req.body)
@@ -73,6 +75,10 @@ exports.create = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
         const createdUser = await User.create({
             firstName,
             lastName,
@@ -84,6 +90,8 @@ exports.create = async (req, res, next) => {
             address,
             city,
             country,
+            profilePicURL: result === null ? null : result.secure_url,
+            cloudinaryId: result === null ? null : result.public_id,
         })
         return res.status(200).json({
             success: true,
@@ -99,6 +107,7 @@ exports.update = async (req, res, next) => {
     const { userId } = req.params
     const { firstName, lastName, email, role, gender, address, city, country } =
         req.body
+    let result = null
 
     try {
         const singleUser = await User.findByPk(userId)
@@ -108,6 +117,18 @@ exports.update = async (req, res, next) => {
                 success: false,
                 message: 'User not found!',
             })
+
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
+        if (result !== null) {
+            try {
+                await cloudinary.uploader.destroy(singleProduct.cloudinaryId)
+            } catch (err) {
+                //
+            }
+        }
 
         const updatedUser = await User.update(
             {
@@ -119,6 +140,14 @@ exports.update = async (req, res, next) => {
                 address,
                 city,
                 country,
+                profilePicURL:
+                    result === null
+                        ? singleUser.profilePicURL
+                        : result.secure_url,
+                cloudinaryId:
+                    result === null
+                        ? singleUser.cloudinaryId
+                        : result.public_id,
             },
             { where: { id: userId } }
         )

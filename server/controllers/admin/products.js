@@ -1,5 +1,6 @@
 const { Product, Retailer } = require('../../models')
 const { createValidation } = require('../../validation/admin/products')
+const cloudinary = require('../../utils/cloudinary')
 
 exports.all = async (req, res, next) => {
     try {
@@ -54,6 +55,7 @@ exports.single = async (req, res, next) => {
 exports.create = async (req, res, next) => {
     console.log(req.body)
     const { name, description, price, subCategoryId, retailerId } = req.body
+    let result = null
 
     // Validation
     const { error } = createValidation(req.body)
@@ -64,6 +66,10 @@ exports.create = async (req, res, next) => {
         })
 
     try {
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
         const createdProduct = await Product.create(
             {
                 name,
@@ -71,6 +77,8 @@ exports.create = async (req, res, next) => {
                 price,
                 subCategoryId,
                 retailerId,
+                imageURL: result === null ? null : result.secure_url,
+                cloudinaryId: result === null ? null : result.public_id,
             }
             // {
             //     include: [
@@ -94,6 +102,7 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     const { productId } = req.params
     const { name, description, price, retailerId } = req.body
+    let result = null
 
     try {
         const singleProduct = await Product.findByPk(productId)
@@ -104,8 +113,33 @@ exports.update = async (req, res, next) => {
                 message: 'Product not found!',
             })
 
+        if (req.file) {
+            result = await cloudinary.uploader.upload(req.file.path)
+        }
+
+        if (result !== null) {
+            try {
+                await cloudinary.uploader.destroy(singleProduct.cloudinaryId)
+            } catch (err) {
+                //
+            }
+        }
+
         const updatedProduct = await Product.update(
-            { name, description, price, retailerId },
+            {
+                name,
+                description,
+                price,
+                retailerId,
+                imageURL:
+                    result === null
+                        ? singleProduct.imageURL
+                        : result.secure_url,
+                cloudinaryId:
+                    result === null
+                        ? singleProduct.cloudinaryId
+                        : result.public_id,
+            },
             { where: { id: productId } }
         )
         return res.status(200).json({
