@@ -4,7 +4,6 @@ import Product from './Product';
 import './home.css'
 
 const Home = () => {
-
     const [latestProducts, setLatestProducts] = useState([]);
 
     useEffect(() => {

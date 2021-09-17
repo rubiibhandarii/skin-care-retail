@@ -80,19 +80,3 @@
     display: flex;
     justify-content: flex-end;
 }
-
-.order-container .empty-div {
-    height: 150px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid rgb(175, 175, 175);
-    margin: 0 70px;
-}
-
-.order-container .empty-div button {
-    margin-top: 10px;
-    color: white;
-    background: #8aaae5;
-}

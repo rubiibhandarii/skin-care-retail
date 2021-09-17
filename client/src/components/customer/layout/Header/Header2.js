@@ -80,6 +80,14 @@ const Header2 = () => {
                                 About Us
                             </Link>
                         </li>
+                        <li>
+                            <Link
+                                className="nav-item-link active"
+                                to="/new-arrivals"
+                            >
+                                New Arrivals
+                            </Link>
+                        </li>
 
                         <li className="dropdown">
                             <Link

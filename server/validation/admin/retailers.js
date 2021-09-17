@@ -12,7 +12,7 @@ exports.createValidation = (data) => {
                 tlds: { allow: ['com', 'net'] },
             }),
         password: Joi.string().min(6).required(),
-        image: Joi.required(),
+        image: Joi.allow('', null),
     })
     return schema.validate(data)
 }

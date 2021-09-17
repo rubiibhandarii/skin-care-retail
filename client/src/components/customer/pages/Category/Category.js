@@ -101,11 +101,11 @@ const Category = (props) => {
     };
 
     return (
-        <div class="category-container">
+        <div className="category-container">
             <heading>{categoryName}</heading>
-            <div class="container">
-                <div class="row">
-                    <div class="col-5 col-sm-3">
+            <div className="main">
+                <div className="row">
+                    <div className="col-5 col-sm-3">
                         <h4 className="mt-4 mb-2">Category</h4>
 
                         {categories.map((category) => (
@@ -153,17 +153,17 @@ const Category = (props) => {
                             aria-labelledby="range-slider"
                         />
                     </div>
-                    <div class="col-sm-9 col-7">
-                        <div class="row product-section">
+                    <div className="col-sm-9 col-7">
+                        <div className="row product-section">
                             {filteredItems.length > 0 ? (
                                 <>
                                     {filteredItems.map((product) => (
-                                        <div class="card">
+                                        <div className="card">
                                             <Link
                                                 to={`/products/${product.id}`}
                                             >
                                                 <img
-                                                    class="card-img-top"
+                                                    className="card-img-top"
                                                     src={
                                                         product.imageURL ===
                                                         null
@@ -173,18 +173,18 @@ const Category = (props) => {
                                                     alt=""
                                                 />
                                             </Link>
-                                            <div class="card-body">
+                                            <div className="card-body">
                                                 <Link
                                                     to={`/products/${product.id}`}
                                                 >
-                                                    <h5 class="card-title">
+                                                    <h5 className="card-title">
                                                         {product.name}
                                                     </h5>
                                                 </Link>
-                                                <p class="card-text">
+                                                <p className="card-text">
                                                     {product.subCategory.name}
                                                 </p>
-                                                <h5 class="card-title">
+                                                <h5 className="card-title">
                                                     Rs. {product.price} To Rent
                                                 </h5>
                                             </div>

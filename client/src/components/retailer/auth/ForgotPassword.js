@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div>
+        <div className="main">
             <h1>Forgot Password</h1>
 
             <div class="mb-3">

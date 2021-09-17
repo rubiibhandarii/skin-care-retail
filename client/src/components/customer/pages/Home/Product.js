@@ -25,7 +25,7 @@ const Product = ({ products }) => {
                         </h4>
                         <i className="fas fa-tag"></i>
                         <span>{product.subCategory.name}</span>
-                        <h6>Rs.{product.price}</h6>
+                        <h6>Rs. {product.price}</h6>
                     </div>
                 </div>
             ))}

@@ -32,7 +32,7 @@ const ResetPassword = (props) => {
     };
 
     return (
-        <div>
+        <div className="main">
             <h1>Reset Password</h1>
             <form onSubmit={submit}>
                 <div class="mb-3">

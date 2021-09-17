@@ -65,9 +65,13 @@ const Cart = () => {
     };
 
     return (
-        <div className="cart-container">
-            <div class="container-fluid">
-                {/* <section>
+        <>
+            <div className="cart-container">
+                <div className="above-div">
+                    <h2>My Cart</h2>
+                </div>
+                <div className="main">
+                    {/* <section>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 cart-heading">
                             <div class="text-center">
@@ -79,132 +83,133 @@ const Cart = () => {
                     </div>
                 </section> */}
 
-                <div className="table-button-cart">
-                    {cartProducts.length > 0 ? (
-                        <div className="table-responsive ">
-                            <table class="table">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {cartProducts.map((product) => (
+                    <div className="table-button-cart">
+                        {cartProducts.length > 0 ? (
+                            <div className="table-responsive ">
+                                <table class="table">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td>
-                                                <Link
-                                                    to={`products/${product.id}`}
-                                                >
-                                                    <img
-                                                        className="img-thumbnail"
-                                                        src={
-                                                            product.imageURL ===
-                                                            null
-                                                                ? NoImage
-                                                                : product.imageURL
-                                                        }
-                                                        alt=""
-                                                        height="100"
-                                                    />
-                                                </Link>
-                                            </td>
-                                            <td>
-                                                <Link
-                                                    to={`products/${product.id}`}
-                                                >
-                                                    {product.name}
-                                                </Link>
-                                            </td>
-                                            <td>Rs.{product.price}</td>
-                                            <td>
-                                                <button
-                                                    onClick={() =>
-                                                        decreaseQuantity(
-                                                            product
-                                                        )
-                                                    }
-                                                >
-                                                    -
-                                                </button>
-                                                {product.quantity}
-                                                <button
-                                                    onClick={() =>
-                                                        increaseQuantity(
-                                                            product
-                                                        )
-                                                    }
-                                                >
-                                                    +
-                                                </button>
-                                            </td>
-                                            <td>Rs.{product.totalPrice}</td>
-                                            <td>
-                                                <button
-                                                    style={{
-                                                        border: 'none',
-                                                        background: 'none',
-                                                    }}
-                                                    onClick={() =>
-                                                        removeProducts(
-                                                            product.id,
-                                                            product.totalPrice
-                                                        )
-                                                    }
-                                                >
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </td>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Price</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>Rs. {totalPrice}</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    ) : (
-                        <div className="empty-div">
-                            <p>Your cart is empty</p>
-                            <Link to="/">
-                                <button className="btn btn-Checkout">
-                                    Back to home
-                                </button>
-                            </Link>
-                        </div>
-                    )}
+                                    </thead>
+                                    <tbody>
+                                        {cartProducts.map((product) => (
+                                            <tr>
+                                                <td>
+                                                    <Link
+                                                        to={`products/${product.id}`}
+                                                    >
+                                                        <img
+                                                            className="img-thumbnail"
+                                                            src={
+                                                                product.imageURL ===
+                                                                null
+                                                                    ? NoImage
+                                                                    : product.imageURL
+                                                            }
+                                                            alt=""
+                                                            height="100"
+                                                        />
+                                                    </Link>
+                                                </td>
+                                                <td>
+                                                    <Link
+                                                        to={`products/${product.id}`}
+                                                    >
+                                                        {product.name}
+                                                    </Link>
+                                                </td>
+                                                <td>Rs.{product.price}</td>
+                                                <td>
+                                                    <button
+                                                        onClick={() =>
+                                                            decreaseQuantity(
+                                                                product
+                                                            )
+                                                        }
+                                                    >
+                                                        -
+                                                    </button>
+                                                    {product.quantity}
+                                                    <button
+                                                        onClick={() =>
+                                                            increaseQuantity(
+                                                                product
+                                                            )
+                                                        }
+                                                    >
+                                                        +
+                                                    </button>
+                                                </td>
+                                                <td>Rs.{product.totalPrice}</td>
+                                                <td>
+                                                    <button
+                                                        style={{
+                                                            border: 'none',
+                                                            background: 'none',
+                                                        }}
+                                                        onClick={() =>
+                                                            removeProducts(
+                                                                product.id,
+                                                                product.totalPrice
+                                                            )
+                                                        }
+                                                    >
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Rs. {totalPrice}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        ) : (
+                            <div className="empty-div">
+                                <p>Your cart is empty</p>
+                                <Link to="/">
+                                    <button className="btn btn-Checkout">
+                                        Back to home
+                                    </button>
+                                </Link>
+                            </div>
+                        )}
 
-                    {cartProducts.length > 0 ? (
-                        <div className="proceed-checkout-div">
-                            <Link
-                                to={
-                                    userData.user === undefined ||
-                                    userData.user_type === 'retailer'
-                                        ? '/customer/login'
-                                        : '/checkout'
-                                }
-                            >
-                                <button
-                                    type="button"
-                                    className="btn btn-Checkout"
+                        {cartProducts.length > 0 ? (
+                            <div className="proceed-checkout-div">
+                                <Link
+                                    to={
+                                        userData.user === undefined ||
+                                        userData.user_type === 'retailer'
+                                            ? '/customer/login'
+                                            : '/checkout'
+                                    }
                                 >
-                                    Proceed to Checkout
-                                </button>
-                            </Link>
-                        </div>
-                    ) : null}
+                                    <button
+                                        type="button"
+                                        className="btn btn-Checkout"
+                                    >
+                                        Proceed to Checkout
+                                    </button>
+                                </Link>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

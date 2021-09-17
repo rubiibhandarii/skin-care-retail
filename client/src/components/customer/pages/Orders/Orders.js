@@ -53,7 +53,10 @@ const Orders = () => {
 
     return (
         <div className="order-container">
-            <div class="container-fluid">
+            <div className="above-div">
+                    <h2>Cart</h2>
+                </div>
+            <div className="main">
                 {/* <section>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 cart-heading">
@@ -65,6 +68,8 @@ const Orders = () => {
                         </div>
                     </div>
                 </section> */}
+
+                
 
                 {orders.length > 0 ? (
                     <div className="table-responsive">
@@ -92,9 +97,11 @@ const Orders = () => {
                                                 <img
                                                     class="img-fluid img-thumbnail"
                                                     src={
-                                                        order.product.imageURL === null
+                                                        order.product
+                                                            .imageURL === null
                                                             ? NoImage
-                                                            : order.product.imageURL
+                                                            : order.product
+                                                                  .imageURL
                                                     }
                                                     alt=""
                                                 />

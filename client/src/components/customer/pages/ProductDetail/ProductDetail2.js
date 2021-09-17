@@ -197,272 +197,268 @@ const ItemDetail = (props) => {
     };
 
     return (
-        <div className="outer-item-detail">
-            <div className="item-detail">
-                <section className="heading">
-                    <div className="row">
-                        <div className="col-md-12 col-sm-12">
-                            <div className="text-center">
-                                <h3 className="text-light text-uppercase text-center">
-                                    Product Details
-                                </h3>
+        <>
+            <div className="above-div">
+                <h2>Product Detail</h2>
+            </div>
+            <div className="outer-item-detail main">
+                <div className="item-detail">
+                    <div className="container-fluid text-center">
+                        <div className="row">
+                            <div className="col-md-7 image">
+                                <div className="col-xs-12 col-sm-9 col-md-9 mt-md-0 mt-3 productimg text-center">
+                                    <ul class="main-detail-image-ul">
+                                        <li id="slide1">
+                                            <img
+                                                src={
+                                                    singleItem.imageURL === null
+                                                        ? NoImage
+                                                        : singleItem.imageURL
+                                                }
+                                                alt=""
+                                            />
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
 
-                <div className="container-fluid text-center">
-                    <div className="row">
-                        <div className="col-md-7 image">
-                            <div className="col-xs-12 col-sm-9 col-md-9 mt-md-0 mt-3 productimg text-center">
-                                <ul class="main-detail-image-ul">
-                                    <li id="slide1">
-                                        <img
-                                            src={
-                                                singleItem.imageURL === null
-                                                    ? NoImage
-                                                    : singleItem.imageURL
-                                            }
-                                            alt=""
-                                        />
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div
-                            className="
+                            <div
+                                className="
                         col-xs-12 col-md-5
                         mt-md-0 mt-3
                         product-detail
                         text-left
                     "
-                        >
-                            <div className="rating">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="far fa-star"></i>
-                            </div>
-                            <div className="product-info">
-                                <div className="pname">
-                                    <h3>{singleItem.name}</h3>
+                            >
+                                <div className="rating">
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="fas fa-star"></i>
+                                    <i className="far fa-star"></i>
+                                </div>
+                                <div className="product-info">
+                                    <div className="pname">
+                                        <h3>{singleItem.name}</h3>
 
-                                    {isWishlist ? (
-                                        <i
-                                            onClick={removeFromWishlist}
-                                            className="fas fa-heart"
-                                            id="filled-heart-icon"
-                                        ></i>
-                                    ) : (
-                                        <i
-                                            onClick={addToWishlist}
-                                            className="far fa-heart"
-                                        ></i>
-                                    )}
-                                </div>
-                                <i className="fas fa-tag"></i>{' '}
-                                {singleItem.subCategory
-                                    ? singleItem.subCategory.name
-                                    : ''}
-                                <hr />
-                                <p>{singleItem.description}</p>
-                                <hr />
-                                <p className="mt-4">
-                                    <span className="font-weight-bold">
-                                        Rs. {singleItem.price}
-                                    </span>
-                                </p>
-                                <h6 className="mt-3">Retailer:</h6>
-                                <div className="seller">
-                                    <img
-                                        src={
-                                            singleItem.retailer
-                                                ? singleItem.retailer
-                                                      .profilePicURL === null
-                                                    ? User
-                                                    : singleItem.retailer
-                                                          .profilePicURL
-                                                : null
-                                        }
-                                        width="120px"
-                                        ascpect-ratio="1/1"
-                                        alt=""
-                                    />
-                                    <span>
-                                        {singleItem.retailer
-                                            ? singleItem.retailer.companyName
-                                            : ''}
-                                    </span>
-                                </div>
-                            </div>
-                            <hr />
-                            <div className="rent-detail">
-                                <div className="top">
-                                    <div className="detail">
-                                        <h6>One-Time Rental</h6>
-                                        <br></br>
-                                        <h8>
-                                            Mentioned price above is per day
-                                        </h8>
-                                        <br></br>
-                                        <h8>
-                                            Select number of days for rent
-                                            below;
-                                        </h8>
+                                        {isWishlist ? (
+                                            <i
+                                                onClick={removeFromWishlist}
+                                                className="fas fa-heart"
+                                                id="filled-heart-icon"
+                                            ></i>
+                                        ) : (
+                                            <i
+                                                onClick={addToWishlist}
+                                                className="far fa-heart"
+                                            ></i>
+                                        )}
                                     </div>
-                                    <div className="detailimg">
+                                    <i className="fas fa-tag"></i>{' '}
+                                    {singleItem.subCategory
+                                        ? singleItem.subCategory.name
+                                        : ''}
+                                    <hr />
+                                    <p>{singleItem.description}</p>
+                                    <hr />
+                                    <p className="mt-4">
+                                        <span className="font-weight-bold">
+                                            Rs. {singleItem.price}
+                                        </span>
+                                    </p>
+                                    <h6 className="mt-3">Retailer:</h6>
+                                    <div className="seller">
                                         <img
                                             src={
-                                                singleItem.imageURL === null
-                                                    ? NoImage
-                                                    : singleItem.imageURL
+                                                singleItem.retailer
+                                                    ? singleItem.retailer
+                                                          .profilePicURL ===
+                                                      null
+                                                        ? User
+                                                        : singleItem.retailer
+                                                              .profilePicURL
+                                                    : null
                                             }
+                                            width="120px"
+                                            ascpect-ratio="1/1"
                                             alt=""
                                         />
+                                        <span>
+                                            {singleItem.retailer
+                                                ? singleItem.retailer
+                                                      .companyName
+                                                : ''}
+                                        </span>
                                     </div>
                                 </div>
-
-                                <div className="bottom">
-                                    <div className="bottom">
-                                        <input
-                                            type="number"
-                                            defaultValue="1"
-                                            min="1"
-                                            max="20"
-                                            value={quantity}
-                                            onChange={(e) =>
-                                                setQuantity(e.target.value)
-                                            }
-                                        />
-
-                                        <br />
-                                        <div className="bottom-btn">
-                                            {isAdded ? (
-                                                <button
-                                                    className="add-cart"
-                                                    onClick={removeFromCart}
-                                                >
-                                                    <i className="fas fa-shopping-cart"></i>
-                                                    Remove from Cart
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    className="add-cart"
-                                                    onClick={addToCart}
-                                                >
-                                                    <i className="fas fa-shopping-cart"></i>
-                                                    Add to Cart
-                                                </button>
-                                            )}
+                                <hr />
+                                <div className="rent-detail">
+                                    <div className="top">
+                                        <div className="detail">
+                                            <h6>One-Time Rental</h6>
+                                            <br></br>
+                                            <h8>
+                                                Mentioned price above is per day
+                                            </h8>
+                                            <br></br>
+                                            <h8>
+                                                Select number of days for rent
+                                                below;
+                                            </h8>
+                                        </div>
+                                        <div className="detailimg">
+                                            <img
+                                                src={
+                                                    singleItem.imageURL === null
+                                                        ? NoImage
+                                                        : singleItem.imageURL
+                                                }
+                                                alt=""
+                                            />
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="review-container">
-                {isReviewed ? (
-                    <div class="container  text-center align-items-center review-box">
-                        <div class="row  rating-field col-lg-8 offset-lg-2 ">
-                            <div>
-                                <h5 class="title-text text-left mb-3">
-                                    Give Reviews
-                                </h5>
+                                    <div className="bottom">
+                                        <div className="bottom">
+                                            <input
+                                                type="number"
+                                                defaultValue="1"
+                                                min="1"
+                                                max="20"
+                                                value={quantity}
+                                                onChange={(e) =>
+                                                    setQuantity(e.target.value)
+                                                }
+                                            />
 
-                                <div class="row border">
-                                    <div class="stars">
-                                        <ReactStars
-                                            size={30}
-                                            starSpacing="15px"
-                                            count={5}
-                                            value={rating}
-                                            onChange={ratingChanged}
-                                            activeColor="#ffd700"
-                                        />
-                                    </div>
-                                    <textarea
-                                        value={review}
-                                        onChange={(e) =>
-                                            setReview(e.target.value)
-                                        }
-                                        class="form-control form-control-lg review-field"
-                                        placeholder="Enter your review here"
-                                    ></textarea>
-
-                                    <button
-                                        type="button"
-                                        class="btn btn-review"
-                                        onClick={addReview}
-                                    >
-                                        Share Review
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : null}
-
-                <div class="container col-md-12 review-section">
-                    <h5 class="title-text ml-4"> Rating and Reviews</h5>
-
-                    {reviews.length > 0 ? (
-                        <>
-                            {reviews.map((review) => (
-                                <div class="row border rating-field ">
-                                    <div class="col-md-0 user-details">
-                                        <img
-                                            src={
-                                                review.user.profilePicURL ===
-                                                null
-                                                    ? User
-                                                    : review.user.profilePicURL
-                                            }
-                                            class="rounded-circle user-img"
-                                            alt="Cinque Terre"
-                                        />
-                                        <p>
-                                            {review.user.firstName}{' '}
-                                            {review.user.lastName}
-                                        </p>
-                                    </div>
-
-                                    <div class="col-md-10 text-left user-review">
-                                        <div class="row">
-                                            <span className="ml-3">
-                                                <ReactStars
-                                                    value={review.rating}
-                                                    size={30}
-                                                    edit={false}
-                                                ></ReactStars>
-                                            </span>
-
-                                            <div>
-                                                <p class="review-date">
-                                                    {review.createdAt}
-                                                </p>
+                                            <br />
+                                            <div className="bottom-btn">
+                                                {isAdded ? (
+                                                    <button
+                                                        className="add-cart"
+                                                        onClick={removeFromCart}
+                                                    >
+                                                        <i className="fas fa-shopping-cart"></i>
+                                                        Remove from Cart
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="add-cart"
+                                                        onClick={addToCart}
+                                                    >
+                                                        <i className="fas fa-shopping-cart"></i>
+                                                        Add to Cart
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
-
-                                        <p className="review-text">
-                                            {review.text}
-                                        </p>
                                     </div>
                                 </div>
-                            ))}
-                        </>
-                    ) : (
-                        <p className="mt-4 ml-4">
-                            <strong>No reviews available.</strong>
-                        </p>
-                    )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-container">
+                    {isReviewed ? (
+                        <div class="container  text-center align-items-center review-box">
+                            <div class="row  rating-field col-lg-8 offset-lg-2 ">
+                                <div>
+                                    <h5 class="title-text text-left mb-3">
+                                        Give Reviews
+                                    </h5>
+
+                                    <div class="row border">
+                                        <div class="stars">
+                                            <ReactStars
+                                                size={30}
+                                                starSpacing="15px"
+                                                count={5}
+                                                value={rating}
+                                                onChange={ratingChanged}
+                                                activeColor="#ffd700"
+                                            />
+                                        </div>
+                                        <textarea
+                                            value={review}
+                                            onChange={(e) =>
+                                                setReview(e.target.value)
+                                            }
+                                            class="form-control form-control-lg review-field"
+                                            placeholder="Enter your review here"
+                                        ></textarea>
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-review"
+                                            onClick={addReview}
+                                        >
+                                            Share Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
+
+                    <div class="container col-md-12 review-section">
+                        <h5 class="title-text ml-4"> Rating and Reviews</h5>
+
+                        {reviews.length > 0 ? (
+                            <>
+                                {reviews.map((review) => (
+                                    <div class="row border rating-field ">
+                                        <div class="col-md-0 user-details">
+                                            <img
+                                                src={
+                                                    review.user
+                                                        .profilePicURL === null
+                                                        ? User
+                                                        : review.user
+                                                              .profilePicURL
+                                                }
+                                                class="rounded-circle user-img"
+                                                alt="Cinque Terre"
+                                            />
+                                            <p>
+                                                {review.user.firstName}{' '}
+                                                {review.user.lastName}
+                                            </p>
+                                        </div>
+
+                                        <div class="col-md-10 text-left user-review">
+                                            <div class="row">
+                                                <span className="ml-3">
+                                                    <ReactStars
+                                                        value={review.rating}
+                                                        size={30}
+                                                        edit={false}
+                                                    ></ReactStars>
+                                                </span>
+
+                                                <div>
+                                                    <p class="review-date">
+                                                        {review.createdAt}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <p className="review-text">
+                                                {review.text}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        ) : (
+                            <p className="mt-4 ml-4">
+                                <strong>No reviews available.</strong>
+                            </p>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

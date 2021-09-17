@@ -38,7 +38,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="main">
             <h1>Customer Login</h1>
             <form onSubmit={submit}>
                 <div class="mb-3">

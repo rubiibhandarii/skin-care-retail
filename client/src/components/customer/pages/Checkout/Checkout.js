@@ -1,13 +1,15 @@
+import './checkout.css';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
+import NoImage from '../../../../images/noimage.jpg';
 import CartContext from '../../../../context/CartContext';
 
 const Checkout = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    const { cartData, setCartData } = useContext(CartContext);
+    const items = JSON.parse(localStorage.getItem('cart')) || [];
 
+    const { cartData, setCartData } = useContext(CartContext);
     const history = useHistory();
     const [phone, setPhone] = useState();
     const [address, setAddress] = useState();
@@ -15,13 +17,16 @@ const Checkout = () => {
     const [country, setCountry] = useState();
     const [totalPrice, setTotalPrice] = useState(0);
 
+    const [cartItems] = useState(items);
+
     useEffect(() => {
         cartItems.map((item) =>
             setTotalPrice((prevData) => item.totalPrice + prevData)
         );
     }, []);
 
-    const orderItems = async () => {
+    const orderItems = async (e) => {
+        e.preventDefault();
         const products = [];
         cartItems.forEach((product) => {
             products.push({
@@ -46,92 +51,159 @@ const Checkout = () => {
             toast.success('Order successfully placed');
             localStorage.setItem('cart', JSON.stringify([]));
             setCartData(0);
-            history.push('/checkout/complete');
+            history.push('/orders');
         } catch (err) {
             toast.error(err.response.data.message);
         }
     };
 
     return (
-        <div class="row">
-            <div className="col-md-4">
-                <h2 class="mb-4">Billing Details</h2>
-                <form action="">
-                    <div class="mb-3">
-                        <label class="form-label">Phone Number</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
+        <>
+            <div className="above-div">
+                <h2>Checkout</h2>
+            </div>
+            <div className="checkout-container main">
+                <div className="checkout-cart-table">
+                    <div className="table-responsive ">
+                        <table className="table">
+                            <thead className="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cartItems.map((product) => (
+                                    <tr>
+                                        <td>
+                                            <img
+                                                className="img-thumbnail"
+                                                src={
+                                                    product.imageURL === null
+                                                        ? NoImage
+                                                        : product.imageURL
+                                                }
+                                                alt=""
+                                                height="100"
+                                            />
+                                        </td>
+                                        <td>{product.name}</td>
+                                        <td>Rs.{product.price}</td>
+                                        <td>{product.quantity}</td>
+                                        <td>Rs.{product.totalPrice}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Address</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                        />
+                </div>
+                <form onSubmit={orderItems} className="Buttom">
+                    <div className="shipping-info col-sm-12 col-md-6">
+                        <div>
+                            <div className="form-row col-sm-12 col-md-12">
+                                <h3 className="mb-4">
+                                    Add Shipping Information
+                                </h3>
+                                <div className="form-group">
+                                    <input
+                                        required
+                                        type="text"
+                                        className="form-control"
+                                        id="inputAddress"
+                                        placeholder="Address"
+                                        autocomplete="off"
+                                        value={address}
+                                        onChange={(e) =>
+                                            setAddress(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <input
+                                        required
+                                        type="text"
+                                        className="form-control"
+                                        id="inputCity"
+                                        placeholder="City"
+                                        autocomplete="off"
+                                        value={city}
+                                        onChange={(e) =>
+                                            setCity(e.target.value)
+                                        }
+                                    />
+                                </div>
+                                <select
+                                    required
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    className="form-control mb-3"
+                                >
+                                    <option selected="true" disabled="disabled">
+                                        Country
+                                    </option>
+                                    <option value="Nepal">Nepal</option>
+                                </select>
+
+                                <div className="form-group">
+                                    <input
+                                        required
+                                        type="text"
+                                        className="form-control"
+                                        id="number"
+                                        placeholder="Phone Number"
+                                        autocomplete="off"
+                                        value={phone}
+                                        onChange={(e) =>
+                                            setPhone(e.target.value)
+                                        }
+                                    ></input>
+                                </div>
+
+                                <p className="mt-3">
+                                    By placing this order, you agree to the{' '}
+                                    <strong>
+                                        <u>
+                                            Terms of Service and Privacy Policy
+                                        </u>
+                                    </strong>
+                                    .
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">City</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                        />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Country</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                        />
+
+                    <div className="billing col-sm-12 col-md-6">
+                        <div className="billingpart col-sm-12 ">
+                            <h2>Add Billing</h2>
+                            <div className="billing-info  ">
+                                <p>Sub-total</p>
+                                <p>Rs. {totalPrice}</p>
+                            </div>
+                            <div className="billing-info ">
+                                <p>Shipping</p>
+                                <p>Free</p>
+                            </div>
+                            <hr />
+
+                            <div className="billing-info ">
+                                <p>Order Total</p>
+                                <p>Rs. {totalPrice}</p>
+                            </div>
+                            <button type="submit" className="btn btn-primary">
+                                <b>PLACE ORDER</b>
+                            </button>
+                            <div className="terms">
+                                <i class="fas fa-lock"></i>
+                                <p>Secure Payment</p>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div className="col-md-8">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {cartItems.map((item) => (
-                            <tr>
-                                <td>{item.name}</td>
-                                <td>Rs. {item.price}</td>
-                                <td>{item.quantity}</td>
-                                <td>Rs. {item.totalPrice}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th>
-                                <strong>Total:</strong> Rs. {totalPrice}
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
-
-                <button class="btn btn-primary" onClick={orderItems}>
-                    Place Order
-                </button>
-            </div>
-        </div>
+        </>
     );
 };
 

@@ -10,9 +10,13 @@ import { toast } from 'react-toastify';
 import UserContext from './context/UserContext';
 import CartContext from './context/CartContext';
 import Header from './components/customer/layout/Header/Header2';
+import Footer from './components/customer/layout/Footer/Footer';
+
+import './App.css';
 
 // User
-import Home from './components/customer/pages/Home/Home';
+import Home from './components/customer/pages/Home/Home2';
+import NewArrivals from './components/customer/pages/NewArrivals/NewArrivals';
 import Signup from './components/customer/auth/Signup';
 import Login from './components/customer/auth/Login';
 import CustomerVerifyEmail from './components/customer/auth/VerifyEmail';
@@ -21,7 +25,6 @@ import CustomerResetPassword from './components/customer/auth/ResetPassword';
 import ProductDetail from './components/customer/pages/ProductDetail/ProductDetail2';
 import Cart from './components/customer/pages/Cart/Cart';
 import Checkout from './components/customer/pages/Checkout/Checkout';
-import CheckoutComplete from './components/customer/pages/Checkout/CheckoutComplete';
 import MyOrders from './components/customer/pages/Orders/Orders';
 import Profile from './components/customer/pages/Profile/Profile';
 import EditProfile from './components/customer/pages/EditProfile/EditProfile';
@@ -165,6 +168,7 @@ function App() {
                                 exact
                                 path={[
                                     '/',
+                                    '/new-arrivals',
                                     '/customer/login',
                                     '/customer/signup',
                                     '/customer/verify-email/:token',
@@ -190,8 +194,9 @@ function App() {
                                 component={Header}
                             />
 
-                            <main>
+                            {/* <main> */}
                                 <Route exact path="/" component={Home} />
+                                <Route exact path="/new-arrivals" component={NewArrivals} />
                                 <Route
                                     exact
                                     path="/customer/login"
@@ -228,11 +233,7 @@ function App() {
                                     path="/checkout"
                                     component={Checkout}
                                 />
-                                <Route
-                                    exact
-                                    path="/checkout/complete"
-                                    component={CheckoutComplete}
-                                />
+                                
                                 <Route
                                     exact
                                     path="/orders"
@@ -296,7 +297,7 @@ function App() {
                                     path="/retailer/reset-password/:token"
                                     component={RetailerResetPassword}
                                 />
-                            </main>
+                            {/* </main> */}
 
                             {/* Retailers */}
 
@@ -426,6 +427,36 @@ function App() {
                                 isAdmin={isAdmin()}
                             />
                             {/* <Footer /> */}
+
+                            <Route
+                                exact
+                                path={[
+                                    '/',
+                                    '/new-arrivals',
+                                    '/customer/login',
+                                    '/customer/signup',
+                                    '/customer/verify-email/:token',
+                                    '/customer/forgot-password',
+                                    '/customer/reset-password/:token',
+                                    '/retailer/login',
+                                    '/retailer/signup',
+                                    '/retailer/verify-email/:token',
+                                    '/retailer/forgot-password',
+                                    '/retailer/reset-password/:token',
+                                    '/products/:productId',
+                                    '/cart',
+                                    '/checkout',
+                                    '/checkout/complete',
+                                    '/orders',
+                                    '/profile',
+                                    '/profile/edit',
+                                    '/profile/change-password',
+                                    '/wishlist',
+                                    '/search',
+                                    '/category/:categoryName',
+                                ]}
+                                component={Footer}
+                            />
                         </CartContext.Provider>
                     </UserContext.Provider>
                 </ScrollToTop>

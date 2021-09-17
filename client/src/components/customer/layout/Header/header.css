@@ -74,7 +74,7 @@ header .inner-header nav ul li {
 header .inner-header nav ul li a.nav-item-link {
     text-decoration: none;
     padding: 22px 0;
-    font-size: 16.5px;
+    font-size: 15px;
     color: var(--textColor);
 }
 
@@ -90,7 +90,7 @@ header .inner-header nav ul li button{
     border: none;
     cursor: pointer;
     /* border-radius: 8px; */
-    font-size: 18px;
+    font-size: 15px;
 }
 
 /* header .inner-header nav ul li a.active {

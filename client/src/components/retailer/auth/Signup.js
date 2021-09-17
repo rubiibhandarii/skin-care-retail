@@ -38,7 +38,7 @@ const Signup = () => {
     };
 
     return (
-        <div>
+        <div className="main">
             <h1>Retailers Sign Up</h1>
             <form onSubmit={submit}>
                 <div class="mb-3">

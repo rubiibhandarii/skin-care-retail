@@ -38,7 +38,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="main">
             <h1>Retailer Login</h1>
             <form onSubmit={submit}>
                 <div class="mb-3">
