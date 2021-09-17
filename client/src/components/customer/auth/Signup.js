@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -28,9 +28,6 @@ const Signup = () => {
             history.push('/customer/login');
             toast.success(
                 'Your account is created successfully. Please check your email for verification.',
-                {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                }
             );
         } catch (err) {
             toast.error(err.response.data.message);
@@ -38,62 +35,69 @@ const Signup = () => {
     };
 
     return (
-        <div className="main">
-            <h1>Customer Sign Up</h1>
-            <form onSubmit={submit}>
-                <div class="mb-3">
-                    <label class="form-label">First Name</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Last Name</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Email address</label>
-                    <input
-                        type="email"
-                        class="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <div class="form-text">
-                        We'll never share your email with anyone else.
+        <>
+            <div className="above-div">
+                <h2>Customer Signup</h2>
+            </div>
+            <div className="auth-container">
+                <form onSubmit={submit}>
+                    <div class="mb-3">
+                        <label class="form-label">First Name</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirm Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-            </form>
-        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit">
+                        SIGNUP
+                    </button>
+                    <div class="mt-3 text-center">
+                        Already have an account? {" "}
+                        <Link to="/customer/login">
+                             Login
+                        </Link>
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };
 

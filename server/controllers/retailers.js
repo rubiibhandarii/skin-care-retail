@@ -2,7 +2,14 @@ const { Op } = require('sequelize')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { Retailer, Product, Order, SubCategory, User } = require('../models')
+const {
+    Retailer,
+    Product,
+    Order,
+    SubCategory,
+    User,
+    ProductReview,
+} = require('../models')
 const { sendEmail } = require('../utils/mail')
 const cloudinary = require('../utils/cloudinary')
 const {
@@ -324,6 +331,10 @@ exports.changeOrderStatus = async (req, res, next) => {
                     model: Product,
                     as: 'product',
                 },
+                {
+                    model: User,
+                    as: 'user',
+                },
             ],
         })
 
@@ -344,14 +355,25 @@ exports.changeOrderStatus = async (req, res, next) => {
             await order.update({ status })
         } else if (status === 'delivered') {
             await order.update({ status })
-        }
 
-        const orderAfterUpdate = await Order.findByPk(orderId)
+            // Item reviewed
+            const itemReview = await ProductReview.findOne({
+                where: { productId: order.product.id, userId: order.user.id },
+            })
+
+            if (!itemReview) {
+                await ProductReview.create({
+                    userId: order.user.id,
+                    isReviewed: false,
+                    productId: order.product.id,
+                })
+            }
+        }
 
         return res.status(200).json({
             success: true,
             message: `Order ${status}.`,
-            data: orderAfterUpdate,
+            data: order,
         })
     } catch (err) {
         return next(err)

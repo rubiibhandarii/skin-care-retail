@@ -9,23 +9,31 @@ const VerifyEmail = (props) => {
     useEffect(() => {
         const verifyEmail = async () => {
             try {
-                await Axios.post(`${process.env.REACT_APP_API_URL}/api/users/email-activate`, {
-                    token,
-                });
+                await Axios.post(
+                    `${process.env.REACT_APP_API_URL}/api/users/email-activate`,
+                    {
+                        token,
+                    }
+                );
             } catch (err) {
-                toast.error(err.response.data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                });
+                toast.error(err.response.data.message);
             }
-        }
-        verifyEmail()
-    })
+        };
+        verifyEmail();
+    });
 
     return (
-        <div className="main">
-            <h4>Your account has been verified</h4>
-           <Link to='/customer/login'><button class='btn btn-primary'>Go to login</button></Link> 
-        </div>
+        <>
+            <div className="above-div">
+                <h2>Email Verify</h2>
+            </div>
+            <div className="main verify-email">
+                <h4>Your account has been verified</h4>
+                <Link to="/customer/login">
+                    <button>Go to login</button>
+                </Link>
+            </div>
+        </>
     );
 };
 

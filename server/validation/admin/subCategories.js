@@ -7,7 +7,7 @@ exports.createValidation = (data) => {
             'string.empty': `"Name" cannot be an empty field`,
             'any.required': `"Name" is a required field`,
         }),
-        subCategoryId: Joi.string().required().messages({
+        categoryId: Joi.string().required().messages({
             'string.base': `"Category" should be a type of 'text'`,
             'string.empty': `"Category" cannot be an empty field`,
             'any.required': `"Category" is a required field`,

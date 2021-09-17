@@ -29,7 +29,7 @@ const AddSubCategory =()=>{
 
         try {
             const newSubCategory = {name, categoryId}
-           
+           console.log(newSubCategory)
             
             const token = localStorage.getItem('auth-token');
         
@@ -41,9 +41,6 @@ const AddSubCategory =()=>{
             );
 
             toast.success('New Sub-Category has been added.');
-            setName('');
-           
-
             history.push('/admin/sub-categories');
         } catch (err) {
             toast.error(err.response.data.message);

@@ -4,6 +4,7 @@ import NoImage from '../../../../images/noimage.jpg';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast } from 'react-toastify';
 import './product-detail.css';
+import './review.css';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import User from '../../../../images/user.png';

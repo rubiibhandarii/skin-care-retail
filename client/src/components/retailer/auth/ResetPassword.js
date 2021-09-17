@@ -22,9 +22,7 @@ const ResetPassword = (props) => {
                 newPassword,
                 token,
             });
-            toast.success('New password has been changed successfully.', {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.success('New password has been changed successfully.');
             history.push('/retailer/login');
         } catch (err) {
             toast.error(`${err.response.data.message}`);
@@ -32,32 +30,36 @@ const ResetPassword = (props) => {
     };
 
     return (
-        <div className="main">
-            <h1>Reset Password</h1>
-            <form onSubmit={submit}>
-                <div class="mb-3">
-                    <label class="form-label">New Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirm Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    Change Password
-                </button>
-            </form>
-        </div>
+        <>
+            <div className="above-div">
+                <h2>Reset Password</h2>
+            </div>
+            <div className="auth-container">
+                <form onSubmit={submit}>
+                    <div class="mb-3">
+                        <label class="form-label">New Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit">
+                        Change Password
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 

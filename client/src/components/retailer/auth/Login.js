@@ -26,47 +26,55 @@ const Login = () => {
                 user_type: 'retailer',
             });
             localStorage.setItem('auth-token', loginResponse.data.token);
-            toast.success('You are logged in successfully.', {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.success('You are logged in successfully.');
             history.push('/retailer/dashboard');
         } catch (err) {
-            toast.error(`${err.response.data.message}`, {
-                position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            toast.error(`${err.response.data.message}`);
         }
     };
 
     return (
-        <div className="main">
-            <h1>Retailer Login</h1>
-            <form onSubmit={submit}>
-                <div class="mb-3">
-                    <label class="form-label">Email address</label>
-                    <input
-                        type="email"
-                        class="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-                <div class="mb-3">
-                    <Link to="/retailer/forgot-password">Forgot password</Link>
-                </div>
-            </form>
-        </div>
+        <>
+            <div className="above-div">
+                <h2>Retailer Login</h2>
+            </div>
+            <div className="auth-container">
+                <form onSubmit={submit}>
+                    <div class="mb-3">
+                        <label class="form-label">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <div class="mb-3 text-right">
+                        <Link to="/retailer/forgot-password">
+                            Forgot password?
+                        </Link>
+                    </div>
+                    <button type="submit">
+                        LOGIN
+                    </button>
+                    <div class="mt-3 text-center">
+                        Already have an account? {" "}
+                        <Link to="/retailer/signup">
+                             Signup
+                        </Link>
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };
 

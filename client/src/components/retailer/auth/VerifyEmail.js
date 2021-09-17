@@ -13,19 +13,24 @@ const VerifyEmail = (props) => {
                     token,
                 });
             } catch (err) {
-                toast.error(err.response.data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                });
+                toast.error(err.response.data.message);
             }
         }
         verifyEmail()
     })
 
     return (
-        <div className="main">
-            <h4>Your account has been verified</h4>
-           <Link to='/retailer/login'><button class='btn btn-primary'>Go to login</button></Link> 
-        </div>
+        <>
+            <div className="above-div">
+                <h2>Email Verify</h2>
+            </div>
+            <div className="main verify-email">
+                <h4>Your account has been verified</h4>
+                <Link to="/retailer/login">
+                    <button>Go to login</button>
+                </Link>
+            </div>
+        </>
     );
 };
 
