@@ -1,0 +1,55 @@
+.auth{
+    display: flex;
+    width: 100%;
+    height: 100vh; 
+}
+.auth .left-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-image: url('../images/customer.gif');
+    background-size: cover;
+    background-position: center;
+}
+.auth h1{
+    color: white;
+    background-color: black;
+    padding: 10px 10px;
+}
+.auth button{
+    padding: 12px 30px;
+    font-size: 18px;
+    background-color: #8aaae5;
+    outline: none;
+    border: none;
+    color: #f0f0f0;
+    border-radius: 10px;
+}
+.auth .right-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-image: url('../images/retailer.gif');
+    background-size: cover;
+    background-position: center;
+}
+
+.auth .auth-login-btn{
+    margin-right: 30px;
+}
+
+@media (max-width: 640px) {
+    .auth{
+        flex-direction: column;
+    }
+    .auth h1{
+        font-size: 20px;
+    }
+    .auth button{
+        font-size: 13px;
+    }
+}

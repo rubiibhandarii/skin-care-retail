@@ -13,6 +13,8 @@ import Header from './components/customer/layout/Header/Header2';
 import Footer from './components/customer/layout/Footer/Footer';
 
 import './App.css';
+import Auth from './components/Auth';
+
 
 // User
 import Home from './components/customer/pages/Home/Home2';
@@ -167,6 +169,7 @@ function App() {
                             <Route
                                 exact
                                 path={[
+                                    '/auth',
                                     '/',
                                     '/new-arrivals',
                                     '/customer/login',
@@ -195,6 +198,7 @@ function App() {
                             />
 
                             {/* <main> */}
+                                <Route exact path="/auth" component={Auth} />
                                 <Route exact path="/" component={Home} />
                                 <Route exact path="/new-arrivals" component={NewArrivals} />
                                 <Route
@@ -431,6 +435,7 @@ function App() {
                             <Route
                                 exact
                                 path={[
+                                    '/auth',
                                     '/',
                                     '/new-arrivals',
                                     '/customer/login',

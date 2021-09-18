@@ -241,7 +241,7 @@ const Header2 = () => {
 
                         {userData.user_type !== undefined ? null : (
                             <li>
-                                <Link to="/customer/login">
+                                <Link to="/auth">
                                     <button>Login</button>
                                 </Link>
                             </li>
