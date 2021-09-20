@@ -1,9 +1,10 @@
 import { useEffect, useContext } from 'react';
 import { Link, withRouter, useHistory } from 'react-router-dom';
-import './dashboard2.css';
+import './dashboard.css';
 import swal from 'sweetalert';
 import UserContext from '../../../../context/UserContext';
 import { toast } from 'react-toastify';
+import Logo from '../../../../images/logo.png';
 
 const Dashboard = (props) => {
     const { userData, setUserData } = useContext(UserContext);
@@ -56,9 +57,8 @@ const Dashboard = (props) => {
 
     return (
         <div className="retailer-dashboard">
-            <div className="sidebar">
+            <div className="sidebar open">
                 <div className="logo-details">
-                    <i className="bx bxl-c-plus-plus icon"></i>
                     <div className="logo_name">Retailer Dashboard</div>
                     <i className="bx bx-menu" id="btn"></i>
                 </div>
@@ -102,7 +102,6 @@ const Dashboard = (props) => {
                     <li className="profile">
                         {userData.user ? (
                             <div className="profile-details">
-                                <img src="profile.jpg" alt="profileImg" />
                                 <div className="name_job">
                                     <div className="name">
                                         {userData.user.companyName}

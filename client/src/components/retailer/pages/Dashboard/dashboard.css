@@ -12,7 +12,7 @@
 .retailer-dashboard .sidebar.open {
     width: 250px;
 }
-.retailer-dashboard .retailer-dashboard .sidebar .logo-details {
+.retailer-dashboard .sidebar .logo-details {
     height: 60px;
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
     transition: all 0.5s ease;
 }
 .retailer-dashboard .sidebar .logo-details .logo_name {
-    color: #fff;
+    color: rgb(241, 241, 241);
     font-size: 20px;
     font-weight: 600;
     opacity: 0;
@@ -216,6 +216,7 @@
 }
 .retailer-dashboard .home-section {
     position: relative;
+    padding: 30px;
     background: #e4e9f7;
     min-height: 100vh;
     top: 0;
