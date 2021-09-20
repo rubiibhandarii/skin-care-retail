@@ -17,14 +17,15 @@ import Auth from './components/Auth';
 
 
 // User
-import Home from './components/customer/pages/Home/Home2';
+import Home from './components/customer/pages/Home/Home';
+import AboutUs from './components/customer/pages/AboutUs/AboutUs';
 import NewArrivals from './components/customer/pages/NewArrivals/NewArrivals';
 import Signup from './components/customer/auth/Signup';
 import Login from './components/customer/auth/Login';
 import CustomerVerifyEmail from './components/customer/auth/VerifyEmail';
 import CustomerForgotPassword from './components/customer/auth/ForgotPassword';
 import CustomerResetPassword from './components/customer/auth/ResetPassword';
-import ProductDetail from './components/customer/pages/ProductDetail/ProductDetail2';
+import ProductDetail from './components/customer/pages/ProductDetail/ProductDetail';
 import Cart from './components/customer/pages/Cart/Cart';
 import Checkout from './components/customer/pages/Checkout/Checkout';
 import MyOrders from './components/customer/pages/Orders/Orders';
@@ -171,6 +172,7 @@ function App() {
                                 path={[
                                     '/auth',
                                     '/',
+                                    '/about-us',
                                     '/new-arrivals',
                                     '/customer/login',
                                     '/customer/signup',
@@ -200,6 +202,7 @@ function App() {
                             {/* <main> */}
                                 <Route exact path="/auth" component={Auth} />
                                 <Route exact path="/" component={Home} />
+                                <Route exact path="/about-us" component={AboutUs} />
                                 <Route exact path="/new-arrivals" component={NewArrivals} />
                                 <Route
                                     exact
@@ -437,6 +440,7 @@ function App() {
                                 path={[
                                     '/auth',
                                     '/',
+                                    '/about-us',
                                     '/new-arrivals',
                                     '/customer/login',
                                     '/customer/signup',
