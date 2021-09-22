@@ -10,6 +10,9 @@ import SkinConcern from '../../../../images/skinconcern.jpg';
 import EyeCare from '../../../../images/eyecare.png';
 import LipCare from '../../../../images/lipcare.png';
 import BodyCare from '../../../../images/bodycare.png';
+import Customer1 from '../../../../images/customer1.jpg';
+import Customer2 from '../../../../images/customer2.jpg';
+import Customer3 from '../../../../images/customer3.jpg';
 
 const Home2 = () => {
     const [latestProducts, setLatestProducts] = useState([]);
@@ -142,6 +145,45 @@ const Home2 = () => {
                                 <Link to={`/category/Eye Care`}>Eye Care</Link>
                             </h4>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* <!-- Testimonials --> */}
+            <div className="testomonial">
+                {/* <p>Our customer stories</p> */}
+                <h2>Testimonials</h2>
+                <div class="inner-testomonial">
+                    <div class="single-testomonial">
+                        <img src={Customer1} alt="" />
+                        <h3>Rina Dahal</h3>
+                        <span>Teacher</span>
+                        <p>
+                            "Excellent service. The books were wrapped securely
+                            and arrived in pristine condition. I sent an email
+                            after to books arrived to ask about the author, and
+                            I received a prompt reply."
+                        </p>
+                    </div>
+                    <div class="single-testomonial">
+                        <img src={Customer2} alt="" />
+                        <h3>Dinesh Rai</h3>
+                        <span>Writer</span>
+                        <p>
+                            "Bookland went above and beyond - great and friendly
+                            customer service and free prompt delivery of my
+                            book. I highly recommend them. Many thanks!"
+                        </p>
+                    </div>
+                    <div class="single-testomonial">
+                        <img src={Customer3} alt="" />
+                        <h3>Rose Shah</h3>
+                        <span>Student</span>
+                        <p>
+                            "Something for every reader! Great selection and
+                            even better prices! I will definitely be re-ordering
+                            from Bookland again in the future!"
+                        </p>
                     </div>
                 </div>
             </div>
