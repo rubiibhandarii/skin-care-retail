@@ -3,7 +3,7 @@ import fashion from '../../../../images/fashion.png';
 import flex from '../../../../images/flex.png';
 import sustain from '../../../../images/sustain.png';
 import tag from '../../../../images/tag.png';
-import clothing from '../../../../images/clothing.jpg';
+import clothing from '../../../../images/au.jpg';
 
 const AboutUs = () => {
     return (
@@ -18,19 +18,13 @@ const AboutUs = () => {
 
                     <div class="col col-12 col-sm-12 col-md-6 align-items-center px-5 mt-5 mb-5">
                         <h3 class="font-weight-bold text-left ">
-                            A community that shares more than just clothes.{' '}
+                        Hi, welcome to "skincare"!{' '}
                         </h3>
 
                         <p class="text-left">
-                            <br></br>We’re not just a closet; we’re a community
-                            — one that swaps everything from clothes, to
-                            inspiration and ideas. When we’re able to wear what
-                            makes us feel our best, we can be our best selves.
-                            And with the Closet in the Cloud, we can more freely
-                            express ourselves. We encourage our members to
-                            explore all the different aspects of their style,
-                            whether it’s renting an outfit for every day, or
-                            finding a pre-loved designer piece to keep forever.
+                            <br></br>
+                            What began as a small collection in a neighborhood shop has evolved into a full lifestyle line of skincare, lip care, bodycare, and fragrance sold all over the world. The sensoriality of our products—their textures and scents—sets them apart. But they’re also scientifically proven to work extremely well. It’s this combination of high efficacy and amazing sensations that we’re known for, and why those who know us love us. Lev says fresh creates products people don’t know they need—and then can’t live without. Our founders still work with the brand every day to fulfill their original dream of making beauty that performs and transforms.
+                            We are building the future beauty company where everything we make starts with you. We create the products you tell us you wish existed. We believe in thoughtful design, and enabling conversation (which is where it all starts). But most of all, we believe that beauty is about having fun, wherever you are in your journey.
                         </p>
                     </div>
 
@@ -45,11 +39,11 @@ const AboutUs = () => {
                             alt="Generic placeholder"
                         />
                         <div class="media-body">
-                            <h5 class="mt-0">Fashion Freedom</h5>
+                            <h5 class="mt-0"> Freedom</h5>
                             <p>
-                                Explore different styles, discover designers,
-                                and try new things from the largest designer
-                                rental closet.
+                                Explore different categories, discover products,
+                                and try new things from the largest
+                                retailers.
                             </p>
                         </div>
                     </div>
@@ -57,14 +51,14 @@ const AboutUs = () => {
                     <div class="media col-md-6 offset-md-4 col-12 px-5 py-3 m-0 mb-5">
                         <img
                             class="align-self-start mr-3 img-thumbnail"
-                            src={tag}
+                            src={flex}
                             alt="Generic placeholder"
                         />
                         <div class="media-body">
                             <h5 class="mt-0">Total Flexibility</h5>
                             <p>
-                                Let's be real: your style, size, and budget
-                                change over time. Now, your closet can too.
+                                Let's be real: your style, concern, and budget
+                                change over time. Now, your skin care can too.
                             </p>
                         </div>
                     </div>
@@ -72,13 +66,13 @@ const AboutUs = () => {
                     <div class="media col-md-6 col-12 px-5 py-3 m-0 mb-5 ">
                         <img
                             class="align-self-start mr-3 img-thumbnail"
-                            src={flex}
+                            src={tag}
                             alt="Generic placeholder"
                         />
                         <div class="media-body">
                             <h5 class="mt-0">Forget the Price Tag</h5>
                             <p>
-                                Finally the solution to wearing everything you
+                                Finally the solution to putting on everything you
                                 want, no purchase necessary.
                             </p>
                         </div>
@@ -91,11 +85,9 @@ const AboutUs = () => {
                             alt="Generic placeholder"
                         />
                         <div class="media-body">
-                            <h5 class="mt-0">Sustainable Footprint</h5>
+                            <h5 class="mt-0">Sustainable</h5>
                             <p>
-                                Most clothes we buy end up in the back of
-                                closets or landfills. Power the sharing economy
-                                and rent instead.
+                                Supports recycling and use of organic products.
                             </p>
                         </div>
                     </div>

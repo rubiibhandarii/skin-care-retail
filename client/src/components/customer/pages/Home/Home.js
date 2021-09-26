@@ -157,11 +157,11 @@ const Home2 = () => {
                     <div class="single-testomonial">
                         <img src={Customer1} alt="" />
                         <h3>Rina Dahal</h3>
-                        <span>Teacher</span>
+                        <span>Skin enthusiast</span>
                         <p>
-                            "Excellent service. The books were wrapped securely
+                            "Excellent service. The products were wrapped securely
                             and arrived in pristine condition. I sent an email
-                            after to books arrived to ask about the author, and
+                            after to products arrived to ask about the products, and
                             I received a prompt reply."
                         </p>
                     </div>
@@ -170,9 +170,9 @@ const Home2 = () => {
                         <h3>Dinesh Rai</h3>
                         <span>Writer</span>
                         <p>
-                            "Bookland went above and beyond - great and friendly
+                            "Products went above and beyond, even for men - great and friendly
                             customer service and free prompt delivery of my
-                            book. I highly recommend them. Many thanks!"
+                            products. I highly recommend them. Many thanks!"
                         </p>
                     </div>
                     <div class="single-testomonial">
@@ -180,9 +180,9 @@ const Home2 = () => {
                         <h3>Rose Shah</h3>
                         <span>Student</span>
                         <p>
-                            "Something for every reader! Great selection and
+                            "Something for every skin concern! Great selection and
                             even better prices! I will definitely be re-ordering
-                            from Bookland again in the future!"
+                            from skin care again in the future!"
                         </p>
                     </div>
                 </div>

@@ -15,48 +15,47 @@ const Footer = () => {
                             <li>
                                 <a href="#">our services</a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a href="#">privacy policy</a>
                             </li>
                             <li>
                                 <a href="#">affiliate program</a>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>get help</h4>
                         <ul>
+                          
                             <li>
-                                <a href="#">FAQ</a>
+                                <a href="#">Add to cart</a>
                             </li>
                             <li>
-                                <a href="#">shipping</a>
+                                <a href="#">My Wishlist</a>
                             </li>
                             <li>
-                                <a href="#">returns</a>
+                                <a href="#">Order status</a>
                             </li>
-                            <li>
-                                <a href="#">order status</a>
-                            </li>
-                            <li>
-                                <a href="#">payment options</a>
-                            </li>
+                          
                         </ul>
                     </div>
                     <div class="footer-col">
-                        <h4>online shop</h4>
+                        <h4>Categories</h4>
                         <ul>
                             <li>
-                                <a href="#">watch</a>
+                                <a href="#">Skin Care</a>
                             </li>
                             <li>
-                                <a href="#">bag</a>
+                                <a href="#">Eye Care</a>
                             </li>
                             <li>
-                                <a href="#">shoes</a>
+                                <a href="#">Lip Care</a>
                             </li>
                             <li>
-                                <a href="#">dress</a>
+                                <a href="#">Body Care</a>
+                            </li>
+                            <li>
+                                <a href="#">Skin Concerns</a>
                             </li>
                         </ul>
                     </div>
