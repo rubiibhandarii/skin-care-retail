@@ -54,7 +54,7 @@ const Orders = () => {
     return (
         <div className="order-container">
             <div className="above-div">
-                    <h2>Cart</h2>
+                    <h2>My Orders</h2>
                 </div>
             <div className="main">
                 {/* <section>

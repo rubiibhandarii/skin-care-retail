@@ -1,5 +1,6 @@
 import React from 'react';
 import './footer.css'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -10,10 +11,10 @@ const Footer = () => {
                         <h4>company</h4>
                         <ul>
                             <li>
-                                <a href="#">about us</a>
+                                <Link to="/about-us">about us</Link>
                             </li>
                             <li>
-                                <a href="#">our services</a>
+                                <Link to="/new-arrivals">New Arrivals</Link>
                             </li>
                             {/* <li>
                                 <a href="#">privacy policy</a>
@@ -28,13 +29,13 @@ const Footer = () => {
                         <ul>
                           
                             <li>
-                                <a href="#">Add to cart</a>
+                                <Link to="/cart">My Cart</Link>
                             </li>
                             <li>
-                                <a href="#">My Wishlist</a>
+                                <Link to="/wishlist">My Wishlist</Link>
                             </li>
                             <li>
-                                <a href="#">Order status</a>
+                                <Link to="/orders">Order</Link>
                             </li>
                           
                         </ul>
@@ -43,35 +44,35 @@ const Footer = () => {
                         <h4>Categories</h4>
                         <ul>
                             <li>
-                                <a href="#">Skin Care</a>
+                                <Link to="/category/Skin Care">Skin Care</Link>
                             </li>
                             <li>
-                                <a href="#">Eye Care</a>
+                                <Link to="/category/Eye Care">Eye Care</Link>
                             </li>
                             <li>
-                                <a href="#">Lip Care</a>
+                                <Link to="/category/Lip Care">Lip Care</Link>
                             </li>
                             <li>
-                                <a href="#">Body Care</a>
+                                <Link to="/category/Body Care">Body Care</Link>
                             </li>
                             <li>
-                                <a href="#">Skin Concerns</a>
+                                <Link to="/category/Skin Concerns">Skin Concerns</Link>
                             </li>
                         </ul>
                     </div>
                     <div class="footer-col">
                         <h4>follow us</h4>
                         <div class="social-links">
-                            <a href="#">
+                            <a href="https://www.facebook.com/" target="_blank">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#">
+                            <a href="https://twitter.com" target="_blank">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#">
+                            <a href="https://instagram.com" target="_blank">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#">
+                            <a href="https://linkedin.com" target="_blank">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
                         </div>
