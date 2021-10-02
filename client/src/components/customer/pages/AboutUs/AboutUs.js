@@ -11,9 +11,9 @@ const AboutUs = () => {
             <div class="container-fluid p-0 m-0">
                 <div class="row p-0 m-0">
                     <div class="col col-12 col-sm-12 col-md-12 aboutUs p-0">
-                        <headings class="aboutUs">
+                        <div class="above-div">
                             <h2>About Us</h2>
-                        </headings>
+                        </div>
                     </div>
 
                     <div class="col col-12 col-sm-12 col-md-6 align-items-center px-5 mt-5 mb-5">

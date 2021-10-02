@@ -126,6 +126,7 @@ const Cart = () => {
                                                 <td>Rs.{product.price}</td>
                                                 <td>
                                                     <button
+                                                    className="cart-btn"
                                                         onClick={() =>
                                                             decreaseQuantity(
                                                                 product
@@ -136,6 +137,7 @@ const Cart = () => {
                                                     </button>
                                                     {product.quantity}
                                                     <button
+                                                        className="cart-btn"
                                                         onClick={() =>
                                                             increaseQuantity(
                                                                 product

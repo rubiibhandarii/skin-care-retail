@@ -79,3 +79,12 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.cart-container .cart-btn {
+    padding: 5px 10px;
+    background-color: #92C3D6;
+    color: white;
+    border: none;
+    margin: 5px;
+}
+

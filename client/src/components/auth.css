@@ -4,11 +4,12 @@
     height: 100vh; 
 }
 .auth .left-container{
+    padding: 40px 0 140px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     background-image: url('../images/customer.gif');
     background-size: cover;
     background-position: center;
@@ -21,18 +22,20 @@
 .auth button{
     padding: 12px 30px;
     font-size: 18px;
-    background-color: #8aaae5;
+    /* background-color: #8aaae5; */
+    background-color: black;
     outline: none;
     border: none;
     color: #f0f0f0;
     border-radius: 10px;
 }
 .auth .right-container{
+    padding: 40px 0 140px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     background-image: url('../images/retailer.gif');
     background-size: cover;
     background-position: center;

@@ -6,7 +6,7 @@ const Auth = () => {
     return (
         <div className="auth">
             <div className="left-container">
-                <h1>Customer</h1>
+                <h1>Customer Login</h1>
                 <div className="auth-button-div">
                     <Link to="/customer/login">
                         {' '}
@@ -18,7 +18,7 @@ const Auth = () => {
                 </div>
             </div>
             <div className="right-container">
-                <h1>Retailer</h1>
+                <h1>Retailer Login</h1>
                 <div className="auth-button-div">
                     <Link to="/retailer/login">
                         {' '}
