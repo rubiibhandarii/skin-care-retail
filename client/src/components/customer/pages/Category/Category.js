@@ -185,7 +185,7 @@ const Category = (props) => {
                                                     {product.subCategory.name}
                                                 </p>
                                                 <h5 className="card-title">
-                                                    Rs. {product.price} To Rent
+                                                    Rs. {product.price} 
                                                 </h5>
                                             </div>
                                         </div>

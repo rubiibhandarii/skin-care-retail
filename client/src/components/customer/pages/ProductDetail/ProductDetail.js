@@ -296,15 +296,14 @@ const ProductDetail = (props) => {
                                 <div className="rent-detail">
                                     <div className="top">
                                         <div className="detail">
-                                            <h6>One-Time Rental</h6>
+                                            <h6>Authentic skin care</h6>
                                             <br></br>
                                             <h8>
-                                                Mentioned price above is per day
+                                                Recommended by skin experts
                                             </h8>
                                             <br></br>
                                             <h8>
-                                                Select number of days for rent
-                                                below;
+                                                Quality guaranteed
                                             </h8>
                                         </div>
                                         <div className="detailimg">

@@ -35,9 +35,9 @@ const Home2 = () => {
     return (
         <div className="homepage main">
             <div className="hero-section">
-                <h3>LIMITED TIME</h3>
-                <p>Limited edition skincare product</p>
-                <button>SHOP NOW</button>
+             
+                <Link to={`/category/Skin Care`}>
+                                   <button>SHOP NOW</button></Link> 
             </div>
 
             <div className="outer-latest-released">
@@ -53,8 +53,9 @@ const Home2 = () => {
                 </div>
                 <div className="right-banner">
                     <h3>Great skin is better than filters.</h3>
-                    <p>Real men take care of their skin.</p>
-                    <button>SHOP NOW</button>
+                    <p>Men do take care of their skin.</p>
+                    <Link to={`/category/Skin Care`}>
+                                   <button>SHOP NOW</button></Link>
                 </div>
             </div>
 
@@ -167,7 +168,7 @@ const Home2 = () => {
                     </div>
                     <div class="single-testomonial">
                         <img src={Customer2} alt="" />
-                        <h3>Dinesh Rai</h3>
+                        <h3>Dean Hale</h3>
                         <span>Writer</span>
                         <p>
                             "Products went above and beyond, even for men - great and friendly
