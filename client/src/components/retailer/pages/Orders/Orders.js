@@ -113,7 +113,7 @@ const Orders = () => {
                                                 )
                                             }
                                         >
-                                            <option disabled value="pending">
+                                            <option value="pending">
                                                 Pending
                                             </option>
                                             <option value="approved">
