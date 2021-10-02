@@ -351,6 +351,8 @@ exports.changeOrderStatus = async (req, res, next) => {
 
         if (status === 'approved') {
             await order.update({ status })
+        } else if (status === 'pending') {
+            await order.update({ status })
         } else if (status === 'refused') {
             await order.update({ status })
         } else if (status === 'delivered') {
